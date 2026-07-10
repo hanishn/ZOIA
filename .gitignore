@@ -13,10 +13,8 @@ TestWorkflow/patch-library-cache/
 TestWorkflow/canonical-patches/Test_Modules/
 !TestWorkflow/canonical-patches/Test_Modules.manifest.json
 
-# Generated reports
-Reports/**/*.pdf
-Reports/**/*.html
-Reports/**/versions/
+# Generated local review reports
+Reports/
 
 # Local installers and archives
 *.zip

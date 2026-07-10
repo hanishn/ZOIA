@@ -34,8 +34,7 @@ Q110 recorded that the project was not yet a Git repository. Q111 initializes th
 - `TestWorkflow/logs/`
 - `TestWorkflow/patch-library-cache/`
 - `TestWorkflow/canonical-patches/Test_Modules/`
-- `Reports/**/*.pdf`
-- `Reports/**/*.html`
+- `Reports/`
 - installer and archive files such as `.zip`
 
 ## Required Local Gates
