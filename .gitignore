@@ -9,12 +9,16 @@ tests/workflow/logs/
 # Cached community patch-library downloads and extracted patch files
 tests/workflow/patch-library-cache/
 
-# Canonical patch binaries/data are provenance inputs, not source code.
-tests/workflow/canonical-patches/Test_Modules/
+# Canonical staged test patches are committed test fixtures.
+!tests/workflow/canonical-patches/Test_Modules/
+!tests/workflow/canonical-patches/Test_Modules/**
 !tests/workflow/canonical-patches/Test_Modules.manifest.json
 
 # Generated local review reports
 Reports/
+
+# Local repository push/pull validation staging
+RepositoryValidation/
 
 # Local installers and archives
 *.zip

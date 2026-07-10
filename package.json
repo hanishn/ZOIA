@@ -5,7 +5,11 @@
   "description": "ZOIA emulator source, shared SSL support package, and deterministic parser/Playwright/audio test harness.",
   "scripts": {
     "start": "npm run zoia:serve",
+    "build": "npm run zoia:build",
+    "zoia:build": "node tools/build-zoia-exhibit.mjs",
     "zoia:serve": "node tools/serve-zoia.mjs",
+    "zoia:stage:github": "node tools/stage-repository-validation.mjs",
+    "zoia:validate:pulled": "node tools/validate-pulled-repo.mjs",
     "zoia:lint:no-magic": "npm --prefix tests/parser-harness run zoia:lint:no-magic",
     "zoia:fixtures:all": "npm --prefix tests/parser-harness run zoia:fixtures:all",
     "zoia:patch-library:prepare": "powershell -NoProfile -ExecutionPolicy Bypass -File tests/workflow/scripts/prepare-zoia-patch-library-cache.ps1",
@@ -28,7 +32,7 @@
     "zoia:test:evidence:library-full": "npm run zoia:patch-library:prepare && npm run zoia:test:evidence && npm run zoia:test:playwright:patch-library-full",
     "test": "npm run zoia:test:ci",
     "zoia:ssl:proof": "node tests/workflow/scripts/generate-ssl-rebaseline-proof.mjs",
-    "zoia:test:ci": "node tests/workflow/scripts/run-zoia-ci-gates.mjs",
+    "zoia:test:ci": "npm run zoia:build && node tests/workflow/scripts/run-zoia-ci-gates.mjs",
     "zoia:github:boundary": "node tests/workflow/scripts/generate-github-readiness-boundary.mjs",
     "zoia:test:publication": "npm run zoia:test:ci && npm run zoia:patch-library:prepare && npm run zoia:test:playwright:community-audio"
   },

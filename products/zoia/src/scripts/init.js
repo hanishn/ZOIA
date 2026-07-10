@@ -1,0 +1,2 @@
+ZOIA.viewManager.init();
+

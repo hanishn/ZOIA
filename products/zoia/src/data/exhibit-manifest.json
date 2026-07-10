@@ -1,0 +1,14 @@
+{
+  "template": "products/zoia/src/index.template.html",
+  "scripts": [
+    "products/zoia/src/scripts/app.js",
+    "products/zoia/src/scripts/init.js"
+  ],
+  "title": "ZOIA Patch Simulator 6",
+  "prebuiltHtml": "products/zoia/dist/zoia-emulator.html",
+  "schemaVersion": "zoia.exhibit-source-manifest.v1",
+  "compatibilityHtml": "products/zoia/index.html",
+  "styles": [
+    "products/zoia/src/styles/app.css"
+  ]
+}

@@ -5,7 +5,7 @@ import { extname, join, normalize, resolve, sep } from "node:path";
 const REPO_ROOT = resolve(import.meta.dirname, "..");
 const PORT = Number.parseInt(process.env.ZOIA_PORT ?? "5173", 10);
 const HOST = process.env.ZOIA_HOST ?? "127.0.0.1";
-const DEFAULT_ENTRY = "/products/zoia/index.html";
+const DEFAULT_ENTRY = "/products/zoia/dist/zoia-emulator.html";
 
 const MIME_TYPES = new Map([
   [".html", "text/html; charset=utf-8"],

@@ -1,0 +1,310 @@
+{
+  "name": "Kick Drum",
+  "moduleCount": 6,
+  "modules": [
+    {
+      "idx": 0,
+      "typeIdx": 15,
+      "page": 0,
+      "colorId": 13,
+      "gridPos": 0,
+      "name": "Kick Pad",
+      "typeName": "Pushbutton",
+      "blocks": [
+        {
+          "n": "output",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 1,
+      "category": "Unknown",
+      "params": [
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 1
+    },
+    {
+      "idx": 1,
+      "typeIdx": 2,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 1,
+      "name": "Output",
+      "typeName": "Audio Output",
+      "blocks": [
+        {
+          "n": "left_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "right_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "gain",
+          "t": "cv_in"
+        }
+      ],
+      "blockCount": 3,
+      "category": "Unknown",
+      "params": [
+        0,
+        0,
+        65535
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3
+    },
+    {
+      "idx": 2,
+      "typeIdx": 14,
+      "page": 1,
+      "colorId": 2,
+      "gridPos": 0,
+      "name": "Kick Osc",
+      "typeName": "Oscillator",
+      "blocks": [
+        {
+          "n": "frequency",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        5242,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 3,
+      "typeIdx": 6,
+      "page": 1,
+      "colorId": 1,
+      "gridPos": 1,
+      "name": "Kick Env",
+      "typeName": "ADSR",
+      "blocks": [
+        {
+          "n": "gate",
+          "t": "cv_in"
+        },
+        {
+          "n": "attack",
+          "t": "cv_in"
+        },
+        {
+          "n": "decay",
+          "t": "cv_in"
+        },
+        {
+          "n": "sustain",
+          "t": "cv_in"
+        },
+        {
+          "n": "release",
+          "t": "cv_in"
+        },
+        {
+          "n": "output",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 6,
+      "category": "Unknown",
+      "params": [
+        327,
+        13107,
+        0,
+        6553,
+        0,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 6
+    },
+    {
+      "idx": 4,
+      "typeIdx": 7,
+      "page": 1,
+      "colorId": 2,
+      "gridPos": 2,
+      "name": "Kick VCA",
+      "typeName": "VCA",
+      "blocks": [
+        {
+          "n": "audio_in",
+          "t": "audio_in"
+        },
+        {
+          "n": "level",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 3,
+      "category": "Unknown",
+      "params": [
+        0,
+        65535,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3
+    },
+    {
+      "idx": 5,
+      "typeIdx": 16,
+      "page": 2,
+      "colorId": 13,
+      "gridPos": 0,
+      "name": "MIDI Notes",
+      "typeName": "Keyboard",
+      "blocks": [
+        {
+          "n": "note_cv",
+          "t": "cv_out"
+        },
+        {
+          "n": "gate",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    }
+  ],
+  "connections": [
+    {
+      "srcMod": 0,
+      "srcBlock": 0,
+      "dstMod": 3,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 2,
+      "srcBlock": 1,
+      "dstMod": 4,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 3,
+      "srcBlock": 5,
+      "dstMod": 4,
+      "dstBlock": 1,
+      "strength": 10000
+    },
+    {
+      "srcMod": 3,
+      "srcBlock": 5,
+      "dstMod": 2,
+      "dstBlock": 0,
+      "strength": 5000
+    },
+    {
+      "srcMod": 4,
+      "srcBlock": 2,
+      "dstMod": 1,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 4,
+      "srcBlock": 2,
+      "dstMod": 1,
+      "dstBlock": 1,
+      "strength": 10000
+    },
+    {
+      "srcMod": 5,
+      "srcBlock": 1,
+      "dstMod": 3,
+      "dstBlock": 0,
+      "strength": 10000
+    }
+  ],
+  "pages": [
+    "Main",
+    "DSP",
+    "MIDI Notes"
+  ],
+  "labels": [
+    "drums",
+    "kick",
+    "percussion",
+    "interactive"
+  ],
+  "description": "Synthesized kick drum triggered by pushbutton on the main page. Oscillator with pitch sweep and amplitude envelope. Press the button to trigger kicks."
+}

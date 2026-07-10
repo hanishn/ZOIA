@@ -1,0 +1,440 @@
+{
+  "name": "Drone Generator",
+  "moduleCount": 9,
+  "modules": [
+    {
+      "idx": 0,
+      "typeIdx": 2,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 0,
+      "name": "Output",
+      "typeName": "Audio Output",
+      "blocks": [
+        {
+          "n": "left_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "right_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "gain",
+          "t": "cv_in"
+        }
+      ],
+      "blockCount": 3,
+      "category": "Unknown",
+      "params": [
+        0,
+        0,
+        65535
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3
+    },
+    {
+      "idx": 1,
+      "typeIdx": 14,
+      "page": 1,
+      "colorId": 2,
+      "gridPos": 0,
+      "name": "Osc Root",
+      "typeName": "Oscillator",
+      "blocks": [
+        {
+          "n": "frequency",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        19660,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 2,
+      "typeIdx": 14,
+      "page": 1,
+      "colorId": 2,
+      "gridPos": 1,
+      "name": "Osc Fifth",
+      "typeName": "Oscillator",
+      "blocks": [
+        {
+          "n": "frequency",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        22937,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 3,
+      "typeIdx": 14,
+      "page": 1,
+      "colorId": 2,
+      "gridPos": 2,
+      "name": "Osc Octave",
+      "typeName": "Oscillator",
+      "blocks": [
+        {
+          "n": "frequency",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        26214,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 4,
+      "typeIdx": 5,
+      "page": 1,
+      "colorId": 1,
+      "gridPos": 3,
+      "name": "Slow Drift 1",
+      "typeName": "LFO",
+      "blocks": [
+        {
+          "n": "rate",
+          "t": "cv_in"
+        },
+        {
+          "n": "output",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        1310,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 5,
+      "typeIdx": 5,
+      "page": 1,
+      "colorId": 1,
+      "gridPos": 4,
+      "name": "Slow Drift 2",
+      "typeName": "LFO",
+      "blocks": [
+        {
+          "n": "rate",
+          "t": "cv_in"
+        },
+        {
+          "n": "output",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        1966,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 6,
+      "typeIdx": 76,
+      "page": 1,
+      "colorId": 15,
+      "gridPos": 5,
+      "name": "Mix",
+      "typeName": "Audio Mixer",
+      "blocks": [
+        {
+          "n": "in_1",
+          "t": "audio_in"
+        },
+        {
+          "n": "lvl_1",
+          "t": "cv_in"
+        },
+        {
+          "n": "in_2",
+          "t": "audio_in"
+        },
+        {
+          "n": "lvl_2",
+          "t": "cv_in"
+        },
+        {
+          "n": "in_3",
+          "t": "audio_in"
+        },
+        {
+          "n": "lvl_3",
+          "t": "cv_in"
+        },
+        {
+          "n": "output",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 7,
+      "category": "Unknown",
+      "params": [
+        0,
+        45874,
+        0,
+        36044,
+        0,
+        32767,
+        0
+      ],
+      "options": [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 7
+    },
+    {
+      "idx": 7,
+      "typeIdx": 26,
+      "page": 1,
+      "colorId": 7,
+      "gridPos": 6,
+      "name": "Space",
+      "typeName": "Hall Reverb",
+      "blocks": [
+        {
+          "n": "audio_in",
+          "t": "audio_in"
+        },
+        {
+          "n": "decay",
+          "t": "cv_in"
+        },
+        {
+          "n": "mix",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 4,
+      "category": "Unknown",
+      "params": [
+        0,
+        55704,
+        39321,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 4
+    },
+    {
+      "idx": 8,
+      "typeIdx": 16,
+      "page": 2,
+      "colorId": 13,
+      "gridPos": 0,
+      "name": "MIDI Notes",
+      "typeName": "Keyboard",
+      "blocks": [
+        {
+          "n": "note_cv",
+          "t": "cv_out"
+        },
+        {
+          "n": "gate",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    }
+  ],
+  "connections": [
+    {
+      "srcMod": 4,
+      "srcBlock": 1,
+      "dstMod": 1,
+      "dstBlock": 0,
+      "strength": 1000
+    },
+    {
+      "srcMod": 5,
+      "srcBlock": 1,
+      "dstMod": 2,
+      "dstBlock": 0,
+      "strength": 800
+    },
+    {
+      "srcMod": 1,
+      "srcBlock": 1,
+      "dstMod": 6,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 2,
+      "srcBlock": 1,
+      "dstMod": 6,
+      "dstBlock": 2,
+      "strength": 10000
+    },
+    {
+      "srcMod": 3,
+      "srcBlock": 1,
+      "dstMod": 6,
+      "dstBlock": 4,
+      "strength": 10000
+    },
+    {
+      "srcMod": 6,
+      "srcBlock": 6,
+      "dstMod": 7,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 7,
+      "srcBlock": 3,
+      "dstMod": 0,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 7,
+      "srcBlock": 3,
+      "dstMod": 0,
+      "dstBlock": 1,
+      "strength": 10000
+    }
+  ],
+  "pages": [
+    "Main",
+    "DSP",
+    "MIDI Notes"
+  ],
+  "labels": [
+    "synth",
+    "drone",
+    "ambient",
+    "generative"
+  ],
+  "description": "Self-playing drone generator with three detuned oscillators into reverb. No user input needed. LFOs create slow, evolving harmonic movement."
+}

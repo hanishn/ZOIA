@@ -1,0 +1,448 @@
+{
+  "name": "Granular Freeze",
+  "moduleCount": 9,
+  "modules": [
+    {
+      "idx": 0,
+      "typeIdx": 1,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 0,
+      "name": "Input",
+      "typeName": "Audio Input",
+      "blocks": [
+        {
+          "n": "left_in",
+          "t": "audio_out"
+        },
+        {
+          "n": "right_in",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 1,
+      "typeIdx": 2,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 1,
+      "name": "Output",
+      "typeName": "Audio Output",
+      "blocks": [
+        {
+          "n": "left_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "right_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "gain",
+          "t": "cv_in"
+        }
+      ],
+      "blockCount": 3,
+      "category": "Unknown",
+      "params": [
+        0,
+        0,
+        65535
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3
+    },
+    {
+      "idx": 2,
+      "typeIdx": 78,
+      "page": 1,
+      "colorId": 2,
+      "gridPos": 0,
+      "name": "Granular",
+      "typeName": "Granular",
+      "blocks": [
+        {
+          "n": "audio_in",
+          "t": "audio_in"
+        },
+        {
+          "n": "position",
+          "t": "cv_in"
+        },
+        {
+          "n": "grain_size",
+          "t": "cv_in"
+        },
+        {
+          "n": "density",
+          "t": "cv_in"
+        },
+        {
+          "n": "mix",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 6,
+      "category": "Unknown",
+      "params": [
+        0,
+        32767,
+        26214,
+        39321,
+        36044,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 6
+    },
+    {
+      "idx": 3,
+      "typeIdx": 5,
+      "page": 1,
+      "colorId": 1,
+      "gridPos": 1,
+      "name": "Scan LFO",
+      "typeName": "LFO",
+      "blocks": [
+        {
+          "n": "rate",
+          "t": "cv_in"
+        },
+        {
+          "n": "output",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        3276,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 4,
+      "typeIdx": 26,
+      "page": 1,
+      "colorId": 7,
+      "gridPos": 2,
+      "name": "Hall",
+      "typeName": "Hall Reverb",
+      "blocks": [
+        {
+          "n": "audio_in",
+          "t": "audio_in"
+        },
+        {
+          "n": "decay",
+          "t": "cv_in"
+        },
+        {
+          "n": "mix",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 4,
+      "category": "Unknown",
+      "params": [
+        0,
+        45874,
+        29490,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 4
+    },
+    {
+      "idx": 5,
+      "typeIdx": 16,
+      "page": 2,
+      "colorId": 13,
+      "gridPos": 0,
+      "name": "MIDI Notes",
+      "typeName": "Keyboard",
+      "blocks": [
+        {
+          "n": "note_cv",
+          "t": "cv_out"
+        },
+        {
+          "n": "gate",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 6,
+      "typeIdx": 16,
+      "page": 3,
+      "colorId": 13,
+      "gridPos": 0,
+      "name": "Note Tones",
+      "typeName": "Keyboard",
+      "blocks": [
+        {
+          "n": "note_cv",
+          "t": "cv_out"
+        },
+        {
+          "n": "gate",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 7,
+      "typeIdx": 14,
+      "page": 3,
+      "colorId": 2,
+      "gridPos": 1,
+      "name": "Tone Osc",
+      "typeName": "Oscillator",
+      "blocks": [
+        {
+          "n": "frequency",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        32768,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 8,
+      "typeIdx": 7,
+      "page": 3,
+      "colorId": 2,
+      "gridPos": 2,
+      "name": "Tone Gate",
+      "typeName": "VCA",
+      "blocks": [
+        {
+          "n": "audio_in",
+          "t": "audio_in"
+        },
+        {
+          "n": "level",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 3,
+      "category": "Unknown",
+      "params": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3
+    }
+  ],
+  "connections": [
+    {
+      "srcMod": 0,
+      "srcBlock": 0,
+      "dstMod": 2,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 3,
+      "srcBlock": 1,
+      "dstMod": 2,
+      "dstBlock": 1,
+      "strength": 10000
+    },
+    {
+      "srcMod": 2,
+      "srcBlock": 5,
+      "dstMod": 4,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 4,
+      "srcBlock": 3,
+      "dstMod": 1,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 4,
+      "srcBlock": 3,
+      "dstMod": 1,
+      "dstBlock": 1,
+      "strength": 10000
+    },
+    {
+      "srcMod": 6,
+      "srcBlock": 0,
+      "dstMod": 7,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 7,
+      "srcBlock": 1,
+      "dstMod": 8,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 6,
+      "srcBlock": 1,
+      "dstMod": 8,
+      "dstBlock": 1,
+      "strength": 10000
+    },
+    {
+      "srcMod": 8,
+      "srcBlock": 2,
+      "dstMod": 2,
+      "dstBlock": 0,
+      "strength": 10000
+    }
+  ],
+  "pages": [
+    "Main",
+    "DSP",
+    "MIDI Notes",
+    "Note Tones"
+  ],
+  "labels": [
+    "looper",
+    "granular",
+    "freeze",
+    "ambient"
+  ],
+  "description": "Granular processor that freezes and reshapes audio into evolving textures. LFO modulates grain position. Reverb smooths the output into ambient soundscapes."
+}

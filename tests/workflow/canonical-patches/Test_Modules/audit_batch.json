@@ -1,0 +1,21 @@
+{
+  "name": "Untitled",
+  "size": 0,
+  "modules": [],
+  "connections": [],
+  "pages": [
+    "Main"
+  ],
+  "pages_count": 1,
+  "starred": [],
+  "colors": [],
+  "has_trailing_colors": true,
+  "meta": {
+    "name": "Untitled",
+    "cpu": 0,
+    "n_modules": 0,
+    "n_connections": 0,
+    "n_pages": 1,
+    "n_starred": 0
+  }
+}

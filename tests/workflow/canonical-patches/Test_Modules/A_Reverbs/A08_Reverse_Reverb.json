@@ -1,0 +1,347 @@
+{
+  "name": "Reverse Reverb",
+  "moduleCount": 7,
+  "modules": [
+    {
+      "idx": 0,
+      "typeIdx": 1,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 0,
+      "name": "Input",
+      "typeName": "Audio Input",
+      "blocks": [
+        {
+          "n": "left_in",
+          "t": "audio_out"
+        },
+        {
+          "n": "right_in",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 1,
+      "typeIdx": 2,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 1,
+      "name": "Output",
+      "typeName": "Audio Output",
+      "blocks": [
+        {
+          "n": "left_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "right_out",
+          "t": "audio_in"
+        },
+        {
+          "n": "gain",
+          "t": "cv_in"
+        }
+      ],
+      "blockCount": 3,
+      "category": "Unknown",
+      "params": [
+        0,
+        0,
+        65535
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3
+    },
+    {
+      "idx": 2,
+      "typeIdx": 67,
+      "page": 1,
+      "colorId": 7,
+      "gridPos": 0,
+      "name": "Reverse",
+      "typeName": "Ghostverb",
+      "blocks": [
+        {
+          "n": "audio_in",
+          "t": "audio_in"
+        },
+        {
+          "n": "decay",
+          "t": "cv_in"
+        },
+        {
+          "n": "speed",
+          "t": "cv_in"
+        },
+        {
+          "n": "mix",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 5,
+      "category": "Unknown",
+      "params": [
+        0,
+        45874,
+        9830,
+        39321,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 5
+    },
+    {
+      "idx": 3,
+      "typeIdx": 16,
+      "page": 2,
+      "colorId": 13,
+      "gridPos": 0,
+      "name": "MIDI Notes",
+      "typeName": "Keyboard",
+      "blocks": [
+        {
+          "n": "note_cv",
+          "t": "cv_out"
+        },
+        {
+          "n": "gate",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 4,
+      "typeIdx": 16,
+      "page": 3,
+      "colorId": 13,
+      "gridPos": 0,
+      "name": "Note Tones",
+      "typeName": "Keyboard",
+      "blocks": [
+        {
+          "n": "note_cv",
+          "t": "cv_out"
+        },
+        {
+          "n": "gate",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        0,
+        0
+      ],
+      "options": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 5,
+      "typeIdx": 14,
+      "page": 3,
+      "colorId": 2,
+      "gridPos": 1,
+      "name": "Tone Osc",
+      "typeName": "Oscillator",
+      "blocks": [
+        {
+          "n": "frequency",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Unknown",
+      "params": [
+        32768,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2
+    },
+    {
+      "idx": 6,
+      "typeIdx": 7,
+      "page": 3,
+      "colorId": 2,
+      "gridPos": 2,
+      "name": "Tone Gate",
+      "typeName": "VCA",
+      "blocks": [
+        {
+          "n": "audio_in",
+          "t": "audio_in"
+        },
+        {
+          "n": "level",
+          "t": "cv_in"
+        },
+        {
+          "n": "audio_out",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 3,
+      "category": "Unknown",
+      "params": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3
+    }
+  ],
+  "connections": [
+    {
+      "srcMod": 0,
+      "srcBlock": 0,
+      "dstMod": 2,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 2,
+      "srcBlock": 4,
+      "dstMod": 1,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 2,
+      "srcBlock": 4,
+      "dstMod": 1,
+      "dstBlock": 1,
+      "strength": 10000
+    },
+    {
+      "srcMod": 4,
+      "srcBlock": 0,
+      "dstMod": 5,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 5,
+      "srcBlock": 1,
+      "dstMod": 6,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 4,
+      "srcBlock": 1,
+      "dstMod": 6,
+      "dstBlock": 1,
+      "strength": 10000
+    },
+    {
+      "srcMod": 6,
+      "srcBlock": 2,
+      "dstMod": 2,
+      "dstBlock": 0,
+      "strength": 10000
+    }
+  ],
+  "pages": [
+    "Main",
+    "DSP",
+    "MIDI Notes",
+    "Note Tones"
+  ],
+  "labels": [
+    "reverb",
+    "reverse",
+    "experimental",
+    "ambient"
+  ],
+  "description": "Ghostverb configured for reverse-style swelling reverb effect. Creates reversed envelope textures. Use for ambient guitar and cinematic builds."
+}

@@ -1,12 +1,30 @@
 # ZOIA Product Source
 
-Version: 1.0
+Version: 0.1.0
 
-Revision: 1
+Revision: 2
 
-This directory owns the ZOIA emulator product entrypoint.
+This directory owns the ZOIA emulator product source and prebuilt HTML exhibit.
 
-## Entry Point
+`0.1.0` is a source-review and validation baseline. It provides a buildable HTML exhibit and deterministic tests, but it is not a complete hardware emulator.
+
+## Source
+
+```text
+products/zoia/src/index.template.html
+products/zoia/src/styles/app.css
+products/zoia/src/scripts/app.js
+products/zoia/src/scripts/init.js
+products/zoia/src/data/exhibit-manifest.json
+```
+
+## Prebuilt HTML Exhibit
+
+```text
+products/zoia/dist/zoia-emulator.html
+```
+
+## Compatibility Entry Point
 
 ```text
 products/zoia/index.html
@@ -21,13 +39,35 @@ npm run zoia:serve
 Open:
 
 ```text
-http://127.0.0.1:5173/products/zoia/index.html
+http://127.0.0.1:5173/products/zoia/dist/zoia-emulator.html
 ```
 
-## Current Source Shape
+## Build
 
-The emulator is still a single HTML exhibit-derived runtime. Product ownership has been moved here so future source cleanup can extract stable modules under this product tree without mixing product source with test workflow assets.
+```text
+npm run zoia:build
+```
+
+The build command assembles the template, CSS, JS, and JSON-defined source manifest into the prebuilt output and compatibility entrypoint, then writes `products/zoia/dist/build-manifest.json`.
+
+## Current Capability Boundary
+
+Implemented for `0.1.0`:
+
+- source-to-prebuilt HTML assembly
+- browser loading of the emulator exhibit
+- patch import/render validation through Playwright
+- staged/test patch validation
+- deterministic evidence output for validation runs
+
+Not claimed for `0.1.0`:
+
+- complete ZOIA hardware emulation
+- complete audio behavior accuracy
+- binary export fidelity
+- public distribution rights for community patches
+- modularized production JavaScript architecture
 
 ## Refactor Boundary
 
-The next source cleanup should extract stable code from `index.html` into product-owned JavaScript and CSS files while preserving current Playwright and audio evidence gates.
+The emulator runtime still has a large JavaScript file. The next source cleanup should split `products/zoia/src/scripts/app.js` into smaller product-owned modules while preserving current Playwright and audio evidence gates.

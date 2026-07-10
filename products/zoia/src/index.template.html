@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZOIA Patch Simulator 6</title>
+<style data-zoia-build="src/styles/app.css">`r`n<!-- ZOIA_BUILD_STYLE:src/styles/app.css -->`r`n</style>
+</head>
+<body>
+<!-- TOOLBAR -->
+<div id="toolbar">
+  <button class="view-btn active" data-view="hw" onclick="ZOIA.viewManager.switchView('hw')" title="Switch to hardware pedal view">Hardware</button>
+  <button class="view-btn" data-view="sch" onclick="ZOIA.viewManager.switchView('sch')" title="Switch to schematic signal flow view">Schematic</button>
+  <span id="patch-summary">No patch loaded</span>  <span id="patch-labels"></span>
+  <button class="tbtn" onclick="document.getElementById('file-input').click()" title="Load a ZOIA .bin patch file from disk">Load .bin</button>
+  <button class="tbtn" onclick="ZOIA.loadDemo()" title="Load a built-in demo patch to explore">Demo Patch</button>
+  <button class="tbtn" onclick="ZOIA.savePatch()" title="Export current patch as JSON file">Save</button>  <button class="tbtn" onclick="ZOIA.savePatchAs()" title="Save with a new name">Save As</button>
+  <input type="file" id="file-input" accept=".bin" onchange="ZOIA.handleFile(this.files[0])">
+  <button class="tbtn" onclick="ZOIA.toggleConsole()" title="Toggle debug console output panel">Console</button>
+  <span style="margin-left:8px;display:inline-flex;align-items:center;gap:4px"><button id="sim-toggle" class="tbtn" onclick="ZOIA.sim.toggle()" title="Start/Stop audio simulation" style="background:#00cccc;color:#000;font-weight:bold;min-width:50px">PLAY</button><button class="tbtn" onclick="ZOIA.sim.connectMic()" title="Connect microphone to Audio Input modules">MIC</button><button id="sim-testtone" class="tbtn" onclick="ZOIA.sim.toggleTestTone()" title="Toggle 440 Hz test tone into IN L and IN R" style="background:#333;color:#aaa;border:1px solid #555">TONE</button><span id="sim-status" style="font-size:9px;color:#666">STOPPED</span></span>
+  <span id="revision-label" style="margin-left:auto;color:#555;font-size:10px;">v6.0</span>
+</div>
+
+<div id="sim-scopes"><div class="scope-wrap"><div class="scope-label" style="color:#00cc66">INPUT</div><canvas id="sim-viz-input" width="200" height="40"></canvas></div><div class="scope-wrap"><div class="scope-label" style="color:#cc66ff">SELECTED</div><canvas id="sim-viz-selected" width="200" height="40"></canvas></div><div class="scope-wrap"><div class="scope-label" style="color:#00cccc">OUTPUT</div><canvas id="sim-viz-output" width="200" height="40"></canvas></div></div>
+<div id="main">
+<!-- ===== HARDWARE VIEW ===== -->
+<div id="hw-view">
+  <div id="pedal">
+    <div id="hw-drop-overlay">Drop .bin patch file here</div>
+
+    <!-- I/O Jacks -->
+    <div id="io-jacks">
+      <div class="jack"><div class="jack-hole" data-io="midi-in"></div><div class="jack-label">MIDI IN</div></div>
+      <div class="jack"><div class="jack-hole" data-io="midi-out"></div><div class="jack-label">MIDI OUT</div></div>
+      <div class="jack"><div class="jack-hole big" data-io="in-l"></div><div class="jack-label">IN L</div></div>
+      <div class="jack"><div class="jack-hole big" data-io="in-r"></div><div class="jack-label">IN R</div></div>
+      <div class="jack"><div class="jack-hole big" data-io="out-l"></div><div class="jack-label">OUT L</div></div>
+      <div class="jack"><div class="jack-hole big" data-io="out-r"></div><div class="jack-label">OUT R</div></div>
+      <div class="jack"><div class="jack-hole"></div><div class="jack-label">9VDC</div></div>
+      <div class="jack"><div class="jack-hole big"></div><div class="jack-label">CTRL</div></div>
+    </div>
+
+    <!-- Brand / Credits -->
+    <div id="brand">
+      <div class="emu-title">ZOIA Web Emulator</div>
+      <div class="emu-credit">Created by Nathan Hanish using Stardock Clairvoyance</div>
+      <div class="rev-badge" id="hw-rev-badge">v6.0</div>
+    </div>
+
+    <!-- Main body: left panel + grid -->
+    <div id="pedal-body">
+      <!-- Left panel: OLED, encoder, page selector, nav -->
+      <div id="pedal-left">
+        <div id="oled" title="OLED display - shows patch info, module details, and connections">
+          <div class="dim">Loading...</div>
+        </div>
+        <div id="knob-area">
+          <div id="knob" title="Scroll to turn, click to confirm">
+            <div id="knob-indicator"></div>
+          </div>
+          <div id="knob-label">ENCODER</div>
+        </div>
+        <div id="param-input-area">
+          <div class="param-label">ENCODER VALUE</div>
+          <input id="param-input" title="Type a value and press Enter to set parameter" type="text" value="0.50" onchange="ZOIA.knob.onParamInput(this.value)" onkeydown="if(event.key==='Enter')this.blur()">
+        </div>
+        <div id="page-selector">
+          <div class="page-label">PAGE</div>
+          <div style="display:flex;gap:3px"><select id="page-select" onchange="ZOIA.hardwareView.goToPage(this.value)" style="flex:1"></select><div class="util-btn" onclick="ZOIA.renamePage(ZOIA.state.currentPage)" title="Rename the current page (enter new name)" style="flex:none;padding:4px 5px;font-size:8px">&#9998;</div></div>
+          <div id="page-nav-row">
+            <div class="util-btn" onclick="ZOIA.hardwareView.pageLeft()" title="Navigate to previous page">&#9664; PG</div>
+            <div class="util-btn" onclick="ZOIA.hardwareView.pageRight()" title="Navigate to next page">PG &#9654;</div>
+          </div>
+        </div>
+        <!-- Status LEDs -->
+        <div id="status-leds">
+          <div class="status-led on-green"></div>
+          <div class="status-led"></div>
+          <div class="status-led"></div>
+          <div class="status-led"></div>
+        </div>
+        <div id="utility-row">
+          <div class="util-btn" onclick="ZOIA.hardwareView.back()" title="Back - exit connection view or deselect module">BACK</div>
+          <div class="util-btn" id="shift-btn" onclick="ZOIA.hardwareView.toggleShift()" title="Toggle shift mode - shows action labels on grid">SHIFT</div>
+        </div>
+      </div>
+
+      <!-- Right panel: button grid -->
+      <div id="pedal-right">
+        <div id="btn-grid"></div>
+      </div>
+    </div>
+
+    <!-- Config -->
+    <div id="config-row">
+      <div id="config-btn">CONFIG</div>
+    </div>
+
+    <!-- Stompswitches (3 real + 2 combo) -->
+    <div id="stomp-row">
+      <div class="stomp">
+        <div class="stomp-btn" onclick="ZOIA.stompswitches.onStomp('select')" title="Select - cycle to next module on current page"></div>
+        <div class="stomp-label">SELECT</div>
+      </div>
+      <div class="combo-stomp" onclick="ZOIA.stompswitches.onStomp('select_scroll')" title="Combo: Select+Scroll - jump to next module on page">
+        <span class="combo-icon">SEL+SCR</span>
+        <span class="combo-desc">Next Module</span>
+      </div>
+      <div class="stomp">
+        <div class="stomp-btn" onclick="ZOIA.stompswitches.onStomp('scroll')" title="Scroll - cycle through blocks of selected module"></div>
+        <div class="stomp-label">SCROLL</div>
+      </div>
+      <div class="combo-stomp" onclick="ZOIA.stompswitches.onStomp('scroll_bypass')" title="Combo: Scroll+Bypass - advance to next page">
+        <span class="combo-icon">SCR+BYP</span>
+        <span class="combo-desc">Page Fwd</span>
+      </div>
+      <div class="stomp">
+        <div class="stomp-btn" onclick="ZOIA.stompswitches.onStomp('bypass')" title="Bypass - toggle bypass on/off"></div>
+        <div class="stomp-label">BYPASS</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SCHEMATIC VIEW ===== -->
+<div id="sch-view">
+  <div id="sch-app">
+    <div id="sch-left">
+      <div class="panel-title">Patch Info</div>
+      <div id="sch-patch-info"><p class="info-text">Load a .bin patch file or click Demo Patch.</p></div>
+      <div id="sch-module-list" style="margin-top:12px"></div>
+    </div>
+    <div id="sch-center">
+      <div id="sch-drop-zone">Drop .bin patch file here</div>
+      <div id="sch-page-tabs"></div>
+      <div id="sch-grid-container">
+        <div id="sch-grid"></div>
+        <svg id="sch-svg-overlay"></svg>
+      </div>
+    </div>
+    <div id="sch-right">
+      <div class="panel-title">Module Details</div>
+      <div id="sch-module-detail"><p class="info-text">Click a module to see details.</p></div>
+    </div>
+    <div id="sch-footer">
+      <span style="color:#8888aa">Show:</span>
+      <div class="toggle-btn on" data-type="audio" onclick="ZOIA.schematicView.toggleConn(this)" style="color:#00C853"><span class="dot" style="background:#00C853"></span>Audio</div>
+      <div class="toggle-btn on" data-type="cv" onclick="ZOIA.schematicView.toggleConn(this)" style="color:#2979FF"><span class="dot" style="background:#2979FF"></span>CV</div>
+      <div class="toggle-btn on" data-type="gate" onclick="ZOIA.schematicView.toggleConn(this)" style="color:#FF1744"><span class="dot" style="background:#FF1744"></span>Gate</div>
+      <div class="toggle-btn on" data-type="param" onclick="ZOIA.schematicView.toggleConn(this)" style="color:#FF9100"><span class="dot" style="background:#FF9100"></span>Param</div>
+      <div style="flex:1"></div>
+      <span id="sch-zoom-label" style="color:#8888aa">100%</span>
+      <button class="btn" onclick="ZOIA.schematicView.setZoom(-0.1)" style="padding:2px 8px">-</button>
+      <button class="btn" onclick="ZOIA.schematicView.setZoom(0.1)" style="padding:2px 8px">+</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="tooltip"></div>
+
+<!-- Console output panel -->
+<div id="conn-toast"></div>
+
+<div id="console-panel">
+  <div class="console-header">
+    <span>CONSOLE</span>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="console-clear" onclick="ZOIA._logBuffer=[];document.getElementById('console-output').textContent=''">Clear</button>
+      <span class="console-close" onclick="ZOIA.toggleConsole()">&times;</span>
+    </div>
+  </div>
+  <pre id="console-output"></pre>
+</div>
+
+<script data-zoia-build="src/scripts/app.js">
+<!-- ZOIA_BUILD_SCRIPT:src/scripts/app.js -->
+</script>
+<script data-zoia-build="src/scripts/init.js">
+<!-- ZOIA_BUILD_SCRIPT:src/scripts/init.js -->
+</script>
+</body>
+</html>
+

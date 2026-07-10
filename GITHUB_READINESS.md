@@ -1,12 +1,14 @@
 # GitHub Readiness Boundary
 
-Version: 1.1
+Version: 0.1.0
 
-Revision: 2
+Revision: 3
 
 ## Current Status
 
-The repository is organized as a ZOIA product repository with test harnesses and evidence workflows as supporting assets.
+The repository is organized as a ZOIA `0.1.0` product repository with test harnesses and evidence workflows as supporting assets.
+
+`0.1.0` is ready for local source/build/test review after staging validation passes. It is not a complete emulator release.
 
 ## Source To Commit
 
@@ -14,6 +16,7 @@ The repository is organized as a ZOIA product repository with test harnesses and
 - `shared/ssl/`
 - `tests/parser-harness/`
 - `tests/workflow/audio-fixtures/`
+- `tests/workflow/canonical-patches/Test_Modules/`
 - `tests/workflow/canonical-patches/Test_Modules.manifest.json`
 - `tests/workflow/playwright/`
 - `tests/workflow/scripts/`
@@ -31,7 +34,6 @@ The repository is organized as a ZOIA product repository with test harnesses and
 - `tests/workflow/playwright/evidence/`
 - `tests/workflow/logs/`
 - `tests/workflow/patch-library-cache/`
-- `tests/workflow/canonical-patches/Test_Modules/`
 - `Reports/`
 - local installer archives and ZIP/RAR/7Z files
 
@@ -40,6 +42,7 @@ The repository is organized as a ZOIA product repository with test harnesses and
 ```text
 npm ci
 npx playwright install chromium
+npm run zoia:build
 npm run zoia:serve
 npm run zoia:test:ci
 ```
@@ -61,6 +64,24 @@ tests/workflow/evidence/q109-ci-gate-integration
 ## License
 
 The source is under Apache License 2.0.
+
+## Version Scope
+
+Included:
+
+- buildable source tree under `products/zoia/src/`
+- prebuilt HTML exhibit under `products/zoia/dist/`
+- committed staged/test patches under `tests/workflow/canonical-patches/Test_Modules/`
+- parser harness and Playwright validation harness
+- repository push/pull staging validation scripts
+
+Excluded:
+
+- community patch binaries
+- generated evidence folders
+- local patch-library cache
+- installer/archive files
+- `node_modules`
 
 ## Claim Boundaries
 

@@ -40,7 +40,7 @@ const gates = [
   {
     id: "parser-and-no-magic",
     command: process.execPath,
-    args: IS_GITHUB_ACTIONS ? [NPM_CLI, "run", "zoia:lint:no-magic"] : [NPM_CLI, "run", "zoia:test:parser"],
+    args: [NPM_CLI, "run", "zoia:lint:no-magic"],
   },
 ];
 

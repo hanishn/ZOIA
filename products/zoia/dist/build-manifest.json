@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "zoia.exhibit-build-manifest.v2",
+  "generatedAt": "2026-07-10T14:22:47.408Z",
+  "sourceManifest": "products/zoia/src/data/exhibit-manifest.json",
+  "prebuiltHtml": "products/zoia/dist/zoia-emulator.html",
+  "compatibilityHtml": "products/zoia/index.html",
+  "inputs": [
+    {
+      "role": "source-manifest",
+      "path": "products/zoia/src/data/exhibit-manifest.json",
+      "sha256": "34a69e14da854ce4a02ad8e7a2815d292d9cc9ec9680659179fac64ef8d9fc3c"
+    },
+    {
+      "role": "template",
+      "path": "products/zoia/src/index.template.html",
+      "sha256": "a87ea31fddd22891a48681345d1265dc9116e1b70524edd2b10ae135ddaa3107"
+    },
+    {
+      "role": "style",
+      "path": "products/zoia/src/styles/app.css",
+      "sha256": "12e19b9ab78c739a8e22220ddd4787101c9d33cb0bd630abb480d68eccb16bc0"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/app.js",
+      "sha256": "f32f8ac9b9e8cb5d117466ba2618dce2b4b2a7b2a65a3f698a7f2129a9a20991"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/init.js",
+      "sha256": "b503c77ea657e17939b74755a043a16cdd3108a7322d060176db6e0c4051db19"
+    }
+  ],
+  "prebuiltSha256": "550c40f935ab99c81808166101f61b649ca3ea17713ed498ec52589beb70dbab",
+  "compatibilitySha256": "550c40f935ab99c81808166101f61b649ca3ea17713ed498ec52589beb70dbab",
+  "status": "pass"
+}

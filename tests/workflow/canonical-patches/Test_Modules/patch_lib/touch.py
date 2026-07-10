@@ -1,0 +1,62 @@
+"""ZOIA Patch Library — touch category."""
+from patch_lib import PB, V, add_test_pages
+
+def gen_touch(d):
+    # L01 Arp Synth (Keyboard on page 0)
+    p=PB("Arp Synth"); kb=p.add(16,"Keyboard",13); o=p.add(2,"Output",5)
+    sq=p.add(4,"Arp Seq",1,par=[V(.0),V(.25),V(.50),V(.75),V(1.0),V(.75),V(.50),V(.25)]); lf=p.add(5,"Arp Clock",1,par=[V(.30)]); oc=p.add(14,"Osc",2,par=[V(.50)]); fl=p.add(0,"Filter",8,par=[V(.40),V(.55)]); l2=p.add(5,"Filt LFO",1,par=[V(.10)]); vc=p.add(7,"VCA",2,par=[65535]); ad=p.add(6,"Env",1,par=[V(.01),V(.15),V(.50),V(.15)]); dl=p.add(13,"Echo",4,par=[0,V(.35),V(.30),V(.35),0])
+    p.labels("synth", "arp", "keyboard", "midi", "sequencer")
+    p.desc("Arpeggiated synthesizer with sequencer and delay. Play a note on the keyboard to set the pitch. Sequencer creates rhythmic pattern, delay adds echoes.")
+    p.c(lf,1,sq,0); p.c(kb,0,oc,0); p.c(sq,10,oc,0,5000); p.c(sq,11,ad,0); p.c(oc,1,fl,0); p.c(l2,1,fl,1,3000); p.c(fl,3,vc,0); p.c(ad,5,vc,1); p.c(vc,2,dl,0); p.c(dl,4,o,0); p.c(dl,4,o,1); add_test_pages(p); p.save(f"{d}/L01_Arp_Synth.json")
+
+    # L02 Bass Station (Keyboard on page 0)
+    p=PB("Bass Station"); kb=p.add(16,"Keyboard",13); o=p.add(2,"Output",5)
+    o1=p.add(14,"Osc Main",2,par=[V(.35)],opt=[2,0,0,0,0,0,0,0]); o2=p.add(14,"Sub Osc",2,par=[V(.25)]); mx=p.add(76,"Osc Mix",2,par=[V(.70),V(.65),V(.0)]); fl=p.add(0,"Bass Filt",8,par=[V(.35),V(.70)]); a1=p.add(6,"Filt Env",1,par=[V(.01),V(.20),V(.30),V(.12)]); vc=p.add(7,"VCA",2,par=[65535]); a2=p.add(6,"Amp Env",1,par=[V(.005),V(.15),V(.70),V(.15)]); ds=p.add(11,"Drive",3,par=[0,V(.35),V(.50),0])
+    p.labels("synth", "bass", "keyboard", "midi", "analog")
+    p.desc("Dual-oscillator bass synthesizer with filter, envelopes, and overdrive. Play using on-screen keyboard. Aggressive filter sweep for punchy bass lines.")
+    p.c(kb,0,o1,0); p.c(kb,0,o2,0); p.c(kb,1,a1,0); p.c(kb,1,a2,0); p.c(o1,1,mx,0); p.c(o2,1,mx,2); p.c(mx,6,fl,0); p.c(a1,5,fl,1,6000); p.c(fl,3,vc,0); p.c(a2,5,vc,1); p.c(vc,2,ds,0); p.c(ds,3,o,0); p.c(ds,3,o,1); add_test_pages(p); p.save(f"{d}/L02_Bass_Station.json")
+
+    # L03 Dub Siren (Stompswitch on page 0)
+    p=PB("Dub Siren"); st=p.add(44,"Siren On",13); o=p.add(2,"Output",5)
+    oc=p.add(14,"Siren Osc",2,par=[V(.50)]); lf=p.add(5,"Sweep LFO",1,par=[V(.12)]); vc=p.add(7,"Gate VCA",2,par=[65535]); dl=p.add(13,"Dub Echo",4,par=[0,V(.45),V(.65),V(.50),0]); rv=p.add(26,"Space",7,par=[0,V(.65),V(.45),0])
+    p.labels("synth", "dub", "siren", "interactive", "delay")
+    p.desc("Dub siren with LFO-swept oscillator, delay, and reverb. Stompswitch on main page triggers the siren. Classic dub and reggae sound effect.")
+    p.c(lf,1,oc,0,8000); p.c(oc,1,vc,0); p.c(st,0,vc,1); p.c(vc,2,dl,0); p.c(dl,4,rv,0); p.c(rv,3,o,0); p.c(rv,3,o,1); add_test_pages(p); p.save(f"{d}/L03_Dub_Siren.json")
+
+    # L04 Acid Groove Box (Stompswitch on page 0, DSP on page 1)
+    p=PB("Acid Groove Box",["Controls","Synth"])
+    st=p.add(44,"Play/Stop",13); o=p.add(2,"Output",5)
+    sq=p.add(4,"Acid Seq",1,pg=1,par=[V(.30),V(.45),V(.30),V(.60),V(.30),V(.50),V(.35),V(.55)]); lf=p.add(5,"Tempo",1,pg=1,par=[V(.22)]); oc=p.add(14,"Saw Osc",2,pg=1,par=[V(.35)],opt=[2,0,0,0,0,0,0,0]); fl=p.add(0,"Acid Filt",8,pg=1,par=[V(.25),V(.85)]); en=p.add(6,"Accent",1,pg=1,par=[V(.005),V(.10),V(.05),V(.05)]); vc=p.add(7,"VCA",2,pg=1,par=[65535]); ds=p.add(11,"Overdrive",3,pg=1,par=[0,V(.50),V(.55),0])
+    p.labels("synth", "acid", "groove", "interactive", "303")
+    p.desc("Self-sequencing acid groove box with resonant filter and distortion. Stompswitch starts and stops the pattern. Sequencer drives a 303-style acid bass line.")
+    p.c(lf,1,sq,0); p.c(sq,10,oc,0); p.c(sq,11,en,0); p.c(oc,1,fl,0); p.c(en,5,fl,1,7000); p.c(en,5,vc,1); p.c(fl,3,vc,0); p.c(vc,2,ds,0); p.c(ds,3,o,0); p.c(ds,3,o,1); add_test_pages(p); p.save(f"{d}/L04_Acid_Groove_Box.json")
+
+    # L05 Sample Mangler (Stompswitches on page 0)
+    p=PB("Sample Mangler"); i=p.add(1,"Input",5); rc=p.add(44,"Record",13); pl=p.add(44,"Play",13,opt=[1,0,0,0,0,0,0,0]); o=p.add(2,"Output",5)
+    lp=p.add(62,"Capture",2); gr=p.add(78,"Mangle",12,par=[0,V(.50),V(.30),V(.60),V(.55),0]); cr=p.add(9,"Lo-Fi",3,par=[0,V(.50),V(.45),0]); dl=p.add(13,"Echo",4,par=[0,V(.35),V(.40),V(.40),0])
+    p.labels("creative", "sampler", "mangler", "interactive")
+    p.desc("Audio looper feeding into granular processor, bitcrusher, and delay. Record and play stompswitches on main page. Destroys and reshapes captured audio.")
+    p.c(i,0,lp,0); p.c(rc,0,lp,1); p.c(pl,0,lp,2); p.c(lp,4,gr,0); p.c(gr,5,cr,0); p.c(cr,3,dl,0); p.c(dl,4,o,0); p.c(dl,4,o,1); add_test_pages(p); p.save(f"{d}/L05_Sample_Mangler.json")
+
+    # L06 House Groove (Stompswitch on page 0, DSP on page 1)
+    p=PB("House Groove",["Controls","Voices"])
+    st=p.add(44,"Start/Stop",13); o=p.add(2,"Output",5)
+    lf=p.add(5,"Tempo",1,pg=1,par=[V(.22)]); cd=p.add(49,"Divider",1,pg=1,par=[V(.25)]); r1=p.add(37,"Kick Rhy",1,pg=1,par=[V(.90)]); r2=p.add(37,"Hat Rhy",1,pg=1,par=[V(.70)]); ko=p.add(14,"Kick",2,pg=1,par=[V(.08)]); ke=p.add(6,"K Env",1,pg=1,par=[V(.005),V(.20),V(.0),V(.10)]); kv=p.add(7,"K VCA",2,pg=1,par=[65535]); hn=p.add(38,"Hat",2,pg=1); hf=p.add(0,"Hat Filt",8,pg=1,par=[V(.80),V(.30)]); he=p.add(6,"H Env",1,pg=1,par=[V(.001),V(.04),V(.0),V(.02)]); hv=p.add(7,"H VCA",2,pg=1,par=[65535]); mx=p.add(76,"Mix",15,pg=1,par=[V(.80),V(.60),V(.00)])
+    p.c(lf,1,cd,0); p.c(cd,2,r1,0); p.c(cd,2,r2,0); p.c(r1,2,ke,0); p.c(r2,2,he,0); p.c(ko,1,kv,0); p.c(ke,5,kv,1); p.c(ke,5,ko,0,5000); p.c(hn,0,hf,0); p.c(hf,5,hv,0); p.c(he,5,hv,1); p.c(kv,2,mx,0); p.c(hv,2,mx,2); p.c(mx,6,o,0); p.c(mx,6,o,1)
+    p.labels("drums", "house", "groove", "interactive", "4-on-floor")
+    p.desc("House music groove generator with sequenced kick, hat, and bass. Stompswitch starts and stops. Four-on-the-floor pattern with adjustable sound design.")
+    add_test_pages(p); p.save(f"{d}/L06_House_Groove.json")
+
+    # L07 Drone Box (just Output on page 0)
+    p=PB("Drone Box"); o=p.add(2,"Output",5)
+    o1=p.add(14,"Drone 1",2,par=[V(.28)]); o2=p.add(14,"Drone 2",2,par=[V(.32)]); o3=p.add(14,"Drone 3",2,par=[V(.42)]); l1=p.add(5,"Drift 1",1,par=[V(.015)]); l2=p.add(5,"Drift 2",1,par=[V(.025)]); l3=p.add(5,"Drift 3",1,par=[V(.018)]); mx=p.add(76,"Mix",2,par=[V(.65),V(.55),V(.50)]); fl=p.add(0,"Filter",8,par=[V(.40),V(.35)]); rv=p.add(67,"Ghost Verb",7,par=[0,V(.85),V(.30),V(.60),0]); ch=p.add(29,"Detune",2,par=[0,V(.05),V(.20),V(.40),0])
+    p.labels("synth", "drone", "ambient", "generative")
+    p.desc("Three-oscillator drone with filtering, reverb, and chorus. Self-playing ambient drone engine. LFOs create slow evolving movement. No user input needed.")
+    p.c(l1,1,o1,0,800); p.c(l2,1,o2,0,600); p.c(l3,1,o3,0,700); p.c(o1,1,mx,0); p.c(o2,1,mx,2); p.c(o3,1,mx,4); p.c(mx,6,fl,0); p.c(fl,3,rv,0); p.c(rv,4,ch,0); p.c(ch,4,o,0); p.c(ch,4,o,1); add_test_pages(p); p.save(f"{d}/L07_Drone_Box.json")
+
+    # L08 Generative Bells (just Output on page 0)
+    p=PB("Generative Bells"); o=p.add(2,"Output",5)
+    lf=p.add(5,"Clock",1,par=[V(.08)]); rn=p.add(39,"Random",1); qt=p.add(70,"Quantizer",1); oc=p.add(14,"Bell Osc",2,par=[V(.65)]); ad=p.add(6,"Env",1,par=[V(.005),V(.40),V(.0),V(.60)]); vc=p.add(7,"VCA",2,par=[65535]); sh=p.add(27,"Shimmer",7,par=[0,V(.75),V(.60),V(.50),0])
+    p.labels("synth", "bells", "generative", "ambient")
+    p.desc("Generative bell melody using random CV into quantizer and oscillator. Self-playing ambient bells with shimmer reverb. Creates ever-changing melodic patterns.")
+    p.c(lf,1,rn,0); p.c(rn,1,qt,0); p.c(qt,1,oc,0); p.c(lf,1,ad,0); p.c(oc,1,vc,0); p.c(ad,5,vc,1); p.c(vc,2,sh,0); p.c(sh,4,o,0); p.c(sh,4,o,1); add_test_pages(p); p.save(f"{d}/L08_Generative_Bells.json")
