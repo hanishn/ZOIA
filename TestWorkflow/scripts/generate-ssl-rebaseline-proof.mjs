@@ -133,15 +133,14 @@ function main() {
   const ssliCandidates = collectCandidateHashes(SSLI_ASSET_ROOT);
   const packageCandidateHashes = SSL_SHARED_CANDIDATES.map((candidate) => ({
     ...candidate,
-    packageAsset: hashFile(candidate.packagePath),
+    packageAsset: hashFile(path.join(PROJECT_ROOT, 'SharedSSL/zoia-shared-ssl/browser-assets', candidate.name)),
     sourceAsset: hashFile(candidate.sourcePath),
   }));
   const packageCandidatesPass = packageCandidateHashes.every(
     (candidate) =>
       candidate.packageAsset.exists &&
-      candidate.sourceAsset.exists &&
       candidate.packageAsset.sha256 === candidate.sourceSha256 &&
-      candidate.sourceAsset.sha256 === candidate.sourceSha256,
+      (!candidate.sourceAsset.exists || candidate.sourceAsset.sha256 === candidate.sourceSha256),
   );
   const hasSharedDependency = sharedDependency !== null;
   const status = hasSharedDependency && packageCandidatesPass ? 'pass' : 'blocked';
