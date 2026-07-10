@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "zoia.fixture-quarantine.v0",
+  "createdAt": "2026-07-07T00:49:30.000Z",
+  "author": "ZOIAManager",
+  "policy": "Fixture-data divergence only. Quarantine entries do not change parser semantics and do not normalize parsed output.",
+  "fixtures": [
+    {
+      "category": "C_Modulation",
+      "pairId": "C09_Ensemble_Chorus",
+      "action": "quarantine-known-bad-binary",
+      "reason": "The binary fixture contains three Audio Mixer level parameter values that diverge from expected JSON. Staged generator source defines the mixer levels as V(.25), V(.20), V(.15), matching expected JSON rather than the binary parse.",
+      "evidence": {
+        "binPath": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules\\C_Modulation\\C09_Ensemble_Chorus.bin",
+        "jsonPath": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules\\C_Modulation\\C09_Ensemble_Chorus.json",
+        "generatorPath": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules\\patch_lib\\modulation.py",
+        "generatorLines": "61-66",
+        "generatorSnippet": "mx=p.add(76,\"Mix\",15,par=[V(.25),V(.20),V(.15)])"
+      },
+      "expectedMismatchPaths": [
+        "$.modules[5].params[1]",
+        "$.modules[5].params[3]",
+        "$.modules[5].params[5]"
+      ],
+      "reviewRequiredBeforeUnquarantine": true
+    }
+  ]
+}

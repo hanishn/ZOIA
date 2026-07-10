@@ -1,0 +1,39 @@
+{
+  "name": "zoia-active-test-workflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Active ZOIA test workflow entrypoints.",
+  "scripts": {
+    "zoia:lint:no-magic": "npm --prefix ParserHarness/zoia-parser-fixture-harness run zoia:lint:no-magic",
+    "zoia:fixtures:all": "npm --prefix ParserHarness/zoia-parser-fixture-harness run zoia:fixtures:all",
+    "zoia:patch-library:prepare": "powershell -NoProfile -ExecutionPolicy Bypass -File TestWorkflow/scripts/prepare-zoia-patch-library-cache.ps1",
+    "zoia:test:parser": "npm run zoia:lint:no-magic && npm run zoia:fixtures:all",
+    "zoia:test:playwright": "node TestWorkflow/playwright/run-zoia-playwright-evidence.mjs",
+    "zoia:test:playwright:interactions": "node TestWorkflow/playwright/run-zoia-playwright-interaction-evidence.mjs",
+    "zoia:test:playwright:controls": "node TestWorkflow/playwright/run-zoia-playwright-controls-evidence.mjs",
+    "zoia:test:playwright:broad": "node TestWorkflow/playwright/run-zoia-playwright-broad-rebaseline-evidence.mjs",
+    "zoia:test:playwright:all-patches": "node TestWorkflow/playwright/run-zoia-playwright-all-patches-evidence.mjs",
+    "zoia:test:playwright:staged-deep": "node TestWorkflow/playwright/run-zoia-playwright-staged-deep-evidence.mjs",
+    "zoia:test:playwright:patch-library-full": "node TestWorkflow/playwright/run-zoia-playwright-library-and-verification-patches-evidence.mjs",
+    "zoia:test:playwright:library-deep": "node TestWorkflow/playwright/run-zoia-playwright-library-deep-evidence.mjs",
+    "zoia:test:playwright:audio-provenance": "node TestWorkflow/playwright/run-zoia-playwright-audio-provenance-evidence.mjs",
+    "zoia:test:playwright:audio-fixtures": "node TestWorkflow/playwright/run-zoia-playwright-audio-fixtures-evidence.mjs",
+    "zoia:test:playwright:audio-delay-tone": "node TestWorkflow/playwright/run-zoia-playwright-audio-delay-tone-evidence.mjs",
+    "zoia:test:playwright:staged-patch-audio": "node TestWorkflow/playwright/run-zoia-playwright-staged-patch-audio-evidence.mjs",
+    "zoia:test:playwright:community-audio": "node TestWorkflow/playwright/run-zoia-playwright-community-audio-evidence.mjs",
+    "zoia:test:evidence": "npm run zoia:test:parser && npm run zoia:test:playwright && npm run zoia:test:playwright:interactions && npm run zoia:test:playwright:controls && npm run zoia:test:playwright:broad",
+    "zoia:test:evidence:full": "npm run zoia:test:evidence && npm run zoia:test:playwright:all-patches",
+    "zoia:test:evidence:library-full": "npm run zoia:patch-library:prepare && npm run zoia:test:evidence && npm run zoia:test:playwright:patch-library-full",
+    "test": "npm run zoia:test:parser",
+    "zoia:ssl:proof": "node TestWorkflow/scripts/generate-ssl-rebaseline-proof.mjs",
+    "zoia:test:ci": "node TestWorkflow/scripts/run-zoia-ci-gates.mjs",
+    "zoia:github:boundary": "node TestWorkflow/scripts/generate-github-readiness-boundary.mjs",
+    "zoia:test:publication": "npm run zoia:test:ci && npm run zoia:patch-library:prepare && npm run zoia:test:playwright:community-audio"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  },
+  "dependencies": {
+    "@zoia/shared-ssl": "file:SharedSSL/zoia-shared-ssl"
+  }
+}

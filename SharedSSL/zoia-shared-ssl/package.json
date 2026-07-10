@@ -1,0 +1,14 @@
+{
+  "name": "@zoia/shared-ssl",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs",
+    "./provenance": "./src/provenance.mjs"
+  },
+  "scripts": {
+    "verify": "node ./src/verify-provenance.mjs"
+  }
+}

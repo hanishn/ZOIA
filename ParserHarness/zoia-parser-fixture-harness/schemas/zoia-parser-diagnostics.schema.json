@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zoia.parser.diagnostics.v0",
+  "title": "ZOIA parser diagnostics",
+  "type": "object",
+  "required": ["schemaVersion", "events"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "zoia.parser.diagnostics.v0" },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["severity", "code"],
+        "additionalProperties": true,
+        "properties": {
+          "severity": { "enum": ["info", "warning", "error"] },
+          "code": {
+            "enum": [
+              "type-remap",
+              "block-remap",
+              "unknown-module-type",
+              "invalid-page-count",
+              "schema-error",
+              "fixture-mismatch",
+              "parse-error"
+            ]
+          },
+          "fixturePath": { "type": "string" },
+          "moduleIndex": { "type": "integer", "minimum": 0 },
+          "originalTypeIdx": { "type": "integer", "minimum": 0 },
+          "typeIdx": { "type": "integer", "minimum": 0 },
+          "blockHint": { "type": "integer", "minimum": 0 },
+          "path": { "type": "string" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  }
+}

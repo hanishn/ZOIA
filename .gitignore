@@ -1,0 +1,29 @@
+node_modules/
+
+# Generated test evidence and local logs
+TestWorkflow/evidence/
+TestWorkflow/playwright/evidence/
+TestWorkflow/logs/
+
+# Cached community patch-library downloads and extracted patch files
+TestWorkflow/patch-library-cache/
+
+# Canonical patch binaries/data are provenance inputs, not source code.
+TestWorkflow/canonical-patches/Test_Modules/
+!TestWorkflow/canonical-patches/Test_Modules.manifest.json
+
+# Generated reports
+Reports/**/*.pdf
+Reports/**/*.html
+Reports/**/versions/
+
+# Local installers and archives
+*.zip
+*.7z
+*.rar
+
+# OS/editor noise
+Thumbs.db
+.DS_Store
+.vscode/
+.idea/

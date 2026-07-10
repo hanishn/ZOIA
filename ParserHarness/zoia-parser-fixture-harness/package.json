@@ -1,0 +1,11 @@
+{
+  "name": "zoia-parser-fixture-harness",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ZOIA-owned parser/model fixture harness promoted from reviewed Clairvoyance artifacts.",
+  "scripts": {
+    "zoia:lint:no-magic": "node scripts/zoia-no-magic-number-lint.mjs scripts/zoia-fixture-runner.mjs",
+    "zoia:fixtures:all": "node scripts/zoia-fixture-runner.mjs --manifest fixtures/manifests/zoia-fixture-manifest.json --quarantine fixtures/quarantine/zoia-fixture-quarantine-q033.json --categories _prototype,A_Reverbs,B_Delays,C_Modulation,D_Drive,E_Dynamics,F_Spatial,G_Looping,H_Synths,I_Creative,J_Pedalboards,K_Drums,L_Touch_Synths --output results/zoia-fixture-runner-result-active-full-category-quarantined.json"
+  }
+}

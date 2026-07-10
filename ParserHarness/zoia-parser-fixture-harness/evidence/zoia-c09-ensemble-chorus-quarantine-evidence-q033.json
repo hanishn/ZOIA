@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "zoia.fixture-quarantine-evidence.v0",
+  "generatedAt": "2026-07-07T00:50:30.000Z",
+  "fixture": "C_Modulation/C09_Ensemble_Chorus",
+  "action": "quarantine-known-bad-binary",
+  "binPath": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules\\C_Modulation\\C09_Ensemble_Chorus.bin",
+  "binSha256": "e4c5e5d6f8f99874d14a3da81c301e909cbd8388dea618f6c30e5f6d19f69c93",
+  "jsonPath": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules\\C_Modulation\\C09_Ensemble_Chorus.json",
+  "jsonSha256": "6747fd9e5118bf79252df7d11e051a5ac2d8a6f7d6a3c6b278f41b902dde3391",
+  "generatorPath": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules\\patch_lib\\modulation.py",
+  "generatorSha256": "74116fec7198cbfac6c260f5cf291d5f9ccfa2c531744533dbbd0d911e2e2683",
+  "expectedModule": {
+    "idx": 5,
+    "typeIdx": 76,
+    "name": "Mix",
+    "typeName": "Audio Mixer",
+    "params": [0, 16383, 0, 13107, 0, 9830, 0]
+  },
+  "mismatches": [
+    {
+      "path": "$.modules[5].params[1]",
+      "parsedFromBin": 26214,
+      "expectedJson": 16383
+    },
+    {
+      "path": "$.modules[5].params[3]",
+      "parsedFromBin": 22937,
+      "expectedJson": 13107
+    },
+    {
+      "path": "$.modules[5].params[5]",
+      "parsedFromBin": 19660,
+      "expectedJson": 9830
+    }
+  ],
+  "generatorEvidence": {
+    "lines": "61-66",
+    "snippet": "mx=p.add(76,\"Mix\",15,par=[V(.25),V(.20),V(.15)])",
+    "matchesExpectedJson": true
+  },
+  "conclusion": "Expected JSON and staged generator source agree on C09 mixer levels; the staged binary differs. Quarantine the binary fixture rather than changing parser policy."
+}

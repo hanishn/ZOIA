@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "zoia.audio-fixture-manifest.v0",
+  "version": "1.0",
+  "revision": 1,
+  "renderSettings": {
+    "sampleRate": 44100,
+    "durationSeconds": 0.25,
+    "frameCount": 11025,
+    "channelCount": 1
+  },
+  "globalThresholds": {
+    "minSignalRms": 0.02,
+    "maxSilenceRms": 0.000001,
+    "maxPeak": 1.0
+  },
+  "fixtures": [
+    {
+      "id": "oscillator-direct",
+      "description": "Oscillator output routed directly to destination gain.",
+      "kind": "signal",
+      "chain": "oscillator-direct",
+      "expectedQuantizedHash": "8c3f88bb",
+      "criteria": {
+        "minRms": 0.05,
+        "maxRms": 0.6,
+        "minZeroCrossings": 1,
+        "maxPeak": 1.0
+      }
+    },
+    {
+      "id": "oscillator-through-vca",
+      "description": "Oscillator routed through VCA with fixed level.",
+      "kind": "signal",
+      "chain": "oscillator-through-vca",
+      "expectedQuantizedHash": "979d1b0a",
+      "criteria": {
+        "minRms": 0.02,
+        "maxRms": 0.4,
+        "minZeroCrossings": 1,
+        "maxPeak": 1.0
+      }
+    },
+    {
+      "id": "oscillator-through-filter",
+      "description": "Oscillator routed through SV Filter low-pass output.",
+      "kind": "signal",
+      "chain": "oscillator-through-filter",
+      "expectedQuantizedHash": "c3cbd4e6",
+      "criteria": {
+        "minRms": 0.02,
+        "maxRms": 0.6,
+        "minZeroCrossings": 1,
+        "maxPeak": 1.0
+      }
+    },
+    {
+      "id": "silence-control",
+      "description": "Offline render with no connected signal source.",
+      "kind": "silence",
+      "chain": "silence",
+      "expectedQuantizedHash": "24ceba4d",
+      "criteria": {
+        "maxRms": 0.000001,
+        "maxPeak": 0.000001,
+        "maxZeroCrossings": 0
+      }
+    },
+    {
+      "id": "invalid-routing-control",
+      "description": "Oscillator exists but is not routed to destination.",
+      "kind": "silence",
+      "chain": "invalid-routing",
+      "expectedQuantizedHash": "24ceba4d",
+      "criteria": {
+        "maxRms": 0.000001,
+        "maxPeak": 0.000001,
+        "maxZeroCrossings": 0
+      }
+    }
+  ],
+  "excludedUntilDeterministic": [
+    {
+      "area": "random modules",
+      "reason": "Some factories use Math.random for noise, impulse responses, or modulation. These require seeded randomness or deterministic fixture substitutes before hash assertions."
+    },
+    {
+      "area": "time-polling modules",
+      "reason": "Some factories use requestAnimationFrame polling for CV/control behavior. These require offline-safe polling or direct automation before deterministic audio assertions."
+    },
+    {
+      "area": "full community patch audio",
+      "reason": "Full patch audio requires deterministic input stimuli and expected audio feature baselines per patch."
+    }
+  ]
+}

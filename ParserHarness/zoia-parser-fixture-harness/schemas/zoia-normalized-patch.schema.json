@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zoia.normalized.patch.v0",
+  "title": "ZOIA normalized patch",
+  "type": "object",
+  "required": ["schemaVersion", "name", "moduleCount", "modules", "connections", "pages", "diagnostics"],
+  "additionalProperties": true,
+  "properties": {
+    "schemaVersion": { "const": "zoia.normalized.patch.v0" },
+    "name": { "type": "string", "maxLength": 16 },
+    "presetSizeWords": { "type": "integer", "minimum": 0 },
+    "moduleCount": { "type": "integer", "minimum": 0 },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["idx", "typeIdx", "originalTypeIdx", "page", "colorId", "gridPos", "name", "paramCount", "params", "options"],
+        "additionalProperties": true,
+        "properties": {
+          "idx": { "type": "integer", "minimum": 0 },
+          "typeIdx": { "type": "integer", "minimum": 0 },
+          "originalTypeIdx": { "type": "integer", "minimum": 0 },
+          "version": { "type": "integer", "minimum": 0 },
+          "page": { "type": "integer", "minimum": 0 },
+          "colorId": { "type": "integer", "minimum": 1, "maximum": 15 },
+          "gridPos": { "type": "integer", "minimum": 0, "maximum": 39 },
+          "name": { "type": "string", "maxLength": 16 },
+          "paramCount": { "type": "integer", "minimum": 0 },
+          "params": {
+            "type": "array",
+            "items": { "type": "integer", "minimum": 0, "maximum": 65535 }
+          },
+          "options": {
+            "type": "array",
+            "minItems": 8,
+            "maxItems": 8,
+            "items": { "type": "integer", "minimum": 0, "maximum": 255 }
+          },
+          "blocks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["n", "t"],
+              "properties": {
+                "n": { "type": "string" },
+                "t": { "enum": ["audio_in", "audio_out", "cv_in", "cv_out", "gate_in", "gate_out", "param"] }
+              }
+            }
+          }
+        }
+      }
+    },
+    "connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["srcMod", "srcBlock", "dstMod", "dstBlock", "strength"],
+        "properties": {
+          "srcMod": { "type": "integer", "minimum": 0 },
+          "srcBlock": { "type": "integer", "minimum": 0 },
+          "dstMod": { "type": "integer", "minimum": 0 },
+          "dstBlock": { "type": "integer", "minimum": 0 },
+          "strength": { "type": "integer", "minimum": 0, "maximum": 10000 }
+        }
+      }
+    },
+    "pages": {
+      "type": "array",
+      "items": { "type": "string", "maxLength": 16 }
+    },
+    "labels": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "description": { "type": "string" },
+    "diagnostics": {
+      "$ref": "zoia.parser.diagnostics.v0#/properties/events"
+    }
+  }
+}

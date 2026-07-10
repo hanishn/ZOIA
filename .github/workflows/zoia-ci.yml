@@ -1,0 +1,37 @@
+name: ZOIA CI Gates
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  zoia-ci-gates:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Install Playwright Browser
+        run: npx playwright install chromium
+
+      - name: Run ZOIA CI Gates
+        run: npm run zoia:test:ci
+
+      - name: Upload Evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zoia-ci-evidence
+          path: TestWorkflow/evidence/q109-ci-gate-integration
