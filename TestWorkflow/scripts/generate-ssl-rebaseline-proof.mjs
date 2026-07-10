@@ -7,7 +7,7 @@ import {
   SSL_SHARED_REBASELINE_POLICY,
 } from '@zoia/shared-ssl';
 
-const PROJECT_ROOT = path.resolve('G:/Projects/MusicAndMidi/ZOIA');
+const PROJECT_ROOT = path.resolve(new URL('../..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
 const SSL_SHARED_ROOT = path.resolve('G:/Projects/MusicAndMidi/SuperSynthLab/RecoveredSource/SSLS-from-exhibit-2026-06-07/monorepo-skeleton/shared/assets');
 const SSLI_ASSET_ROOT = path.resolve('G:/Projects/MusicAndMidi/SuperSynthLab/RecoveredSource/SSL-process-rebuild-2026-06-07/products/ssli/assets');
 const EVIDENCE_ROOT = path.join(PROJECT_ROOT, 'TestWorkflow/evidence/q107-ssl-shared-library-rebaseline-proof');

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const PROJECT_ROOT = path.resolve("G:/Projects/MusicAndMidi/ZOIA");
+const PROJECT_ROOT = path.resolve(new URL("../..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
 const EVIDENCE_ROOT = path.join(PROJECT_ROOT, "TestWorkflow/evidence/q110-github-readiness-boundary");
 const RESULT_PATH = path.join(EVIDENCE_ROOT, "repository-boundary.json");
 

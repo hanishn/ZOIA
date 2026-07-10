@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
-const PROJECT_ROOT = path.resolve("G:/Projects/MusicAndMidi/ZOIA");
+const PROJECT_ROOT = path.resolve(new URL("../..", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1"));
 const EVIDENCE_ROOT = path.join(PROJECT_ROOT, "TestWorkflow/evidence/q109-ci-gate-integration");
 const RESULT_PATH = path.join(EVIDENCE_ROOT, "run-result.json");
 const Q106_RESULT_PATH = path.join(
