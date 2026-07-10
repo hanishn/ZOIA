@@ -29,6 +29,7 @@ Q110 recorded that the project was not yet a Git repository. Q111 initializes th
 ## Do Not Commit by Default
 
 - `node_modules/`
+- `ParserHarness/zoia-parser-fixture-harness/results/`
 - `TestWorkflow/evidence/`
 - `TestWorkflow/logs/`
 - `TestWorkflow/patch-library-cache/`

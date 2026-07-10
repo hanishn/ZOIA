@@ -51,7 +51,7 @@ The active test workflow imports the package for provenance and rebaseline proof
 
 Commit source, scripts, manifests, workflows, and package metadata.
 
-Do not commit generated evidence, patch-library cache files, canonical patch binaries, installer zips, `node_modules`, or generated PDFs/HTML by default.
+Do not commit generated evidence, parser result outputs, patch-library cache files, canonical patch binaries, installer zips, `node_modules`, or generated PDFs/HTML by default.
 
 See:
 

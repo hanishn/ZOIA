@@ -1,6 +1,7 @@
 node_modules/
 
 # Generated test evidence and local logs
+ParserHarness/zoia-parser-fixture-harness/results/
 TestWorkflow/evidence/
 TestWorkflow/playwright/evidence/
 TestWorkflow/logs/
