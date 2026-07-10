@@ -1,0 +1,907 @@
+{
+  "schemaVersion": "zoia.canonical-patch-fixture-manifest.v1",
+  "createdAt": "2026-07-09T17:08:20.9573664-04:00",
+  "canonicalRoot": "tests/workflow/canonical-patches/Test_Modules",
+  "sourceArchive": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules",
+  "note": "Canonical active-project copy of staged ZOIA Test_Modules. Source archive remains read-only provenance, not an active test dependency.",
+  "fileCount": 176,
+  "binCount": 88,
+  "jsonCount": 88,
+  "categories": [
+    "_prototype",
+    "A_Reverbs",
+    "B_Delays",
+    "C_Modulation",
+    "D_Drive",
+    "E_Dynamics",
+    "F_Spatial",
+    "G_Looping",
+    "H_Synths",
+    "I_Creative",
+    "J_Pedalboards",
+    "K_Drums",
+    "L_Touch_Synths"
+  ],
+  "files": [
+    {
+      "relativePath": "_prototype\\PROTOTYPE_A01_Spring_Reverb.bin",
+      "size": 32768,
+      "sha256": "663905FB409C209F9992B9ED9E3A707926FCC8BE1459EE2712E3711506FEB99D"
+    },
+    {
+      "relativePath": "_prototype\\PROTOTYPE_A01_Spring_Reverb.json",
+      "size": 32806,
+      "sha256": "B2EDA695C5898546C74C1E77D8BC6948D144D1A008A9D2AE44F256C41B98BCCD"
+    },
+    {
+      "relativePath": "_prototype\\PROTOTYPE_H01_Mono_Synth.bin",
+      "size": 32768,
+      "sha256": "E7365F8D777558AD8107BC958613B96608BA25EA21586B75F0131CC306D7F5F2"
+    },
+    {
+      "relativePath": "_prototype\\PROTOTYPE_H01_Mono_Synth.json",
+      "size": 34806,
+      "sha256": "4A851C56DF7B48B770BEAC51973D9F78F3A3943CE8F1A4D3BCC8CEF5238301D1"
+    },
+    {
+      "relativePath": "A_Reverbs\\A01_Spring_Reverb.bin",
+      "size": 32768,
+      "sha256": "E3B41BB9A650036CA03BB67599B1ABCBDE1FA12F1E63C2D5BD84FCBF418745D5"
+    },
+    {
+      "relativePath": "A_Reverbs\\A01_Spring_Reverb.json",
+      "size": 7832,
+      "sha256": "974F422505BE7376E96AFE2E787151D7C9677828D41AD6160D8F3D4DE628AF3D"
+    },
+    {
+      "relativePath": "A_Reverbs\\A02_Plate_Reverb.bin",
+      "size": 32768,
+      "sha256": "80B19F16B34D39F5F5FA40B101402FEF45D0557D76B08AF771C3297EB05C6788"
+    },
+    {
+      "relativePath": "A_Reverbs\\A02_Plate_Reverb.json",
+      "size": 6890,
+      "sha256": "68257E47FD223A11843E82BD3D6B4FB7F472CCBE25F7DB8FE83409BC984DF6D8"
+    },
+    {
+      "relativePath": "A_Reverbs\\A03_Hall_Reverb.bin",
+      "size": 32768,
+      "sha256": "EEF285342AA1FC523338C8715E30466730A4B932495879F585F6C36B0BF3D383"
+    },
+    {
+      "relativePath": "A_Reverbs\\A03_Hall_Reverb.json",
+      "size": 7998,
+      "sha256": "2E28B607DD3E85E963D3EDBE68C877C418B71773CA1C3AAB189E812DA9C5CF76"
+    },
+    {
+      "relativePath": "A_Reverbs\\A04_Shimmer_Reverb.bin",
+      "size": 32768,
+      "sha256": "08E52E51ED4FF25C7DBD4594EE03966A793BFDA88E4BFA62BEA4791F4E1FC28A"
+    },
+    {
+      "relativePath": "A_Reverbs\\A04_Shimmer_Reverb.json",
+      "size": 6009,
+      "sha256": "17046E5A6AD9E6DA45B5DEFADF01760E888E81FC6C213D923F482327AD9C37C4"
+    },
+    {
+      "relativePath": "A_Reverbs\\A05_Ghostverb.bin",
+      "size": 32768,
+      "sha256": "7CCB8E44C7B1CDDDC5B147DE0FD4D3010CCBEAEED7B2CC05A0727353D84BE428"
+    },
+    {
+      "relativePath": "A_Reverbs\\A05_Ghostverb.json",
+      "size": 6006,
+      "sha256": "B98F14BF8F4423E805E8055A4F378FE091A9048DF971849E12B5D68D3490A628"
+    },
+    {
+      "relativePath": "A_Reverbs\\A06_Ambient_Wash.bin",
+      "size": 32768,
+      "sha256": "446972904EB854378A077AD2DA45257D7F32569047CEDE1D8E87B5A411735570"
+    },
+    {
+      "relativePath": "A_Reverbs\\A06_Ambient_Wash.json",
+      "size": 6805,
+      "sha256": "7BC4A00EC660C92B0622CD02298261DC72962843FD9E64F88EBFB681ADD64AAF"
+    },
+    {
+      "relativePath": "A_Reverbs\\A07_Gated_Reverb.bin",
+      "size": 32768,
+      "sha256": "6F761BA8FE32C2DA1D0AA1EC91132CF370F3AF49E92E9991E011EFAA55EF6CC8"
+    },
+    {
+      "relativePath": "A_Reverbs\\A07_Gated_Reverb.json",
+      "size": 8600,
+      "sha256": "658080FF7D54EA296BDEF2583961E39B450076436D4C9FA9C75A7358ECF3D5D1"
+    },
+    {
+      "relativePath": "A_Reverbs\\A08_Reverse_Reverb.bin",
+      "size": 32768,
+      "sha256": "6E5C15649491B9E91BA943419C2F6DA089815149ADEB3A941A7FE2AF5A7741E9"
+    },
+    {
+      "relativePath": "A_Reverbs\\A08_Reverse_Reverb.json",
+      "size": 5999,
+      "sha256": "5E6FD001BAF6C9E21A3D06CF2509E8482D4FF669654569305C45D896FFC73624"
+    },
+    {
+      "relativePath": "A_Reverbs\\A09_Cathedral.bin",
+      "size": 32768,
+      "sha256": "5C8649F0FBB8A7315FB70FBB4B20644D6A60F19A69600D43A423D8E1FFD09446"
+    },
+    {
+      "relativePath": "A_Reverbs\\A09_Cathedral.json",
+      "size": 6997,
+      "sha256": "2E7235E2E4FCA9F40879AB16356CC92475493B0D5A024259992DFC730DA8D079"
+    },
+    {
+      "relativePath": "A_Reverbs\\A10_Room_Reverb.bin",
+      "size": 32768,
+      "sha256": "AF64D7CD697718252285AC0AA84240D7BDCC5BBAA6E1DED010E1C4596B774AC6"
+    },
+    {
+      "relativePath": "A_Reverbs\\A10_Room_Reverb.json",
+      "size": 5895,
+      "sha256": "33648B6499B6FEEA851C7B5247247C960F2A3B4463643FBF8A66F55B02F23844"
+    },
+    {
+      "relativePath": "audit_batch.bin",
+      "size": 32768,
+      "sha256": "6E36126089C2C9F45339E7F7FE2D38556B806C0E0342A8748526113FF31EFCD1"
+    },
+    {
+      "relativePath": "audit_batch.json",
+      "size": 344,
+      "sha256": "9D315D4BC2CCCFA781A4A3E47EC38A493B24305BA2193F272A4E16612A06A1B6"
+    },
+    {
+      "relativePath": "B_Delays\\B01_Analog_Delay.bin",
+      "size": 32768,
+      "sha256": "9B857F0C1A4128942D24F2AF28B1183E81C2B09839ABD4FEAA4B0BB2C52A3CD0"
+    },
+    {
+      "relativePath": "B_Delays\\B01_Analog_Delay.json",
+      "size": 7281,
+      "sha256": "517A595BA6F39C119E7A71707051852E9B9D3AA6EEBAB3D6A6DE203A29492DC4"
+    },
+    {
+      "relativePath": "B_Delays\\B02_Tape_Echo.bin",
+      "size": 32768,
+      "sha256": "245E3DEE95EA2A6CE78647B534A737F52C9F4F3CA605E7ECBC85323F196D0C72"
+    },
+    {
+      "relativePath": "B_Delays\\B02_Tape_Echo.json",
+      "size": 7262,
+      "sha256": "A80B83B18BF34B399744E912A355197DB7CC7FDCF952090A5B83BEC270C78582"
+    },
+    {
+      "relativePath": "B_Delays\\B03_Degrading_Loop.bin",
+      "size": 32768,
+      "sha256": "44F18185BDCD2F60E0D57E6C9BB73A2A3D3B6A7AC0FB35CFB59ECB9BD8AEFB26"
+    },
+    {
+      "relativePath": "B_Delays\\B03_Degrading_Loop.json",
+      "size": 9566,
+      "sha256": "BC68C16C4E3E2ACB85F5C99F28F6E78C785AFD49EA511BAAC9E3744D3D4C38D7"
+    },
+    {
+      "relativePath": "B_Delays\\B04_Multi_Tap_Delay.bin",
+      "size": 32768,
+      "sha256": "FAA10E30C9CCD2C5C3D8B71A501977F05DB06034ACC91E346744DF6DDE43CFB8"
+    },
+    {
+      "relativePath": "B_Delays\\B04_Multi_Tap_Delay.json",
+      "size": 9668,
+      "sha256": "774C31FDAB59A1E6D0C65C24D3A4539D3B004AC0B588DA43155F9E80C40B8E7E"
+    },
+    {
+      "relativePath": "B_Delays\\B05_Ping_Pong_Delay.bin",
+      "size": 32768,
+      "sha256": "AFFC22E758701C70501F6F9FDD737940A834A73BB7FDCF6943CF369822281188"
+    },
+    {
+      "relativePath": "B_Delays\\B05_Ping_Pong_Delay.json",
+      "size": 6089,
+      "sha256": "BC4C59D0A4D041E4C01BC7F1D0FF8F884265D304FF5E6B6D264DDB918A22E773"
+    },
+    {
+      "relativePath": "B_Delays\\B06_Grain_Delay.bin",
+      "size": 32768,
+      "sha256": "D974349895643B40EE416DD7A98AF4C4FFE7B39757CBED017C3361F13FEFDC77"
+    },
+    {
+      "relativePath": "B_Delays\\B06_Grain_Delay.json",
+      "size": 7001,
+      "sha256": "5880A8B7E18C3CF9130D8676D6DCE23B8F4486AF45CED648F4EDEBD572F03632"
+    },
+    {
+      "relativePath": "B_Delays\\B07_Slapback_Delay.bin",
+      "size": 32768,
+      "sha256": "297EE9BE126E6B53C7054DCB2D6339197BD55A5C76684223D8B2BFC82EEF7541"
+    },
+    {
+      "relativePath": "B_Delays\\B07_Slapback_Delay.json",
+      "size": 7089,
+      "sha256": "F5284AE64898B1960943DFDE690E816866121D73029C302644CAE4F88F4CCFCD"
+    },
+    {
+      "relativePath": "B_Delays\\B08_Reverse_Delay.bin",
+      "size": 32768,
+      "sha256": "19E68BA7AB5A336F1D6EB5FCAAF7E5FAE61C0D3D219E4932BBE69EDC2F144673"
+    },
+    {
+      "relativePath": "B_Delays\\B08_Reverse_Delay.json",
+      "size": 7003,
+      "sha256": "0E06583C5967168D66ADE41630C0DEC66589E0B09615829AA58A40409178AE5A"
+    },
+    {
+      "relativePath": "B_Delays\\B09_Ducking_Delay.bin",
+      "size": 32768,
+      "sha256": "641A001BF3CD4DD3EFD230C843BE55C7F87399CDAC4C85C0A7C42E408A6DF2D4"
+    },
+    {
+      "relativePath": "B_Delays\\B09_Ducking_Delay.json",
+      "size": 9109,
+      "sha256": "BF273BFCF6D825C68A9A03BC818C55FF239F7739E6F9A1497D90D86CD7E5DD5C"
+    },
+    {
+      "relativePath": "B_Delays\\B10_Modulated_Delay.bin",
+      "size": 32768,
+      "sha256": "01EC10E8F2C45377124318604DC161CA47BD0BDEEDCE58529BA04FEFADA1EC1C"
+    },
+    {
+      "relativePath": "B_Delays\\B10_Modulated_Delay.json",
+      "size": 6180,
+      "sha256": "C2DABBAE16B5FCD789E9FAC80A375A7F2F59FAAF6964D4CA1EC6744BEDA975B6"
+    },
+    {
+      "relativePath": "C_Modulation\\C01_Classic_Chorus.bin",
+      "size": 32768,
+      "sha256": "7E17D381366A111FFE4CCA3DF8065D7D35014EC89D5127DDD01E069AD068BF48"
+    },
+    {
+      "relativePath": "C_Modulation\\C01_Classic_Chorus.json",
+      "size": 5989,
+      "sha256": "E4CA9BDAAE169DEFE1D8DCBA051C5874EF44C6613E1B632E18165B3C024E7AFD"
+    },
+    {
+      "relativePath": "C_Modulation\\C02_Rotary_Speaker.bin",
+      "size": 32768,
+      "sha256": "55147DCFDC09EBCCA91FBAC7A3D212D9083635CBB854E20126F5876BA909DDD0"
+    },
+    {
+      "relativePath": "C_Modulation\\C02_Rotary_Speaker.json",
+      "size": 8528,
+      "sha256": "272625E0A1EE46C322883A7741DD539010E769FD55A57B7989F79E9E3B7546BC"
+    },
+    {
+      "relativePath": "C_Modulation\\C03_Uni_Vibe.bin",
+      "size": 32768,
+      "sha256": "CCD5E993A4726B9C493B63054895831D2A2CA44F6068B7DC2F48E0420F96DCF4"
+    },
+    {
+      "relativePath": "C_Modulation\\C03_Uni_Vibe.json",
+      "size": 7885,
+      "sha256": "6B096C390BF1CEEDA7BCF26276E1B4C5F1E22BCDCE18C53C063CD6984AAE83B5"
+    },
+    {
+      "relativePath": "C_Modulation\\C04_Jet_Flanger.bin",
+      "size": 32768,
+      "sha256": "B969BF4D57A23D306F34B6EBE84C88FE98EC9AE56A9EE7E8F9259B5B4142FC51"
+    },
+    {
+      "relativePath": "C_Modulation\\C04_Jet_Flanger.json",
+      "size": 6003,
+      "sha256": "DB9E4FBA8D98F7FBA0889D71E20ADD42FA0958242AE8055A14C9A162BCCD7A89"
+    },
+    {
+      "relativePath": "C_Modulation\\C05_Auto_Wah.bin",
+      "size": 32768,
+      "sha256": "015CDFE2A8E2194A989BDD8E23280B8B1BA8BD014B0FAF0B100D3C9F375BA1A2"
+    },
+    {
+      "relativePath": "C_Modulation\\C05_Auto_Wah.json",
+      "size": 7154,
+      "sha256": "9E63ADD8FC51E915502E4CB8F88E7AE43FDDCC5D9CF0AB116533D707E8D1627F"
+    },
+    {
+      "relativePath": "C_Modulation\\C06_Deep_Phaser.bin",
+      "size": 32768,
+      "sha256": "BC6B320F938FDF27EEDBADCAEEFE3C6A1D287EBF8F20F88EBC4D66D8563AB052"
+    },
+    {
+      "relativePath": "C_Modulation\\C06_Deep_Phaser.json",
+      "size": 5984,
+      "sha256": "1FBFC652690E010A484870D1041B8367942564B63C34E2958E603C2031AB21B0"
+    },
+    {
+      "relativePath": "C_Modulation\\C07_Vibrato.bin",
+      "size": 32768,
+      "sha256": "84AF04C1951CB5308FE1CF9C59E607CB8257225A20D6C8CF037384AAFB719F72"
+    },
+    {
+      "relativePath": "C_Modulation\\C07_Vibrato.json",
+      "size": 5905,
+      "sha256": "5899ABBF7E81C1BB70574F7E4797A928A27E6BDE29D94D49FB02F422A5C0262C"
+    },
+    {
+      "relativePath": "C_Modulation\\C08_Tremolo.bin",
+      "size": 32768,
+      "sha256": "6336167FA11F00881F7FD070B187A51AFDF26BDF348A36BC78AF1B1574DDA4DB"
+    },
+    {
+      "relativePath": "C_Modulation\\C08_Tremolo.json",
+      "size": 5915,
+      "sha256": "0071E6413B4F420D36E5A2AD6C436EEE38CBE62E4D51D723BCA9A49E1947D25F"
+    },
+    {
+      "relativePath": "C_Modulation\\C09_Ensemble_Chorus.bin",
+      "size": 32768,
+      "sha256": "E4C5E5D6F8F99874D14A3DA81C301E909CBD8388DEA618F6C30E5F6D19F69C93"
+    },
+    {
+      "relativePath": "C_Modulation\\C09_Ensemble_Chorus.json",
+      "size": 9642,
+      "sha256": "6747FD9E5118BF79252DF7D11E051A5AC2D8A6F7D6A3C6B278F41B902DDE3391"
+    },
+    {
+      "relativePath": "C_Modulation\\C10_Harmonic_Tremolo.bin",
+      "size": 32768,
+      "sha256": "F02E73EC197E65AB019413337519450F28DB690F20BC445E706EE8454BCEED72"
+    },
+    {
+      "relativePath": "C_Modulation\\C10_Harmonic_Tremolo.json",
+      "size": 11830,
+      "sha256": "D04B16607AFD1CA05534287633E8CCAD581DF9D9B1BA5F431EF73D356F4BBF65"
+    },
+    {
+      "relativePath": "D_Drive\\D01_Tube_Screamer.bin",
+      "size": 32768,
+      "sha256": "48D02C8A0897F52BBF2CC764EC47A7E0F1143FEB116B33E9BFA6B211FEE62943"
+    },
+    {
+      "relativePath": "D_Drive\\D01_Tube_Screamer.json",
+      "size": 6919,
+      "sha256": "85E82C684D2189A8B937A6633670FDBC12335D2FCBCB211DE9A2F1351B48BA37"
+    },
+    {
+      "relativePath": "D_Drive\\D02_Big_Muff_Fuzz.bin",
+      "size": 32768,
+      "sha256": "36B9AB44E3B732410C6F89D8EE727FE20CB8EBF832D5F28B33D34322E1754BE8"
+    },
+    {
+      "relativePath": "D_Drive\\D02_Big_Muff_Fuzz.json",
+      "size": 6900,
+      "sha256": "9D61F992DAF736C0D51BC0C26C33AD712775F2E42D1A4E85C535491F23FCF5E6"
+    },
+    {
+      "relativePath": "D_Drive\\D03_Rat_Distortion.bin",
+      "size": 32768,
+      "sha256": "7B9D5CA575AD725EA48671DE7EF1DDD2E8AA5D9DCCDE7020FF0682106897BCCE"
+    },
+    {
+      "relativePath": "D_Drive\\D03_Rat_Distortion.json",
+      "size": 7006,
+      "sha256": "BAD01856832A5BE55C09E98083371F41A57B3A1E783E5161D384EBBA00EE153B"
+    },
+    {
+      "relativePath": "D_Drive\\D04_Octave_Fuzz.bin",
+      "size": 32768,
+      "sha256": "B215D7A0DABB7526BCD24CFB76C18245CD0CF66C4194F2FA8093A80CD2646ECA"
+    },
+    {
+      "relativePath": "D_Drive\\D04_Octave_Fuzz.json",
+      "size": 8363,
+      "sha256": "4E76AD91746ED7257DCA93266CA9852FEC04F90EFAA9DA585656775286ECB645"
+    },
+    {
+      "relativePath": "D_Drive\\D05_Bitcrusher.bin",
+      "size": 32768,
+      "sha256": "0E3B6119C6FBC41DDD449A3717EFF371981992D041206B5C41B5F47497AC716E"
+    },
+    {
+      "relativePath": "D_Drive\\D05_Bitcrusher.json",
+      "size": 7829,
+      "sha256": "2A8B03C701DAF280B0CD4959C96C8E5B0EF36CF61F7525E0AB71E2BE0DC3D9C7"
+    },
+    {
+      "relativePath": "D_Drive\\D06_Clean_Boost.bin",
+      "size": 32768,
+      "sha256": "F86B729B8C6B27C01F1B5A9AAA6FBEF9B0B272587164ED749F7FA0634BBC44DF"
+    },
+    {
+      "relativePath": "D_Drive\\D06_Clean_Boost.json",
+      "size": 6892,
+      "sha256": "0B1E3003B252424F7C04254800AE190DCB65517A0D7EE2D438F4204D612B95BF"
+    },
+    {
+      "relativePath": "D_Drive\\D07_Heavy_Metal.bin",
+      "size": 32768,
+      "sha256": "382DD3354469B5871DD05A68220A3C5874555E0C150260230501BE0BB6812741"
+    },
+    {
+      "relativePath": "D_Drive\\D07_Heavy_Metal.json",
+      "size": 8545,
+      "sha256": "8AB38C5D15BF8E85B5CA5880D998712C8CEDEFC6046E8D6B18FAF8BFD3F0CD5F"
+    },
+    {
+      "relativePath": "E_Dynamics\\E01_Studio_Compressor.bin",
+      "size": 32768,
+      "sha256": "BA83170FD385B55F6415F56148E8321A88B954ACAF982AAA1C8CA96491E3ED85"
+    },
+    {
+      "relativePath": "E_Dynamics\\E01_Studio_Compressor.json",
+      "size": 7099,
+      "sha256": "37EC221AD2EE7FA7E955728A226C281BD774A68EF6B8D27494774F63E5C511BF"
+    },
+    {
+      "relativePath": "E_Dynamics\\E02_Sidechain_Ducker.bin",
+      "size": 32768,
+      "sha256": "50286D0DCCBFB50B76B98F02D664E7DEE8F576924436209E32299B9E8BB1F759"
+    },
+    {
+      "relativePath": "E_Dynamics\\E02_Sidechain_Ducker.json",
+      "size": 7270,
+      "sha256": "DDEE7B38B43693F610432AE34DE55A4A7F42E83F345614499A8CBB8E3A7B0F95"
+    },
+    {
+      "relativePath": "E_Dynamics\\E03_Noise_Gate.bin",
+      "size": 32768,
+      "sha256": "04EFE43DDB968824CCC58C4D1C1CF02EE0B60A49205AABE5F5E4C87067EB5BF7"
+    },
+    {
+      "relativePath": "E_Dynamics\\E03_Noise_Gate.json",
+      "size": 7716,
+      "sha256": "0DB50D4DEAE740255EC94E7439DAF47B71D70350CF376767665BC423F75B952D"
+    },
+    {
+      "relativePath": "E_Dynamics\\E04_Parallel_Compressor.bin",
+      "size": 32768,
+      "sha256": "7A7DADB719DBEDC162DC4102F419CD200B29A423A45A8FD93E2792755BEE6E0C"
+    },
+    {
+      "relativePath": "E_Dynamics\\E04_Parallel_Compressor.json",
+      "size": 7527,
+      "sha256": "82ACF5B093CBBC2C460F91743D8FCF09F6EE981064E0C9ADC2F84155CBAEF3D8"
+    },
+    {
+      "relativePath": "F_Spatial\\F01_Stereo_Widener.bin",
+      "size": 32768,
+      "sha256": "1569FF1C51E0899247E6D5F83572764F5BF0E830D09A6B55F2CD8E4C58BF3C69"
+    },
+    {
+      "relativePath": "F_Spatial\\F01_Stereo_Widener.json",
+      "size": 5906,
+      "sha256": "D07056E3566D7E7D332D608DCCE83F8250A31FA34EFC82C093FD4AB47F34B4F2"
+    },
+    {
+      "relativePath": "F_Spatial\\F02_Auto_Panner.bin",
+      "size": 32768,
+      "sha256": "42D146DFE18E79DE4046FB43F43B049D292547B3CBBFA21E045808C22CD214A3"
+    },
+    {
+      "relativePath": "F_Spatial\\F02_Auto_Panner.json",
+      "size": 6625,
+      "sha256": "0C830CBF0505F857030B72255001B43361E084712E45E9F9135EAEDD35979D6D"
+    },
+    {
+      "relativePath": "F_Spatial\\F03_Haas_Stereo.bin",
+      "size": 32768,
+      "sha256": "09A49529EA4758E08999F42CE2CBBAEC433D2E3ECE91524C5D7728A407B5BA6B"
+    },
+    {
+      "relativePath": "F_Spatial\\F03_Haas_Stereo.json",
+      "size": 6118,
+      "sha256": "3AFDD5CA945FAF5DCDA295AA0B558E920F491A1F5069EBCE14A17BB7AEAAFB6E"
+    },
+    {
+      "relativePath": "F_Spatial\\F04_Mid_Side_Processor.bin",
+      "size": 32768,
+      "sha256": "B85553FC1CA7C3D9488CFD17D08D880235352834327826D4E2CA8FF7AA1EFE95"
+    },
+    {
+      "relativePath": "F_Spatial\\F04_Mid_Side_Processor.json",
+      "size": 7094,
+      "sha256": "B27212F10BF4663838970491479F755301F145B4AC0DE5FBE37322906B8A125F"
+    },
+    {
+      "relativePath": "F_Spatial\\F05_Micro_Pitch_Widen.bin",
+      "size": 32768,
+      "sha256": "F272EA501C452623A75FA8BC544B7CD2D2308DDB099FA2E4E7A676928AC65B03"
+    },
+    {
+      "relativePath": "F_Spatial\\F05_Micro_Pitch_Widen.json",
+      "size": 6854,
+      "sha256": "662C9DDE299F9CFDD728BE589638EE619C691F57E85BA19A5FDAF6D0356AAC1D"
+    },
+    {
+      "relativePath": "G_Looping\\G01_Basic_Looper.bin",
+      "size": 32768,
+      "sha256": "91309DC3F5356EFD603EFD769785523235F957E915E01C1CD644B786E06882D0"
+    },
+    {
+      "relativePath": "G_Looping\\G01_Basic_Looper.json",
+      "size": 7915,
+      "sha256": "3121C35896A452CE822198A42E85C50717CAC9D7E94882DF4B8D33B3CC76F269"
+    },
+    {
+      "relativePath": "G_Looping\\G02_Granular_Freeze.bin",
+      "size": 32768,
+      "sha256": "5093CDC9CB98B872AC34DA2C13C1D25305993F92B0319CC3EA91B841DB7A6DDF"
+    },
+    {
+      "relativePath": "G_Looping\\G02_Granular_Freeze.json",
+      "size": 7736,
+      "sha256": "4FFA6F78CEAA914BB5B6108D8538AAD46124EF02A676EAD4175CBD1996C699E2"
+    },
+    {
+      "relativePath": "G_Looping\\G03_Stutter_Effect.bin",
+      "size": 32768,
+      "sha256": "6A0E06449E4148599A3C1461BFC116208CD22846809146E5D06B8AFDC285EC68"
+    },
+    {
+      "relativePath": "G_Looping\\G03_Stutter_Effect.json",
+      "size": 7359,
+      "sha256": "5EF7EEAA3EA18ADC603681952CBB2EAF43925D37B5E39613220DBDB5066F22C1"
+    },
+    {
+      "relativePath": "G_Looping\\G04_Ambient_Looper.bin",
+      "size": 32768,
+      "sha256": "70885E5453A9C69B4EB20801532829F288FCE2BD14C8D55FCFCEC65167D25B95"
+    },
+    {
+      "relativePath": "G_Looping\\G04_Ambient_Looper.json",
+      "size": 7625,
+      "sha256": "F43DEC64D26A658981A55D501136580F848B26E4E740992DDF62C17FEDB6F56B"
+    },
+    {
+      "relativePath": "H_Synths\\H01_Mono_Synth.bin",
+      "size": 32768,
+      "sha256": "DD40801A89A74922FA3C7802C975578AA559AD01B005267434B2250AF695792E"
+    },
+    {
+      "relativePath": "H_Synths\\H01_Mono_Synth.json",
+      "size": 6776,
+      "sha256": "1C0A1B76AA82D4589EB206887012E67AE894B600B0D56DEF28644AAC37E05CEA"
+    },
+    {
+      "relativePath": "H_Synths\\H02_Drone_Generator.bin",
+      "size": 32768,
+      "sha256": "0B947FB1DF706EEAD52922D7BB8DD476DB04386201AC5CECF5E9EF7888AE0548"
+    },
+    {
+      "relativePath": "H_Synths\\H02_Drone_Generator.json",
+      "size": 7577,
+      "sha256": "9D079A1411E89C695588BF46C63BAB8F79AACEC15EC090CE951FEA172E9C747F"
+    },
+    {
+      "relativePath": "H_Synths\\H03_Acid_Bass_303.bin",
+      "size": 32768,
+      "sha256": "EAA010214899E7C8410EE1225E014A399DDFE4DD55E5D33155FED674F67C4F97"
+    },
+    {
+      "relativePath": "H_Synths\\H03_Acid_Bass_303.json",
+      "size": 7712,
+      "sha256": "73325F114EA6FA799239D4480ABE4A8BB6EF8F8A3BE2162C804C770B18EE8D94"
+    },
+    {
+      "relativePath": "H_Synths\\H04_Pad_Synth.bin",
+      "size": 32768,
+      "sha256": "3BCF9165FC4BDEB53F04EECB634395BA8BAAC6796771CD5C1B8A7AC164745540"
+    },
+    {
+      "relativePath": "H_Synths\\H04_Pad_Synth.json",
+      "size": 9584,
+      "sha256": "EF17DD56A6B1D084200F5CAF8D08DF3BC7084530AD14487DC78AECE56E9DA8FB"
+    },
+    {
+      "relativePath": "H_Synths\\H05_Noise_Synth.bin",
+      "size": 32768,
+      "sha256": "71012EBA8F4BA28F92AFA98AF4A24957E95D0382804C7209FFB909CBBED9FA25"
+    },
+    {
+      "relativePath": "H_Synths\\H05_Noise_Synth.json",
+      "size": 6821,
+      "sha256": "03D59D71C68B3F2B08C576AC5750D7C93695DD8ECA2A7BB96D4BFEBB7AB9B6FD"
+    },
+    {
+      "relativePath": "H_Synths\\H06_FM_Synth.bin",
+      "size": 32768,
+      "sha256": "65DEDAE607781A539509D68EBCDEDDC45CC57FC38C588DDCF5E1A697837173F6"
+    },
+    {
+      "relativePath": "H_Synths\\H06_FM_Synth.json",
+      "size": 8494,
+      "sha256": "5626DC6CAE7D63492BC7CE033C9D2CED210C24B9EA67F6868507FC4ABD3ED071"
+    },
+    {
+      "relativePath": "H_Synths\\H07_Lead_Synth.bin",
+      "size": 32768,
+      "sha256": "6E770950333482EF71CDA03990243D1E6BC0818A1696870EFC9CAEEA7752F989"
+    },
+    {
+      "relativePath": "H_Synths\\H07_Lead_Synth.json",
+      "size": 11541,
+      "sha256": "136058B8A2A3919C953FAA3464E4098188317FDB64FFF2638E1AB34A0D7F0DB9"
+    },
+    {
+      "relativePath": "H_Synths\\H08_Sub_Bass.bin",
+      "size": 32768,
+      "sha256": "B4DAA0D8A2E3A8E9CDC2EF8360558BB99A59474DDC696B8DB27195088371ECB2"
+    },
+    {
+      "relativePath": "H_Synths\\H08_Sub_Bass.json",
+      "size": 6646,
+      "sha256": "108F4053A7A84C7F47D1B2211DA5882B20DF4A57A791031E3C72070BFCFA1C12"
+    },
+    {
+      "relativePath": "I_Creative\\I01_Guitar_Amp_Sim.bin",
+      "size": 32768,
+      "sha256": "F0014881B4DAE87D1E276961520F2AC0AF7B9C7FB8EAF9A0B406E38C2C7272E0"
+    },
+    {
+      "relativePath": "I_Creative\\I01_Guitar_Amp_Sim.json",
+      "size": 8554,
+      "sha256": "ECE0EEF075FB7632BFB30892E18E8BE59CE6EB46EE988E1786B5E1D81E384809"
+    },
+    {
+      "relativePath": "I_Creative\\I02_Ring_Modulator.bin",
+      "size": 32768,
+      "sha256": "ED9A50378CAC33A06ED818777C47472E3545A8E15CBC3ECBE9A7DA2B5B4ACA52"
+    },
+    {
+      "relativePath": "I_Creative\\I02_Ring_Modulator.json",
+      "size": 7988,
+      "sha256": "4E19A965DDE4E4CE6944E6DA338DBB579BE48938A1D8E5FCC09B5F8D015E5C9C"
+    },
+    {
+      "relativePath": "I_Creative\\I03_Granular_Pitch_Shift.bin",
+      "size": 32768,
+      "sha256": "C96698FD226E2BDF398C68CCDDE2628B5902C6E0AB2AABC9E2A0F0E675F7BDF5"
+    },
+    {
+      "relativePath": "I_Creative\\I03_Granular_Pitch_Shift.json",
+      "size": 6122,
+      "sha256": "4914C67AB9CE3CFC18C32907A7D11FABB05A27E8EFAE908255672FC85E4A423D"
+    },
+    {
+      "relativePath": "I_Creative\\I04_Vocal_Doubler.bin",
+      "size": 32768,
+      "sha256": "B059CB0609E4CBEE5231B4AF699BEB615F4EB5033E0735A80DA252423AE63C25"
+    },
+    {
+      "relativePath": "I_Creative\\I04_Vocal_Doubler.json",
+      "size": 8787,
+      "sha256": "36C3D825E8BD1AC7A615450ECEA1F3184894FA1CEAC7158A8377522CB16628C8"
+    },
+    {
+      "relativePath": "I_Creative\\I05_Pitch_Shifter.bin",
+      "size": 32768,
+      "sha256": "298BFC3720EDD27BDD032D53167C7535A30CC5C00B8F4C004F51722D430B2ED4"
+    },
+    {
+      "relativePath": "I_Creative\\I05_Pitch_Shifter.json",
+      "size": 7326,
+      "sha256": "BC10BC107694C49A8A6768EF76FE350EEC9729D5F42096665A9073CF7B019A12"
+    },
+    {
+      "relativePath": "I_Creative\\I06_Tape_Saturation.bin",
+      "size": 32768,
+      "sha256": "C33E27F924CCF30E1260ABFD3EFB2C5FD14D2AEE920958F03EDD756C3ACF6E33"
+    },
+    {
+      "relativePath": "I_Creative\\I06_Tape_Saturation.json",
+      "size": 8012,
+      "sha256": "8585D444396A548FBB968A9C9C2BA2D3BCF1C5AABB97F9D95AE0D4D05B875C57"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J01_Clean_Pedalboard.bin",
+      "size": 32768,
+      "sha256": "A89CB844D1D251A8A23C011F14C8B15C1866A0086AB84041624555AFF8458BF8"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J01_Clean_Pedalboard.json",
+      "size": 9016,
+      "sha256": "598D1C49F60BD7656359B4D14777C9302FE385F1E2652214B4AD1B9DE960D2D5"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J02_Rock_Pedalboard.bin",
+      "size": 32768,
+      "sha256": "A2A8C22CB6B58E155417E9309505BB98F2907BCB544AF41C44EF2147C90E9E69"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J02_Rock_Pedalboard.json",
+      "size": 9565,
+      "sha256": "0C0A524D4B7CF15A1EFAB3E606497B73667B0BDC07D27C19BC22214E53F97809"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J03_Ambient_Pedalboard.bin",
+      "size": 32768,
+      "sha256": "C25C58BE8B372D5039CEAC250B5FAC836BD2B09CB3B280483D291A00A65D40E0"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J03_Ambient_Pedalboard.json",
+      "size": 9807,
+      "sha256": "6694DA092498A7EDA9176C86BEAAA873CA2862F6B34FFAFC624B7E1EE1D7F88A"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J04_Blues_Pedalboard.bin",
+      "size": 32768,
+      "sha256": "78D167FE1921BBCA601643529C85A7E57E0DC9F87091F00136E700667C05EC87"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J04_Blues_Pedalboard.json",
+      "size": 8845,
+      "sha256": "E31DC4A5B452EAD29CF503AEABFFC6EFF1A0C6EC95FDCA16A49AD5F12B672936"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J05_Shoegaze_Pedalboard.bin",
+      "size": 32768,
+      "sha256": "9A129F6510B430B6558D67A15EE210667B72CC3EA9E22847A67EF5E489425B9B"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J05_Shoegaze_Pedalboard.json",
+      "size": 8904,
+      "sha256": "771EEDC0EA68639F7D37C447EA12A7294276E0B38754E305B8701D8CF9283085"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J06_Country_Pedalboard.bin",
+      "size": 32768,
+      "sha256": "0EB23D65255C4966782DACF406FD2DEAD2404923173FD70529B8A9CF3BF8B0C4"
+    },
+    {
+      "relativePath": "J_Pedalboards\\J06_Country_Pedalboard.json",
+      "size": 8919,
+      "sha256": "B31C51492CF985F3AF32DF8F055C77A59CF4D2C21C5EC74D0ED8100C6288607F"
+    },
+    {
+      "relativePath": "K_Drums\\K01_Kick_Drum.bin",
+      "size": 32768,
+      "sha256": "5EC24040D6F7FF285B1FB25A218093A1392BC2006F00995937130B8D53431A02"
+    },
+    {
+      "relativePath": "K_Drums\\K01_Kick_Drum.json",
+      "size": 5357,
+      "sha256": "6CF26109BB1C6C0CE50AD71854F36F350CF2357894409DAA560C5857AB6DBC06"
+    },
+    {
+      "relativePath": "K_Drums\\K02_4Voice_Drum_Kit.bin",
+      "size": 32768,
+      "sha256": "8D7C8CA8BA9BFF656278CFA72331E551E4102FE5D6CDA78FD94A37074639BB53"
+    },
+    {
+      "relativePath": "K_Drums\\K02_4Voice_Drum_Kit.json",
+      "size": 19762,
+      "sha256": "B818C9DFFDF6308DA3CD1F49D6AE0DAED229128EAD230AFD21791F41041EC939"
+    },
+    {
+      "relativePath": "K_Drums\\K03_Minimal_Techno.bin",
+      "size": 32768,
+      "sha256": "A87FC555DE5A6D0199221B53FD5CCD2840AE299350515FB30D1A9E9F1130F9CE"
+    },
+    {
+      "relativePath": "K_Drums\\K03_Minimal_Techno.json",
+      "size": 13120,
+      "sha256": "35084FECF0303796F876CF9557D599444F68187E81E5BE41ECCB3B93CFCDCD77"
+    },
+    {
+      "relativePath": "K_Drums\\K04_Industrial_Drums.bin",
+      "size": 32768,
+      "sha256": "AD0856EB6F4F2087537F5E88A018770AF38D610D39B1EA0CDFD0459ECE56F9DB"
+    },
+    {
+      "relativePath": "K_Drums\\K04_Industrial_Drums.json",
+      "size": 12452,
+      "sha256": "3067E9B018F2300A199F7096DFD248658EC94D6911F331902BD6F8C5B6C2E8D7"
+    },
+    {
+      "relativePath": "K_Drums\\K05_Ambient_Percussion.bin",
+      "size": 32768,
+      "sha256": "BE778D3311E3F9E20511E90D7F71A2A598D478D09A3943B01892D2B02A21C8FC"
+    },
+    {
+      "relativePath": "K_Drums\\K05_Ambient_Percussion.json",
+      "size": 7699,
+      "sha256": "8B67C030D31E3FAFC81DB0AD9FA923F77083249A5DBFEC2BE0B9A68C158A912B"
+    },
+    {
+      "relativePath": "K_Drums\\K06_808_Kick.bin",
+      "size": 32768,
+      "sha256": "174CAF6E2A58FFFE7336A3580F14A552C9C68B40B619E2F21423F38E490ED9B2"
+    },
+    {
+      "relativePath": "K_Drums\\K06_808_Kick.json",
+      "size": 6555,
+      "sha256": "E9518F9ED2D941EBE3C1F5968EDC5EA2CABEAB738329C7F058CF9C7997883179"
+    },
+    {
+      "relativePath": "K_Drums\\K07_909_Kick.bin",
+      "size": 32768,
+      "sha256": "BA5569A6C6227EE14DBAB58905647D8F18D8B22138AC11372FCE5FB134AA190D"
+    },
+    {
+      "relativePath": "K_Drums\\K07_909_Kick.json",
+      "size": 8335,
+      "sha256": "7F24E506BCC035EE19CCD512E75820015C2E4456FFFEB5995DDF9567E7F36CF8"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L01_Arp_Synth.bin",
+      "size": 32768,
+      "sha256": "4E676223B6FD6172DD54E09466A75E3E9E5896FA52CD1E0518F113D05AF41B10"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L01_Arp_Synth.json",
+      "size": 10543,
+      "sha256": "1EAD933C91209CD7C2A0DC8BEBFFB9EFABC14FBF70A028A44B6E5099CBE354EA"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L02_Bass_Station.bin",
+      "size": 32768,
+      "sha256": "7CA397B3C6CC98621DD43C0B925385B230A089C8A8BB64199E2D490241788240"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L02_Bass_Station.json",
+      "size": 11557,
+      "sha256": "1014D94AF272C4D5AD2B789366D076D26881C297DFB24A6464E3420933BB13CC"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L03_Dub_Siren.bin",
+      "size": 32768,
+      "sha256": "0D80F917086F4B5FC65B8D6209DE8EFB6B99D8DCC0A6CEE4A940A9A249245D6C"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L03_Dub_Siren.json",
+      "size": 6672,
+      "sha256": "16853DBF44162BE7DFB7D29C540EDED0A2D0F2413755AFB62AFB83918A746FF6"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L04_Acid_Groove_Box.bin",
+      "size": 32768,
+      "sha256": "8FD43F6740E755C86F65BD6AC0FBDB05430B2E90B7BA1D7F910A893C08833EA8"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L04_Acid_Groove_Box.json",
+      "size": 9565,
+      "sha256": "B257300DB96D934836B1E6A839B7F83789F3A3D9F6E0D26FD2CA48D68A224AAD"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L05_Sample_Mangler.bin",
+      "size": 32768,
+      "sha256": "70A1A62EF16730DD84EBC45F87539BBA864C53D39F80C30C9DC7CC37420BE00A"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L05_Sample_Mangler.json",
+      "size": 10286,
+      "sha256": "8DB1EE43E1A2897FC1C5EFDACA8113B73102583424C471083505114FF7338FB0"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L06_House_Groove.bin",
+      "size": 32768,
+      "sha256": "CC408B98C5A6BB57A34ECE81888FE6E8F7E76AEB08091B1A0941F3AD9BEC711D"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L06_House_Groove.json",
+      "size": 13551,
+      "sha256": "A5D1859C1787BB9D2534FC6AC53AAA6BC8CA7327F7E13EBB33C626D80A62F924"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L07_Drone_Box.bin",
+      "size": 32768,
+      "sha256": "1CB4CD9B85CC9D09271AC0AD978D0B906161E55D1D2569C16BE7F8D062D82897"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L07_Drone_Box.json",
+      "size": 10462,
+      "sha256": "8C88F46ED9C4FDC980DCD7DAF0D9037CCEEB85D0DD2C85E1E03C3CE8D18C24FF"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L08_Generative_Bells.bin",
+      "size": 32768,
+      "sha256": "6C0CA128F98E91AA7D9535BBD04CA3F865FD8C6891F2BE22E956B18D417D2311"
+    },
+    {
+      "relativePath": "L_Touch_Synths\\L08_Generative_Bells.json",
+      "size": 7755,
+      "sha256": "AB5F8F01506398BA0D4AF38940842AFB163F876B43104EC94D17AB3D9EF37563"
+    }
+  ]
+}

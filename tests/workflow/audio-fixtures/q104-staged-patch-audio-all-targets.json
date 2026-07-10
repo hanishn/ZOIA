@@ -1,0 +1,660 @@
+{
+  "schemaVersion": "zoia.patch-audio-target-manifest.v1",
+  "version": "1.0",
+  "revision": 1,
+  "packet": "Q104 staged patch-level audio all-target classification",
+  "sourceManifest": "tests/workflow/canonical-patches/Test_Modules.manifest.json",
+  "canonicalRoot": "tests/workflow/canonical-patches/Test_Modules",
+  "sourceArchive": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules",
+  "criteria": {
+    "minMasterRmsForSignal": 0.0005,
+    "minMasterPeakForSignal": 0.005,
+    "minTestToneConnections": 1,
+    "sampleDurationMs": 2500,
+    "sampleIntervalMs": 50
+  },
+  "targetCount": 88,
+  "targets": [
+    {
+      "pairId": "PROTOTYPE_A01_Spring_Reverb",
+      "category": "_prototype",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Prototype external-input reverb/effect chain."
+    },
+    {
+      "pairId": "PROTOTYPE_H01_Mono_Synth",
+      "category": "_prototype",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Prototype synth patch requires keyboard, MIDI, or CV stimulus."
+    },
+    {
+      "pairId": "audit_batch",
+      "category": "_root",
+      "expectedStimulus": "none",
+      "expectedOutput": "classified",
+      "expectedClassification": "empty-audit-fixture",
+      "reason": "Root audit fixture with zero modules and zero connections."
+    },
+    {
+      "pairId": "A01_Spring_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A02_Plate_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A03_Hall_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A04_Shimmer_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A05_Ghostverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A06_Ambient_Wash",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A07_Gated_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A08_Reverse_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A09_Cathedral",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "A10_Room_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B01_Analog_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B02_Tape_Echo",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B03_Degrading_Loop",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B04_Multi_Tap_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B05_Ping_Pong_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B06_Grain_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B07_Slapback_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B08_Reverse_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B09_Ducking_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "B10_Modulated_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C01_Classic_Chorus",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C02_Rotary_Speaker",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C03_Uni_Vibe",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C04_Jet_Flanger",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C05_Auto_Wah",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C06_Deep_Phaser",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C07_Vibrato",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C08_Tremolo",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C09_Ensemble_Chorus",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "C10_Harmonic_Tremolo",
+      "category": "C_Modulation",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "D01_Tube_Screamer",
+      "category": "D_Drive",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "D02_Big_Muff_Fuzz",
+      "category": "D_Drive",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "D03_Rat_Distortion",
+      "category": "D_Drive",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "D04_Octave_Fuzz",
+      "category": "D_Drive",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "D05_Bitcrusher",
+      "category": "D_Drive",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "D06_Clean_Boost",
+      "category": "D_Drive",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "D07_Heavy_Metal",
+      "category": "D_Drive",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "E01_Studio_Compressor",
+      "category": "E_Dynamics",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "E02_Sidechain_Ducker",
+      "category": "E_Dynamics",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "E03_Noise_Gate",
+      "category": "E_Dynamics",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "E04_Parallel_Compressor",
+      "category": "E_Dynamics",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "F01_Stereo_Widener",
+      "category": "F_Spatial",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "F02_Auto_Panner",
+      "category": "F_Spatial",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "F03_Haas_Stereo",
+      "category": "F_Spatial",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "F04_Mid_Side_Processor",
+      "category": "F_Spatial",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "F05_Micro_Pitch_Widen",
+      "category": "F_Spatial",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "G01_Basic_Looper",
+      "category": "G_Looping",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "G02_Granular_Freeze",
+      "category": "G_Looping",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "G03_Stutter_Effect",
+      "category": "G_Looping",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "G04_Ambient_Looper",
+      "category": "G_Looping",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "H01_Mono_Synth",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "H02_Drone_Generator",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "H03_Acid_Bass_303",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "H04_Pad_Synth",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "H05_Noise_Synth",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "H06_FM_Synth",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "H07_Lead_Synth",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "H08_Sub_Bass",
+      "category": "H_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "I01_Guitar_Amp_Sim",
+      "category": "I_Creative",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "I02_Ring_Modulator",
+      "category": "I_Creative",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "I03_Granular_Pitch_Shift",
+      "category": "I_Creative",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "I04_Vocal_Doubler",
+      "category": "I_Creative",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "I05_Pitch_Shifter",
+      "category": "I_Creative",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "I06_Tape_Saturation",
+      "category": "I_Creative",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "J01_Clean_Pedalboard",
+      "category": "J_Pedalboards",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "J02_Rock_Pedalboard",
+      "category": "J_Pedalboards",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "J03_Ambient_Pedalboard",
+      "category": "J_Pedalboards",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "J04_Blues_Pedalboard",
+      "category": "J_Pedalboards",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "J05_Shoegaze_Pedalboard",
+      "category": "J_Pedalboards",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "J06_Country_Pedalboard",
+      "category": "J_Pedalboards",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "External-input effect-style staged patch expected to pass signal from Audio Input to Audio Output."
+    },
+    {
+      "pairId": "K01_Kick_Drum",
+      "category": "K_Drums",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "K02_4Voice_Drum_Kit",
+      "category": "K_Drums",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "K03_Minimal_Techno",
+      "category": "K_Drums",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "K04_Industrial_Drums",
+      "category": "K_Drums",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "K05_Ambient_Percussion",
+      "category": "K_Drums",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "K06_808_Kick",
+      "category": "K_Drums",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "K07_909_Kick",
+      "category": "K_Drums",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L01_Arp_Synth",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L02_Bass_Station",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L03_Dub_Siren",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L04_Acid_Groove_Box",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L05_Sample_Mangler",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L06_House_Groove",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L07_Drone_Box",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    },
+    {
+      "pairId": "L08_Generative_Bells",
+      "category": "L_Touch_Synths",
+      "expectedStimulus": "keyboard-midi-cv",
+      "expectedOutput": "classified",
+      "expectedClassification": "patch-requires-external-input-midi-cv",
+      "reason": "Synth, drum, or touch-synth patch requires keyboard, MIDI, CV, clock, touch, or sequenced stimulus beyond the test-tone slice."
+    }
+  ]
+}

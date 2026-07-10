@@ -1,29 +1,99 @@
-# ZOIA Active Test Workflow
+# ZOIA Emulator
 
-Version: 1.0
+Version: 1.1
 
-Revision: 1
+Revision: 2
 
-## Scope
+This repository contains the ZOIA emulator source, a small shared SSL support package, and deterministic parser/browser/audio evidence tests.
 
-This repository contains the active ZOIA parser, exhibit test workflow, shared SSL provenance package, and deterministic evidence runners.
+## Repository Layout
 
-It does not contain public release approval for community patch binaries, generated evidence archives, installer zips, or binary export fidelity claims.
+```text
+products/zoia/              Active ZOIA emulator product source
+products/zoia/index.html    Browser entrypoint for the emulator
+shared/ssl/                 Shared SSL package candidates used by ZOIA
+tests/parser-harness/       Parser fixture harness, schemas, manifests, and no-magic-number linter
+tests/workflow/             Playwright, audio, patch-library, CI, and evidence workflow scripts
+.github/workflows/          GitHub Actions CI gates
+```
 
-## Primary Commands
+## Requirements
+
+- Node.js 22
+- npm
+- Playwright Chromium dependencies installed by `npx playwright install chromium`
+- PowerShell for the patch-library cache preparation script
+
+## Install
 
 ```text
 npm ci
-npm run zoia:test:ci
+npx playwright install chromium
 ```
 
-## Publication Gate
+## Run The Emulator
 
 ```text
-npm run zoia:test:publication
+npm run zoia:serve
 ```
 
-This runs local CI gates, prepares the patch-library cache, and runs the full community audio classification gate.
+Open:
+
+```text
+http://127.0.0.1:5173/products/zoia/index.html
+```
+
+The active product entrypoint is also available at:
+
+```text
+products/zoia/index.html
+```
+
+## Run The Core Test Gates
+
+```text
+npm test
+```
+
+This runs:
+
+- shared SSL package provenance verification
+- SSL rebaseline proof generation
+- parser harness and no-magic-number checks
+- staged patch audio gate when canonical staged patches are present
+- Q106 community-audio packaging verification when the local community evidence baseline is present
+
+## Parser Harness
+
+```text
+npm run zoia:test:parser
+```
+
+The parser harness uses read-only fixture references from:
+
+```text
+tests/parser-harness/fixtures/manifests/zoia-fixture-manifest.json
+```
+
+Generated parser outputs are ignored under:
+
+```text
+tests/parser-harness/results/
+```
+
+## Patch Library Workflow
+
+Community patch binaries are not committed. To prepare the local patch-library cache, place `.ZoiaLibraryApp_2_8_2026.zip` at the repository root and run:
+
+```text
+npm run zoia:patch-library:prepare
+```
+
+Generated cache files are ignored under:
+
+```text
+tests/workflow/patch-library-cache/
+```
 
 ## Current Evidence Baselines
 
@@ -32,39 +102,26 @@ This runs local CI gates, prepares the patch-library cache, and runs the full co
 - Community audio packaging baseline: 1884 fixtures, 1123 signal-present, 761 classified, 0 failures.
 - Shared SSL package provenance: 2 migrated assets, 0 hash failures.
 
-## Shared SSL Package
+Generated evidence is ignored by Git and should be archived separately when it is used as a review baseline.
 
-Local package:
+## Private Fixture Inputs
 
-```text
-SharedSSL/zoia-shared-ssl
-```
+Some deep gates require private or rights-sensitive patch inputs that are intentionally not committed:
 
-Current migrated candidates:
+- canonical staged patch binaries under `tests/workflow/canonical-patches/Test_Modules/`
+- community patch-library cache files under `tests/workflow/patch-library-cache/`
+- generated evidence baselines under `tests/workflow/evidence/`
 
-- `constants.js`
-- `midi.js`
-
-The active test workflow imports the package for provenance and rebaseline proof. The HTML exhibit runtime does not yet execute these migrated browser assets.
-
-## Repository Boundaries
-
-Commit source, scripts, manifests, workflows, and package metadata.
-
-Do not commit generated evidence, parser result outputs, patch-library cache files, canonical patch binaries, installer zips, `node_modules`, or generated PDFs/HTML by default.
-
-See:
-
-```text
-GITHUB_READINESS.md
-```
+`npm test` is the clone-safe gate. It verifies source wiring, package provenance, parser linting, and any local optional evidence inputs that are present.
 
 ## Claim Boundaries
 
-Do not claim binary export fidelity.
+- No binary export fidelity claim.
+- No full audio correctness claim beyond deterministic analyser evidence.
+- No public distribution rights claim for community patch binaries.
+- No emulator completeness claim.
+- The HTML runtime does not yet execute all migrated shared SSL browser assets.
 
-Do not claim full audio correctness beyond deterministic analyser evidence.
+## License
 
-Do not claim public distribution rights for community patches.
-
-Do not claim the HTML exhibit runtime consumes shared SSL browser assets until that runtime path is implemented and gated.
+Apache License 2.0. See `LICENSE`.

@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "zoia.patch-audio-target-manifest.v0",
+  "version": "1.0",
+  "revision": 1,
+  "packet": "Q101 staged patch-level audio validation targets",
+  "sourceManifest": "tests/workflow/canonical-patches/Test_Modules.manifest.json",
+  "canonicalRoot": "tests/workflow/canonical-patches/Test_Modules",
+  "sourceArchive": "G:\\Projects\\MigrationProcess\\ArchiveExtractionStaging\\2026-07-06\\zoia_emulator_v4.0\\backup_2026-02-20_v4.0.54\\Test_Modules",
+  "criteria": {
+    "minMasterRmsForSignal": 0.0005,
+    "minMasterPeakForSignal": 0.005,
+    "minTestToneConnections": 1,
+    "sampleDurationMs": 2500,
+    "sampleIntervalMs": 50
+  },
+  "targets": [
+    {
+      "pairId": "A01_Spring_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Audio Input through reverb/effect chain to Audio Output."
+    },
+    {
+      "pairId": "A02_Plate_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Audio Input through plate reverb/effect chain to Audio Output."
+    },
+    {
+      "pairId": "A04_Shimmer_Reverb",
+      "category": "A_Reverbs",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Audio Input through advanced reverb/effect chain to Audio Output."
+    },
+    {
+      "pairId": "B01_Analog_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Audio Input through delay chain to Audio Output."
+    },
+    {
+      "pairId": "B05_Ping_Pong_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Audio Input through stereo delay-style chain to Audio Output."
+    },
+    {
+      "pairId": "B10_Modulated_Delay",
+      "category": "B_Delays",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Audio Input through modulated delay chain to Audio Output."
+    },
+    {
+      "pairId": "J03_Ambient_Pedalboard",
+      "category": "J_Pedalboards",
+      "expectedStimulus": "test-tone",
+      "expectedOutput": "signal",
+      "reason": "Pedalboard-style external-input patch with multiple effects."
+    },
+    {
+      "pairId": "H01_Mono_Synth",
+      "category": "H_Synths",
+      "expectedStimulus": "none",
+      "expectedOutput": "classified",
+      "reason": "Synth patch included as a control for patches requiring keyboard/MIDI/CV interaction."
+    },
+    {
+      "pairId": "PROTOTYPE_H01_Mono_Synth",
+      "category": "_prototype",
+      "expectedStimulus": "none",
+      "expectedOutput": "classified",
+      "reason": "Prototype synth patch included as a control for patches requiring keyboard/MIDI/CV interaction."
+    }
+  ]
+}

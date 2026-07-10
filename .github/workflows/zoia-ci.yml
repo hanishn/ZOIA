@@ -34,4 +34,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: zoia-ci-evidence
-          path: TestWorkflow/evidence/q109-ci-gate-integration
+          path: tests/workflow/evidence/q109-ci-gate-integration

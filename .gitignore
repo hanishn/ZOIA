@@ -1,17 +1,17 @@
 node_modules/
 
 # Generated test evidence and local logs
-ParserHarness/zoia-parser-fixture-harness/results/
-TestWorkflow/evidence/
-TestWorkflow/playwright/evidence/
-TestWorkflow/logs/
+tests/parser-harness/results/
+tests/workflow/evidence/
+tests/workflow/playwright/evidence/
+tests/workflow/logs/
 
 # Cached community patch-library downloads and extracted patch files
-TestWorkflow/patch-library-cache/
+tests/workflow/patch-library-cache/
 
 # Canonical patch binaries/data are provenance inputs, not source code.
-TestWorkflow/canonical-patches/Test_Modules/
-!TestWorkflow/canonical-patches/Test_Modules.manifest.json
+tests/workflow/canonical-patches/Test_Modules/
+!tests/workflow/canonical-patches/Test_Modules.manifest.json
 
 # Generated local review reports
 Reports/
