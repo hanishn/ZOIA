@@ -1,8 +1,8 @@
 # ZOIA Validation
 
-Version: 0.2.0
+Version: 0.3.0
 
-Revision: 1
+Revision: 2
 
 This document defines the validation gates for the ZOIA Emulator repository.
 
@@ -17,6 +17,7 @@ It does not prove:
 - full audio correctness
 - redistribution rights for community patch binaries
 - correctness for patch corpora that are not present during a given run
+- complete audio or playability correctness for community patches that are currently classified with invalid audio connection diagnostics, external stimulus requirements, unreachable output, no audio output, or no audio source
 
 ## Clone-Safe Gate
 
@@ -116,6 +117,88 @@ npm run zoia:test:audio
 
 This gate checks deterministic analyser evidence for staged/test patches. It does not prove full audio correctness. A patch can be classified instead of signal-present when it requires external input, MIDI, CV, unsupported routing, or intentionally silent behavior.
 
+## Trace Gates
+
+The v0.3 trace gates collect import, model, render, signal-flow, and audio-state evidence.
+
+Run the committed test-patch trace gate:
+
+```text
+npm run zoia:trace:test-patches
+npm run zoia:trace:validate
+```
+
+Current local evidence paths:
+
+```text
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\run-result.json
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\test-patches
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\summaries
+```
+
+Current test-patch trace result:
+
+```text
+88 patches
+88 traceable
+88 pass
+0 hard failures
+0 unknown modules
+0 invalid model connections
+```
+
+Run the community trace gate after preparing the local community patch cache:
+
+```text
+npm run zoia:trace:community
+npm run zoia:trace:validate:community
+```
+
+Current local evidence paths:
+
+```text
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\community-run-result.json
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\community-patches
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\community-summaries
+```
+
+Current community trace result:
+
+```text
+1884 cache entries
+1881 traceable ZOIA patch binaries
+3 classified non-patch AppleDouble resource-fork files
+0 hard trace failures
+0 signal-flow issue entries in failure-summary.json
+```
+
+The three classified non-patch files are:
+
+```text
+112362/112362.bin
+133506/133506_v1.bin
+133506/133506_v2.bin
+```
+
+Current community audio and playability classification counts:
+
+```text
+invalid-audio-connection: 1708
+audio-output-unreachable: 382
+external-input-required: 648
+no-audio-output: 335
+no-audio-source: 214
+audio-path-reachable: 6
+```
+
+Current unsupported community module counts:
+
+```text
+unsupportedModuleTypeCount: 0
+```
+
+The current blockers for any claim that all community patches produce correct audible output are the audio and playability classification counts above.
+
 ## Community Patch Gate
 
 Community patch binaries are not committed.
@@ -137,6 +220,13 @@ Then run:
 
 ```text
 npm run zoia:test:community
+```
+
+For trace classification, run:
+
+```text
+npm run zoia:trace:community
+npm run zoia:trace:validate:community
 ```
 
 Generated local cache files are ignored under:
@@ -176,6 +266,10 @@ Before a GitHub push, check:
 - `git status --short`
 - `npm run zoia:build`
 - `npm test`
+- `npm run zoia:trace:test-patches`
+- `npm run zoia:trace:validate`
+- `npm run zoia:trace:community`
+- `npm run zoia:trace:validate:community`
 - `npm run zoia:stage:github`
 - `RepositoryValidation/repository-staging-result.json`
 - `RepositoryValidation/pull-candidate/repository-validation-result.json`

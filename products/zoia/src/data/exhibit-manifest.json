@@ -4,6 +4,7 @@
     "products/zoia/src/scripts/modules/module-db.js",
     "products/zoia/src/scripts/modules/patch-parser.js",
     "products/zoia/src/scripts/modules/patch-state.js",
+    "products/zoia/src/scripts/modules/trace-diagnostics.js",
     "products/zoia/src/scripts/modules/sim-engine.js",
     "products/zoia/src/scripts/modules/sim-mod-effects.js",
     "products/zoia/src/scripts/modules/sim-mod-audio.js",

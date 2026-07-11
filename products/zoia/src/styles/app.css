@@ -165,6 +165,19 @@ html, body {
   background: #3a3a3a;
 }
 
+#diagnostics-panel {
+  min-height: 22px;
+  padding: 4px 10px;
+  background: #111;
+  border-bottom: 1px solid #2d2d2d;
+  color: #b8b8b8;
+  font-size: 11px;
+  line-height: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 /* ===== Main Container ===== */
 

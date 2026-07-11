@@ -1,6 +1,6 @@
 {
   "name": "zoia-emulator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "ZOIA emulator source, shared SSL support package, and deterministic parser/Playwright/audio test harness.",
   "scripts": {
@@ -28,6 +28,10 @@
     "zoia:test:playwright:staged-patch-audio": "node tests/workflow/playwright/run-zoia-playwright-staged-patch-audio-evidence.mjs",
     "zoia:test:playwright:community-audio": "node tests/workflow/playwright/run-zoia-playwright-community-audio-evidence.mjs",
     "zoia:test:playwright:test-patch-loader": "node tests/workflow/playwright/run-zoia-playwright-test-patch-loader-evidence.mjs",
+    "zoia:trace:test-patches": "node tests/workflow/playwright/run-zoia-playwright-trace-test-patches-evidence.mjs",
+    "zoia:trace:community": "node tests/workflow/playwright/run-zoia-playwright-trace-community-patches-evidence.mjs",
+    "zoia:trace:validate": "python tests/workflow/python/validate_trace_baseline.py",
+    "zoia:trace:validate:community": "python tests/workflow/python/validate_community_trace_baseline.py",
     "zoia:test:staged": "npm run zoia:test:playwright:staged-deep",
     "zoia:test:audio": "npm run zoia:test:playwright:staged-patch-audio",
     "zoia:test:community": "npm run zoia:test:playwright:community-audio",

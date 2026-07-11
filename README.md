@@ -1,12 +1,12 @@
 # ZOIA Emulator
 
-Version: 0.2.0
+Version: 0.3.0
 
-Revision: 4
+Revision: 1
 
-This repository contains the ZOIA Emulator `0.2.0` source tree, a prebuilt HTML exhibit, a local build script, committed staged test patches, and deterministic validation harnesses.
+This repository contains the ZOIA Emulator `0.3.0` source tree, a prebuilt HTML exhibit, a local build script, committed staged test patches, and deterministic validation harnesses.
 
-`0.2.0` is an evaluation baseline with a module-split browser source tree. It is not a complete ZOIA replacement and it does not claim binary export fidelity or full audio correctness.
+`0.3.0` adds import/model/render/signal-flow/audio trace evidence for staged test patches and the local community patch cache. It is not a complete ZOIA replacement and it does not claim binary export fidelity or full audio correctness.
 
 ## What This Version Does
 
@@ -16,6 +16,10 @@ This repository contains the ZOIA Emulator `0.2.0` source tree, a prebuilt HTML 
 - Loads and renders ZOIA patch data through the browser UI.
 - Loads embedded canonical test patches from the toolbar through `Test Patches`.
 - Includes staged/test patches for repeatable validation.
+- Writes per-patch trace bundles for import, normalized model, rendered UI state, signal-flow classification, and audio-engine state.
+- Runs repeatable Playwright trace collection for the 88 committed test patches.
+- Runs repeatable Playwright trace collection for the local 1,884-entry community patch cache when present.
+- Runs Python validators over generated trace evidence.
 - Runs clone-safe validation with `npm test`.
 - Runs deeper local validation when optional private/generated inputs are present.
 - Provides parser, Playwright, and audio-evidence harnesses used during development.
@@ -26,6 +30,8 @@ This repository contains the ZOIA Emulator `0.2.0` source tree, a prebuilt HTML 
 - Does not claim binary export fidelity.
 - Does not claim full audio correctness beyond deterministic analyser evidence already covered by tests.
 - Does not include community patch binaries or patch-library cache files.
+- Does not claim that every community patch produces correct audible output.
+- Does not prove DSP accuracy, hardware fidelity, or playability for the full community patch corpus.
 - Does not publish an npm package for external dependency use.
 - Does not yet make the HTML runtime consume every migrated shared SSL browser asset.
 
@@ -131,6 +137,15 @@ npm run zoia:test:staged
 npm run zoia:test:audio
 npm run zoia:test:community
 npm run zoia:test:playwright:test-patch-loader
+npm run zoia:trace:test-patches
+npm run zoia:trace:validate
+```
+
+Community trace gates, when the local community cache is present:
+
+```text
+npm run zoia:trace:community
+npm run zoia:trace:validate:community
 ```
 
 ## Parser Harness
@@ -172,20 +187,63 @@ Generated cache files are ignored under:
 tests/workflow/patch-library-cache/
 ```
 
+The community trace runner reads the local manifest:
+
+```text
+tests/workflow/patch-library-cache/zoia-patch-library-manifest.json
+```
+
+The runner normalizes older local manifest paths from:
+
+```text
+G:\Projects\MusicAndMidi\ZOIA\TestWorkflow\patch-library-cache
+```
+
+to:
+
+```text
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\patch-library-cache
+```
+
 ## Current Evidence Baselines
 
 - Parser harness: 86 pass, 1 quarantined, 0 blocked.
 - Staged audio: 88 fixtures, 63 signal-present, 25 classified, 0 failures.
+- Test patch trace baseline: 88 patches, 88 traceable, 0 hard failures.
+- Community trace baseline: 1884 entries, 1881 traceable patch binaries, 3 AppleDouble resource-fork files classified, 0 hard failures, 0 signal-flow issue entries in `failure-summary.json`.
 - Community audio packaging baseline: 1884 fixtures, 1123 signal-present, 761 classified, 0 failures.
 - Shared SSL package provenance: 2 migrated assets, 0 hash failures.
+
+Current community audio and playability classification counts:
+
+- `invalid-audio-connection`: 1756
+- `audio-output-unreachable`: 892
+- `external-input-required`: 648
+- `no-audio-output`: 335
+- `no-audio-source`: 225
+
+Current community unsupported module counts:
+
+- `unsupportedModuleTypeCount`: 0
+
+Remaining community gaps are audio and playability classifications, not trace hard failures or unknown module IDs.
+
+Trace evidence paths from the current local baseline:
+
+```text
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\run-result.json
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\community-run-result.json
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\summaries
+G:\Projects\MusicAndMidi\ZOIA\tests\workflow\evidence\v0.3-trace-baseline\community-summaries
+```
 
 Generated evidence is ignored by Git and should be archived separately when it is used as a review baseline.
 
 ## Version Status
 
-Current version: `0.2.0`
+Current version: `0.3.0`
 
-This version is suitable for source review, local emulator evaluation, rebuild validation, and test-harness review.
+This version is suitable for source review, local emulator evaluation, rebuild validation, test-harness review, and trace-baseline review.
 
 This version is not suitable as a public release claiming complete ZOIA compatibility.
 

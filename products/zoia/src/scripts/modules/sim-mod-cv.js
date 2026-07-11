@@ -2227,6 +2227,7 @@ ZOIA.sim._moduleFactories[10]  = ZOIA.sim._createSampleAndHold;
 ZOIA.sim._moduleFactories[17]  = ZOIA.sim._createCVInvert;
 ZOIA.sim._moduleFactories[18]  = ZOIA.sim._createSteps;
 ZOIA.sim._moduleFactories[19]  = ZOIA.sim._createSlewLimiter;
+ZOIA.sim._moduleFactories[21]  = ZOIA.sim._createCVDelay;
 ZOIA.sim._moduleFactories[22]  = ZOIA.sim._createMultiplier;
 ZOIA.sim._moduleFactories[31]  = ZOIA.sim._createInSwitch;
 ZOIA.sim._moduleFactories[32]  = ZOIA.sim._createOutSwitch;

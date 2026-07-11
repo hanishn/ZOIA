@@ -118,8 +118,8 @@ ZOIA.state = {
  * @returns {string} One of "audio", "gate", "cv", or "param".
  */
 ZOIA.getSignalType = function(mod, blockIdx) {
-  if (!mod.blocks || blockIdx >= mod.blocks.length) return "param";
-  var t = mod.blocks[blockIdx].t;
+  if (!mod.blocks || blockIdx >= mod.blocks.length || !mod.blocks[blockIdx]) return "param";
+  var t = mod.blocks[blockIdx].t || "unknown";
   if (t.indexOf('audio') >= 0) return "audio";
   if (t.indexOf('gate') >= 0) return "gate";
   if (t.indexOf('cv') >= 0) return "cv";
@@ -352,6 +352,7 @@ ZOIA.loadPatch = function(p) {
   ZOIA.updateLabels();
   if (s.currentView === 'hw') ZOIA.hardwareView.renderAll();
   else ZOIA.schematicView.renderAll();
+  if (ZOIA.traceDiagnostics && ZOIA.traceDiagnostics.updatePanel) ZOIA.traceDiagnostics.updatePanel();
 };
 
 /**

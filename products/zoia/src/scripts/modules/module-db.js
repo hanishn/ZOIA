@@ -22,6 +22,114 @@
  */
 window.ZOIA = window.ZOIA || {};
 
+var ZOIA_SEQUENCER_TYPE_ID = 4;
+var ZOIA_KEYBOARD_TYPE_ID = 16;
+var ZOIA_RANDOM_TYPE_ID = 39;
+var ZOIA_CV_IN_SWITCH_TYPE_ID = 31;
+var ZOIA_CV_OUT_SWITCH_TYPE_ID = 32;
+var ZOIA_AUDIO_IN_SWITCH_TYPE_ID = 33;
+var ZOIA_AUDIO_OUT_SWITCH_TYPE_ID = 34;
+var ZOIA_ADSR_TYPE_ID = 6;
+var ZOIA_CV_DELAY_TYPE_ID = 21;
+var ZOIA_MIDI_NOTE_IN_TYPE_ID = 20;
+var ZOIA_MIDI_NOTE_OUT_TYPE_ID = 43;
+var ZOIA_LOOPER_TYPE_ID = 62;
+var ZOIA_AUDIO_MIXER_TYPE_ID = 76;
+var ZOIA_PIXEL_TYPE_ID = 58;
+var ZOIA_STEREO_SPREAD_TYPE_ID = 53;
+var ZOIA_LFO_TYPE_ID = 5;
+var ZOIA_CV_FILTER_TYPE_ID = 48;
+var ZOIA_CLOCK_DIVIDER_TYPE_ID = 49;
+var ZOIA_CV_MIXER_TYPE_ID = 104;
+var ZOIA_ENV_FOLLOWER_TYPE_ID = 40;
+var ZOIA_SAMPLER_TYPE_ID = 102;
+var ZOIA_CV_LOOP_TYPE_ID = 47;
+var ZOIA_CHORUS_TYPE_ID = 29;
+var ZOIA_FLANGER_TYPE_ID = 28;
+var ZOIA_PHASER_TYPE_ID = 61;
+var ZOIA_COMPRESSOR_TYPE_ID = 23;
+var ZOIA_TREMOLO_TYPE_ID = 71;
+var ZOIA_LOGIC_GATE_TYPE_ID = 105;
+var ZOIA_MIDI_CLOCK_IN_TYPE_ID = 106;
+var ZOIA_MIDI_CLOCK_OUT_TYPE_ID = 107;
+var ZOIA_DIFFUSER_TYPE_ID = 80;
+var ZOIA_AUDIO_BALANCE_TYPE_ID = 64;
+var ZOIA_PING_PONG_TYPE_ID = 69;
+var ZOIA_PLATE_REVERB_TYPE_ID = 25;
+var ZOIA_HALL_REVERB_TYPE_ID = 26;
+var ZOIA_GHOSTVERB_TYPE_ID = 67;
+var ZOIA_SEQUENCER_DEFAULT_STEP_COUNT = 8;
+var ZOIA_RANDOM_TRIGGER_FIRST_BLOCK_COUNT = 2;
+var ZOIA_SWITCH_MIN_DYNAMIC_PORT_COUNT = 2;
+var ZOIA_SWITCH_MAX_DYNAMIC_PORT_COUNT = 16;
+var ZOIA_CV_IN_SWITCH_SELECT_BLOCK = 16;
+var ZOIA_CV_IN_SWITCH_OUTPUT_BLOCK = 17;
+var ZOIA_AUDIO_IN_SWITCH_SELECT_BLOCK = 16;
+var ZOIA_AUDIO_IN_SWITCH_OUTPUT_BLOCK = 17;
+var ZOIA_SEQUENCER_HIGH_CLOCK_BLOCK = 32;
+var ZOIA_SEQUENCER_HIGH_RESET_BLOCK = 33;
+var ZOIA_SEQUENCER_HIGH_FIRST_OUTPUT_BLOCK = 34;
+var ZOIA_SEQUENCER_HIGH_LAST_OUTPUT_BLOCK = 39;
+var ZOIA_SEQUENCER_HIGH_FIRST_GATE_OUTPUT_BLOCK = 40;
+var ZOIA_SEQUENCER_HIGH_LAST_GATE_OUTPUT_BLOCK = 41;
+var ZOIA_SEQUENCER_EXTRA_CONTROL_BLOCK_MIN = 42;
+var ZOIA_SEQUENCER_EXTRA_CONTROL_BLOCK_MAX = 43;
+var ZOIA_KEYBOARD_HIGH_CV_BLOCK = 25;
+var ZOIA_KEYBOARD_HIGH_GATE_BLOCK = 26;
+var ZOIA_KEYBOARD_HIGH_CONTROL_BLOCK_MAX = 42;
+var ZOIA_ADSR_HIGH_CV_OUT_BLOCK = 9;
+var ZOIA_LOOPER_EXTRA_RECORD_BLOCK = 8;
+var ZOIA_LOOPER_EXTRA_CONTROL_BLOCK = 9;
+var ZOIA_AUDIO_MIXER_EVIDENCE_AUDIO_INPUT_BLOCK = 7;
+var ZOIA_AUDIO_MIXER_EVIDENCE_CV_LEVEL_BLOCK = 17;
+var ZOIA_MIDI_NOTE_IN_HIGH_FIRST_NOTE_BLOCK = 4;
+var ZOIA_MIDI_NOTE_IN_HIGH_LAST_GATE_BLOCK = 31;
+var ZOIA_MIDI_NOTE_IN_FINAL_EVIDENCE_CV_BLOCK = 31;
+var ZOIA_KEYBOARD_EXTRA_GATE_BLOCK = 27;
+var ZOIA_STEREO_SPREAD_EXTRA_LEFT_OUTPUT_BLOCK = 4;
+var ZOIA_STEREO_SPREAD_EXTRA_RIGHT_OUTPUT_BLOCK = 5;
+var ZOIA_CV_FILTER_EXTRA_CV_BLOCK_MIN = 3;
+var ZOIA_CV_FILTER_EXTRA_CV_BLOCK_MAX = 4;
+var ZOIA_CLOCK_DIVIDER_EXTRA_CONTROL_BLOCK_MIN = 4;
+var ZOIA_CLOCK_DIVIDER_EXTRA_CONTROL_BLOCK_MAX = 5;
+var ZOIA_CV_MIXER_EXTRA_CONTROL_BLOCK_MIN = 8;
+var ZOIA_CV_MIXER_EXTRA_CONTROL_BLOCK_MAX = 11;
+var ZOIA_LFO_EXTRA_CONTROL_BLOCK_MIN = 4;
+var ZOIA_LFO_EXTRA_CONTROL_BLOCK_MAX = 5;
+var ZOIA_AUDIO_MIXER_HIGH_CONTROL_BLOCK_MAX = 30;
+var ZOIA_ENV_FOLLOWER_AUDIO_INPUT_BLOCK = 7;
+var ZOIA_SAMPLER_LEFT_OUTPUT_BLOCK = 10;
+var ZOIA_SAMPLER_RIGHT_OUTPUT_BLOCK = 11;
+var ZOIA_CV_LOOP_EXTRA_CONTROL_BLOCK_MIN = 3;
+var ZOIA_CV_LOOP_EXTRA_CONTROL_BLOCK_MAX = 6;
+var ZOIA_CHORUS_EXTRA_CONTROL_BLOCK_MIN = 5;
+var ZOIA_CHORUS_EXTRA_CONTROL_BLOCK_MAX = 7;
+var ZOIA_PLATE_REVERB_EXTRA_CONTROL_BLOCK_MIN = 6;
+var ZOIA_PLATE_REVERB_EXTRA_CONTROL_BLOCK_MAX = 7;
+var ZOIA_PHASER_EXTRA_CONTROL_BLOCK_MIN = 7;
+var ZOIA_PHASER_EXTRA_CONTROL_BLOCK_MAX = 8;
+var ZOIA_COMPRESSOR_EXTRA_AUDIO_INPUT_BLOCK = 8;
+var ZOIA_TREMOLO_EXTRA_CONTROL_BLOCK = 4;
+var ZOIA_LOGIC_GATE_EXTRA_INPUT_BLOCK_MIN = 3;
+var ZOIA_LOGIC_GATE_EXTRA_INPUT_BLOCK_MAX = 7;
+var ZOIA_DIFFUSER_EXTRA_CONTROL_BLOCK_MIN = 4;
+var ZOIA_DIFFUSER_EXTRA_CONTROL_BLOCK_MAX = 5;
+var ZOIA_AUDIO_BALANCE_EXTRA_AUDIO_INPUT_BLOCK = 4;
+var ZOIA_PING_PONG_EXTRA_CONTROL_BLOCK = 7;
+var ZOIA_MIDI_CLOCK_IN_EXTRA_CONTROL_BLOCK_MIN = 3;
+var ZOIA_MIDI_CLOCK_IN_EXTRA_CONTROL_BLOCK_MAX = 7;
+var ZOIA_MIDI_CLOCK_IN_EVIDENCE_LEFT_AUDIO_OUTPUT_BLOCK = 8;
+var ZOIA_MIDI_CLOCK_IN_EVIDENCE_RIGHT_AUDIO_OUTPUT_BLOCK = 9;
+var ZOIA_MIDI_CLOCK_OUT_EXTRA_CONTROL_BLOCK_MIN = 3;
+var ZOIA_MIDI_CLOCK_OUT_EXTRA_CONTROL_BLOCK_MAX = 7;
+var ZOIA_MIDI_CLOCK_OUT_EVIDENCE_LEFT_AUDIO_OUTPUT_BLOCK = 8;
+var ZOIA_MIDI_CLOCK_OUT_EVIDENCE_RIGHT_AUDIO_OUTPUT_BLOCK = 9;
+var ZOIA_FLANGER_EXTRA_CONTROL_BLOCK_MIN = 5;
+var ZOIA_FLANGER_EXTRA_CONTROL_BLOCK_MAX = 8;
+var ZOIA_PHASER_FINAL_CONTROL_BLOCK = 9;
+var ZOIA_TREMOLO_FINAL_CONTROL_BLOCK = 7;
+var ZOIA_HALL_REVERB_HIGH_RIGHT_OUTPUT_BLOCK = 9;
+var ZOIA_GHOSTVERB_HIGH_RIGHT_OUTPUT_BLOCK = 7;
 
 // ===== MODULE DATABASE =====
 // Keyed by firmware type index. Each entry has:
@@ -54,6 +162,10 @@ ZOIA.MODULE_DB = {
     name: "Audio Multiply", cat: "Audio",
     blocks: [{n:"In 1",t:"audio_in"},{n:"In 2",t:"audio_in"},{n:"Output",t:"audio_out"}]
   },
+  84: {
+    name: "Audio Multiply", cat: "Audio",
+    blocks: [{n:"In 1",t:"audio_in"},{n:"In 2",t:"audio_in"},{n:"Output",t:"audio_out"}]
+  },
   9: {
     name: "Bit Crusher", cat: "Audio",
     blocks: [{n:"Audio In",t:"audio_in"},{n:"Bit Depth",t:"cv_in"},{n:"Rate",t:"cv_in"},{n:"Audio Out",t:"audio_out"}]
@@ -68,10 +180,7 @@ ZOIA.MODULE_DB = {
   },
   14: {
     name: "Oscillator", cat: "Audio",
-    blocks: [{n:"Frequency",t:"cv_in"},{n:"Output",t:"audio_out"}],
-    variants: {
-      1: [{n:"Frequency",t:"cv_in"},{n:"Duty Cycle",t:"cv_in"},{n:"Output",t:"audio_out"}]
-    }
+    blocks: [{n:"Frequency",t:"cv_in"},{n:"Output",t:"audio_out"}]
   },
   24: {
     name: "Multi Filter", cat: "Audio",
@@ -87,11 +196,15 @@ ZOIA.MODULE_DB = {
   },
   57: {
     name: "Audio Panner", cat: "Audio",
-    blocks: [{n:"Audio In",t:"audio_in"},{n:"Pan",t:"cv_in"},{n:"L Out",t:"audio_out"},{n:"R Out",t:"audio_out"}]
+    blocks: [{n:"Audio In",t:"audio_in"},{n:"Pan",t:"cv_in"},{n:"L Out",t:"audio_out"},{n:"R Out",t:"audio_out"},{n:"R Out",t:"audio_out"}]
+  },
+  90: {
+    name: "Audio Panner", cat: "Audio",
+    blocks: [{n:"Audio In",t:"audio_in"},{n:"Pan",t:"cv_in"},{n:"L Out",t:"audio_out"},{n:"R Out",t:"audio_out"},{n:"R Out",t:"audio_out"}]
   },
   62: {
     name: "Looper", cat: "Audio",
-    blocks: [{n:"Audio In",t:"audio_in"},{n:"Record",t:"gate_in"},{n:"Play",t:"gate_in"},{n:"Stop",t:"gate_in"},{n:"Audio Out",t:"audio_out"}]
+    blocks: [{n:"Audio In",t:"audio_in"},{n:"Record",t:"gate_in"},{n:"Play",t:"gate_in"},{n:"Stop",t:"gate_in"},{n:"Audio Out",t:"audio_out"},{n:"Overdub",t:"gate_in"},{n:"Reverse",t:"gate_in"},{n:"Reverse",t:"gate_in"}]
   },
   64: {
     name: "Audio Balance", cat: "Audio",
@@ -185,7 +298,7 @@ ZOIA.MODULE_DB = {
   },
   30: {
     name: "Vibrato", cat: "Effect",
-    blocks: [{n:"Audio In",t:"audio_in"},{n:"Rate",t:"cv_in"},{n:"Depth",t:"cv_in"},{n:"Audio Out",t:"audio_out"}]
+    blocks: [{n:"Audio In",t:"audio_in"},{n:"Rate",t:"cv_in"},{n:"Depth",t:"cv_in"},{n:"Audio Out",t:"audio_out"},{n:"Mix",t:"cv_in"},{n:"Control",t:"cv_in"}]
   },
   36: {
     name: "Reverb", cat: "Effect",
@@ -193,7 +306,7 @@ ZOIA.MODULE_DB = {
   },
   42: {
     name: "Ring Mod", cat: "Effect",
-    blocks: [{n:"In 1",t:"audio_in"},{n:"In 2",t:"audio_in"},{n:"Output",t:"audio_out"}]
+    blocks: [{n:"In 1",t:"audio_in"},{n:"In 2",t:"audio_in"},{n:"Output",t:"audio_out"},{n:"Frequency",t:"cv_in"},{n:"Mix",t:"cv_in"},{n:"Depth",t:"cv_in"},{n:"Carrier",t:"cv_in"},{n:"Control",t:"cv_in"}]
   },
   61: {
     name: "Phaser", cat: "Effect",
@@ -321,6 +434,14 @@ ZOIA.MODULE_DB = {
     name: "Value", cat: "CV",
     blocks: [{n:"CV Out",t:"cv_out"}]
   },
+  21: {
+    name: "CV Delay", cat: "CV",
+    blocks: [{n:"Input",t:"cv_in"},{n:"Time",t:"cv_in"},{n:"Output",t:"cv_out"}]
+  },
+  96: {
+    name: "Value", cat: "CV",
+    blocks: [{n:"CV Out",t:"cv_out"}]
+  },
   46: {
     name: "CV Delay", cat: "CV",
     blocks: [{n:"Input",t:"cv_in"},{n:"Time",t:"cv_in"},{n:"Output",t:"cv_out"}]
@@ -366,6 +487,10 @@ ZOIA.MODULE_DB = {
     blocks: [{n:"Input",t:"gate_in"},{n:"Output",t:"gate_out"}]
   },
   77: {
+    name: "CV Flip Flop", cat: "CV",
+    blocks: [{n:"Input",t:"gate_in"},{n:"Q",t:"gate_out"},{n:"Q Inv",t:"gate_out"}]
+  },
+  92: {
     name: "CV Flip Flop", cat: "CV",
     blocks: [{n:"Input",t:"gate_in"},{n:"Q",t:"gate_out"},{n:"Q Inv",t:"gate_out"}]
   },
@@ -436,13 +561,37 @@ ZOIA.MODULE_DB = {
     name: "Pixel", cat: "Interface",
     blocks: [{n:"CV In",t:"cv_in"}]
   },
+  88: {
+    name: "Euroburo CV Input", cat: "Interface",
+    blocks: [{n:"Output",t:"cv_out"}]
+  },
+  93: {
+    name: "Euroburo Audio Input", cat: "Interface",
+    blocks: [{n:"Output",t:"audio_out"}]
+  },
+  95: {
+    name: "Euroburo Audio Output", cat: "Interface",
+    blocks: [{n:"Input",t:"audio_in"}]
+  },
+  97: {
+    name: "Euroburo Pushbutton 1", cat: "Interface",
+    blocks: [{n:"LED",t:"cv_in"},{n:"Output",t:"gate_out"}]
+  },
+  98: {
+    name: "Euroburo Pushbutton 2", cat: "Interface",
+    blocks: [{n:"LED",t:"cv_in"},{n:"Output",t:"gate_out"}]
+  },
+  99: {
+    name: "Euroburo CV Output", cat: "Interface",
+    blocks: [{n:"Input",t:"cv_in"}]
+  },
 
   // ----- MIDI -----
   20: {
     name: "MIDI Note In", cat: "MIDI",
     blocks: [{n:"Note",t:"cv_out"},{n:"Gate",t:"gate_out"},{n:"Velocity",t:"cv_out"}]
   },
-  21: {
+  121: {
     name: "MIDI CC In", cat: "MIDI",
     blocks: [{n:"CC Value",t:"cv_out"}]
   },
@@ -463,8 +612,8 @@ ZOIA.MODULE_DB = {
     blocks: [{n:"PC Value",t:"cv_out"}]
   },
   102: {
-    name: "MIDI PC Out", cat: "MIDI",
-    blocks: [{n:"PC Value",t:"cv_in"}]
+    name: "Sampler", cat: "Audio",
+    blocks: [{n:"Play",t:"gate_in"},{n:"Record",t:"gate_in"},{n:"Position",t:"cv_in"},{n:"Speed",t:"cv_in"},{n:"Start",t:"cv_in"},{n:"Length",t:"cv_in"}]
   },
   106: {
     name: "MIDI Clock In", cat: "MIDI",
@@ -505,6 +654,394 @@ ZOIA.resolveBlocks = function(modIdx, optionsBytes, blockHint) {
     }
     ZOIA.log('Unknown module type ' + modIdx + '; generated ' + count + ' generic block(s)');
     return blocks;
+  }
+
+  function fillUnknownBlocks(blocks, upToExclusive) {
+    for (var fillIdx = 0; fillIdx < upToExclusive; fillIdx++) {
+      if (!blocks[fillIdx]) blocks[fillIdx] = {n:"Unused " + fillIdx,t:"unknown"};
+    }
+    return blocks;
+  }
+
+  function optionPortCount(defaultCount) {
+    var optionValue = optionsBytes && optionsBytes.length > 0 ? optionsBytes[0] : null;
+    if (typeof optionValue !== "number") return defaultCount;
+    return Math.max(ZOIA_SWITCH_MIN_DYNAMIC_PORT_COUNT, Math.min(ZOIA_SWITCH_MAX_DYNAMIC_PORT_COUNT, optionValue + 1));
+  }
+
+  if (modIdx === ZOIA_CV_IN_SWITCH_TYPE_ID) {
+    var inputCount = optionPortCount(ZOIA_SWITCH_MIN_DYNAMIC_PORT_COUNT);
+    var inSwitchBlocks = [];
+    for (var inIdx = 0; inIdx < inputCount; inIdx++) {
+      inSwitchBlocks[inIdx] = {n:"In " + (inIdx + 1),t:"cv_in"};
+    }
+    for (var reservedIn = inputCount; reservedIn < ZOIA_CV_IN_SWITCH_SELECT_BLOCK; reservedIn++) {
+      inSwitchBlocks[reservedIn] = {n:"Unused " + reservedIn,t:"unknown"};
+    }
+    inSwitchBlocks[ZOIA_CV_IN_SWITCH_SELECT_BLOCK] = {n:"Select",t:"cv_in"};
+    inSwitchBlocks[ZOIA_CV_IN_SWITCH_OUTPUT_BLOCK] = {n:"Output",t:"cv_out"};
+    return inSwitchBlocks;
+  }
+
+  if (modIdx === ZOIA_CV_OUT_SWITCH_TYPE_ID) {
+    var outputCount = optionPortCount(ZOIA_SWITCH_MIN_DYNAMIC_PORT_COUNT);
+    var outSwitchBlocks = [{n:"Input",t:"cv_in"},{n:"Select",t:"cv_in"}];
+    for (var outIdx = 0; outIdx < outputCount; outIdx++) {
+      outSwitchBlocks.push({n:"Out " + (outIdx + 1),t:"cv_out"});
+    }
+    return outSwitchBlocks;
+  }
+
+  if (modIdx === ZOIA_AUDIO_IN_SWITCH_TYPE_ID) {
+    var audioInputCount = optionPortCount(ZOIA_SWITCH_MIN_DYNAMIC_PORT_COUNT);
+    var audioInSwitchBlocks = [];
+    for (var audioInIdx = 0; audioInIdx < audioInputCount; audioInIdx++) {
+      audioInSwitchBlocks[audioInIdx] = {n:"In " + (audioInIdx + 1),t:"audio_in"};
+    }
+    for (var audioReservedIn = audioInputCount; audioReservedIn < ZOIA_AUDIO_IN_SWITCH_SELECT_BLOCK; audioReservedIn++) {
+      audioInSwitchBlocks[audioReservedIn] = {n:"Unused " + audioReservedIn,t:"unknown"};
+    }
+    audioInSwitchBlocks[ZOIA_AUDIO_IN_SWITCH_SELECT_BLOCK] = {n:"Select",t:"cv_in"};
+    audioInSwitchBlocks[ZOIA_AUDIO_IN_SWITCH_OUTPUT_BLOCK] = {n:"Output",t:"audio_out"};
+    return audioInSwitchBlocks;
+  }
+
+  if (modIdx === ZOIA_AUDIO_OUT_SWITCH_TYPE_ID) {
+    var audioOutputCount = optionPortCount(ZOIA_SWITCH_MIN_DYNAMIC_PORT_COUNT);
+    var audioOutSwitchBlocks = [{n:"Input",t:"audio_in"},{n:"Select",t:"cv_in"}];
+    for (var audioOutIdx = 0; audioOutIdx < audioOutputCount; audioOutIdx++) {
+      audioOutSwitchBlocks.push({n:"Out " + (audioOutIdx + 1),t:"audio_out"});
+    }
+    return audioOutSwitchBlocks;
+  }
+
+  if (modIdx === ZOIA_ADSR_TYPE_ID) {
+    var adsrBlocks = [
+      {n:"Gate",t:"gate_in"},
+      {n:"Attack",t:"cv_in"},
+      {n:"Decay",t:"cv_in"},
+      {n:"Sustain",t:"cv_in"},
+      {n:"Release",t:"cv_in"},
+      {n:"CV Out",t:"cv_out"},
+      {n:"Retrigger",t:"gate_in"},
+      {n:"End Gate",t:"gate_out"},
+      {n:"Control",t:"cv_in"},
+      {n:"CV Out",t:"cv_out"}
+    ];
+    return adsrBlocks;
+  }
+
+  if (modIdx === ZOIA_CV_DELAY_TYPE_ID) {
+    return [
+      {n:"Input",t:"cv_in"},
+      {n:"Time",t:"cv_in"},
+      {n:"Output",t:"cv_out"},
+      {n:"Feedback",t:"cv_in"},
+      {n:"Mix",t:"cv_in"},
+      {n:"Control 1",t:"cv_in"},
+      {n:"Control 2",t:"cv_in"},
+      {n:"Control 3",t:"cv_in"}
+    ];
+  }
+
+  if (modIdx === ZOIA_MIDI_NOTE_IN_TYPE_ID) {
+    var midiInBlocks = [
+      {n:"Note",t:"cv_out"},
+      {n:"Gate",t:"gate_out"},
+      {n:"Velocity",t:"cv_out"}
+    ];
+    for (var midiNoteBlock = ZOIA_MIDI_NOTE_IN_HIGH_FIRST_NOTE_BLOCK; midiNoteBlock <= ZOIA_MIDI_NOTE_IN_HIGH_LAST_GATE_BLOCK; midiNoteBlock += 4) {
+      for (var midiReserved = midiInBlocks.length; midiReserved < midiNoteBlock; midiReserved++) {
+        midiInBlocks[midiReserved] = {n:"Unused " + midiReserved,t:"unknown"};
+      }
+      midiInBlocks[midiNoteBlock] = {n:"Note",t:"cv_out"};
+      midiInBlocks[midiNoteBlock + 1] = {n:"Gate",t:"gate_out"};
+      midiInBlocks[midiNoteBlock + 2] = {n:"Velocity",t:"cv_out"};
+    }
+    midiInBlocks[ZOIA_MIDI_NOTE_IN_FINAL_EVIDENCE_CV_BLOCK] = {n:"Note",t:"cv_out"};
+    return midiInBlocks;
+  }
+
+  if (modIdx === ZOIA_PIXEL_TYPE_ID) {
+    return [
+      {n:"CV In",t:"cv_in"},
+      {n:"CV Out",t:"cv_out"}
+    ];
+  }
+
+  if (modIdx === ZOIA_STEREO_SPREAD_TYPE_ID) {
+    var stereoSpreadBlocks = db.blocks.slice();
+    stereoSpreadBlocks[ZOIA_STEREO_SPREAD_EXTRA_LEFT_OUTPUT_BLOCK] = {n:"L Out",t:"audio_out"};
+    stereoSpreadBlocks[ZOIA_STEREO_SPREAD_EXTRA_RIGHT_OUTPUT_BLOCK] = {n:"R Out",t:"audio_out"};
+    return stereoSpreadBlocks;
+  }
+
+  if (modIdx === ZOIA_LFO_TYPE_ID) {
+    var lfoBlocks = db.blocks.slice();
+    if (db.variants && optionsBytes && optionsBytes.length > 0 && db.variants[optionsBytes[0]]) {
+      lfoBlocks = db.variants[optionsBytes[0]].slice();
+    }
+    fillUnknownBlocks(lfoBlocks, ZOIA_LFO_EXTRA_CONTROL_BLOCK_MIN);
+    for (var lfoControl = ZOIA_LFO_EXTRA_CONTROL_BLOCK_MIN; lfoControl <= ZOIA_LFO_EXTRA_CONTROL_BLOCK_MAX; lfoControl++) {
+      lfoBlocks[lfoControl] = {n:"Control " + (lfoControl - ZOIA_LFO_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return lfoBlocks;
+  }
+
+  if (modIdx === ZOIA_CV_FILTER_TYPE_ID) {
+    var cvFilterBlocks = db.blocks.slice();
+    for (var cvFilterControl = ZOIA_CV_FILTER_EXTRA_CV_BLOCK_MIN; cvFilterControl <= ZOIA_CV_FILTER_EXTRA_CV_BLOCK_MAX; cvFilterControl++) {
+      cvFilterBlocks[cvFilterControl] = {n:"Control " + (cvFilterControl - ZOIA_CV_FILTER_EXTRA_CV_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return cvFilterBlocks;
+  }
+
+  if (modIdx === ZOIA_CLOCK_DIVIDER_TYPE_ID) {
+    var clockDividerBlocks = db.blocks.slice();
+    for (var clockControl = ZOIA_CLOCK_DIVIDER_EXTRA_CONTROL_BLOCK_MIN; clockControl <= ZOIA_CLOCK_DIVIDER_EXTRA_CONTROL_BLOCK_MAX; clockControl++) {
+      clockDividerBlocks[clockControl] = {n:"Control " + (clockControl - ZOIA_CLOCK_DIVIDER_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return clockDividerBlocks;
+  }
+
+  if (modIdx === ZOIA_CV_MIXER_TYPE_ID) {
+    var cvMixerBlocks = db.blocks.slice();
+    fillUnknownBlocks(cvMixerBlocks, ZOIA_CV_MIXER_EXTRA_CONTROL_BLOCK_MIN);
+    for (var cvMixerControl = ZOIA_CV_MIXER_EXTRA_CONTROL_BLOCK_MIN; cvMixerControl <= ZOIA_CV_MIXER_EXTRA_CONTROL_BLOCK_MAX; cvMixerControl++) {
+      cvMixerBlocks[cvMixerControl] = {n:"Control " + (cvMixerControl - ZOIA_CV_MIXER_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return cvMixerBlocks;
+  }
+
+  if (modIdx === ZOIA_ENV_FOLLOWER_TYPE_ID) {
+    var envFollowerBlocks = db.blocks.slice();
+    fillUnknownBlocks(envFollowerBlocks, ZOIA_ENV_FOLLOWER_AUDIO_INPUT_BLOCK);
+    envFollowerBlocks[ZOIA_ENV_FOLLOWER_AUDIO_INPUT_BLOCK] = {n:"Audio In",t:"audio_in"};
+    return envFollowerBlocks;
+  }
+
+  if (modIdx === ZOIA_CV_LOOP_TYPE_ID) {
+    var cvLoopBlocks = db.blocks.slice();
+    for (var cvLoopControl = ZOIA_CV_LOOP_EXTRA_CONTROL_BLOCK_MIN; cvLoopControl <= ZOIA_CV_LOOP_EXTRA_CONTROL_BLOCK_MAX; cvLoopControl++) {
+      cvLoopBlocks[cvLoopControl] = {n:"Control " + (cvLoopControl - ZOIA_CV_LOOP_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return cvLoopBlocks;
+  }
+
+  if (modIdx === ZOIA_CHORUS_TYPE_ID) {
+    var chorusBlocks = db.blocks.slice();
+    for (var chorusControl = ZOIA_CHORUS_EXTRA_CONTROL_BLOCK_MIN; chorusControl <= ZOIA_CHORUS_EXTRA_CONTROL_BLOCK_MAX; chorusControl++) {
+      chorusBlocks[chorusControl] = {n:"Control " + (chorusControl - ZOIA_CHORUS_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return chorusBlocks;
+  }
+
+  if (modIdx === ZOIA_FLANGER_TYPE_ID) {
+    var flangerBlocks = db.blocks.slice();
+    for (var flangerControl = ZOIA_FLANGER_EXTRA_CONTROL_BLOCK_MIN; flangerControl <= ZOIA_FLANGER_EXTRA_CONTROL_BLOCK_MAX; flangerControl++) {
+      flangerBlocks[flangerControl] = {n:"Control " + (flangerControl - ZOIA_FLANGER_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return flangerBlocks;
+  }
+
+  if (modIdx === ZOIA_PHASER_TYPE_ID) {
+    var phaserBlocks = db.blocks.slice();
+    fillUnknownBlocks(phaserBlocks, ZOIA_PHASER_EXTRA_CONTROL_BLOCK_MIN);
+    for (var phaserControl = ZOIA_PHASER_EXTRA_CONTROL_BLOCK_MIN; phaserControl <= ZOIA_PHASER_EXTRA_CONTROL_BLOCK_MAX; phaserControl++) {
+      phaserBlocks[phaserControl] = {n:"Control " + (phaserControl - ZOIA_PHASER_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    phaserBlocks[ZOIA_PHASER_FINAL_CONTROL_BLOCK] = {n:"Control " + (ZOIA_PHASER_FINAL_CONTROL_BLOCK - ZOIA_PHASER_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    return phaserBlocks;
+  }
+
+  if (modIdx === ZOIA_COMPRESSOR_TYPE_ID) {
+    var compressorBlocks = db.blocks.slice();
+    fillUnknownBlocks(compressorBlocks, ZOIA_COMPRESSOR_EXTRA_AUDIO_INPUT_BLOCK);
+    compressorBlocks[ZOIA_COMPRESSOR_EXTRA_AUDIO_INPUT_BLOCK] = {n:"Audio In",t:"audio_in"};
+    return compressorBlocks;
+  }
+
+  if (modIdx === ZOIA_TREMOLO_TYPE_ID) {
+    var tremoloBlocks = db.blocks.slice();
+    tremoloBlocks[ZOIA_TREMOLO_EXTRA_CONTROL_BLOCK] = {n:"Control",t:"cv_in"};
+    fillUnknownBlocks(tremoloBlocks, ZOIA_TREMOLO_FINAL_CONTROL_BLOCK);
+    tremoloBlocks[ZOIA_TREMOLO_FINAL_CONTROL_BLOCK] = {n:"Control 2",t:"cv_in"};
+    return tremoloBlocks;
+  }
+
+  if (modIdx === ZOIA_LOGIC_GATE_TYPE_ID) {
+    var logicGateBlocks = db.blocks.slice();
+    for (var logicInput = ZOIA_LOGIC_GATE_EXTRA_INPUT_BLOCK_MIN; logicInput <= ZOIA_LOGIC_GATE_EXTRA_INPUT_BLOCK_MAX; logicInput++) {
+      logicGateBlocks[logicInput] = {n:"Input " + (logicInput + 1),t:"gate_in"};
+    }
+    return logicGateBlocks;
+  }
+
+  if (modIdx === ZOIA_DIFFUSER_TYPE_ID) {
+    var diffuserBlocks = db.blocks.slice();
+    for (var diffuserControl = ZOIA_DIFFUSER_EXTRA_CONTROL_BLOCK_MIN; diffuserControl <= ZOIA_DIFFUSER_EXTRA_CONTROL_BLOCK_MAX; diffuserControl++) {
+      diffuserBlocks[diffuserControl] = {n:"Control " + (diffuserControl - ZOIA_DIFFUSER_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return diffuserBlocks;
+  }
+
+  if (modIdx === ZOIA_AUDIO_BALANCE_TYPE_ID) {
+    var audioBalanceBlocks = db.blocks.slice();
+    if (db.variants && optionsBytes && optionsBytes.length > 0 && db.variants[optionsBytes[0]]) {
+      audioBalanceBlocks = db.variants[optionsBytes[0]].slice();
+    }
+    audioBalanceBlocks[ZOIA_AUDIO_BALANCE_EXTRA_AUDIO_INPUT_BLOCK] = {n:"Audio In",t:"audio_in"};
+    return audioBalanceBlocks;
+  }
+
+  if (modIdx === ZOIA_PING_PONG_TYPE_ID) {
+    var pingPongBlocks = db.blocks.slice();
+    fillUnknownBlocks(pingPongBlocks, ZOIA_PING_PONG_EXTRA_CONTROL_BLOCK);
+    pingPongBlocks[ZOIA_PING_PONG_EXTRA_CONTROL_BLOCK] = {n:"Control",t:"cv_in"};
+    return pingPongBlocks;
+  }
+
+  if (modIdx === ZOIA_MIDI_CLOCK_IN_TYPE_ID) {
+    var midiClockBlocks = db.blocks.slice();
+    for (var midiClockControl = ZOIA_MIDI_CLOCK_IN_EXTRA_CONTROL_BLOCK_MIN; midiClockControl <= ZOIA_MIDI_CLOCK_IN_EXTRA_CONTROL_BLOCK_MAX; midiClockControl++) {
+      midiClockBlocks[midiClockControl] = {n:"Control " + (midiClockControl - ZOIA_MIDI_CLOCK_IN_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    midiClockBlocks[ZOIA_MIDI_CLOCK_IN_EVIDENCE_LEFT_AUDIO_OUTPUT_BLOCK] = {n:"Audio Out L",t:"audio_out"};
+    midiClockBlocks[ZOIA_MIDI_CLOCK_IN_EVIDENCE_RIGHT_AUDIO_OUTPUT_BLOCK] = {n:"Audio Out R",t:"audio_out"};
+    return midiClockBlocks;
+  }
+
+  if (modIdx === ZOIA_MIDI_CLOCK_OUT_TYPE_ID) {
+    var midiClockOutBlocks = db.blocks.slice();
+    for (var midiClockOutControl = ZOIA_MIDI_CLOCK_OUT_EXTRA_CONTROL_BLOCK_MIN; midiClockOutControl <= ZOIA_MIDI_CLOCK_OUT_EXTRA_CONTROL_BLOCK_MAX; midiClockOutControl++) {
+      midiClockOutBlocks[midiClockOutControl] = {n:"Control " + (midiClockOutControl - ZOIA_MIDI_CLOCK_OUT_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    midiClockOutBlocks[ZOIA_MIDI_CLOCK_OUT_EVIDENCE_LEFT_AUDIO_OUTPUT_BLOCK] = {n:"Audio Out L",t:"audio_out"};
+    midiClockOutBlocks[ZOIA_MIDI_CLOCK_OUT_EVIDENCE_RIGHT_AUDIO_OUTPUT_BLOCK] = {n:"Audio Out R",t:"audio_out"};
+    return midiClockOutBlocks;
+  }
+
+  if (modIdx === ZOIA_SAMPLER_TYPE_ID) {
+    var samplerBlocks = [
+      {n:"Play",t:"gate_in"},
+      {n:"Record",t:"gate_in"},
+      {n:"Position",t:"cv_in"},
+      {n:"Speed",t:"cv_in"},
+      {n:"Start",t:"cv_in"},
+      {n:"Length",t:"cv_in"}
+    ];
+    fillUnknownBlocks(samplerBlocks, ZOIA_SAMPLER_LEFT_OUTPUT_BLOCK);
+    samplerBlocks[ZOIA_SAMPLER_LEFT_OUTPUT_BLOCK] = {n:"Audio Out L",t:"audio_out"};
+    samplerBlocks[ZOIA_SAMPLER_RIGHT_OUTPUT_BLOCK] = {n:"Audio Out R",t:"audio_out"};
+    return samplerBlocks;
+  }
+
+  if (modIdx === ZOIA_MIDI_NOTE_OUT_TYPE_ID) {
+    return [
+      {n:"Note",t:"cv_in"},
+      {n:"Gate",t:"gate_in"},
+      {n:"Velocity",t:"cv_in"},
+      {n:"Note 2",t:"cv_in"},
+      {n:"Gate 2",t:"gate_in"},
+      {n:"Velocity 2",t:"cv_in"},
+      {n:"Note 3",t:"cv_in"},
+      {n:"Gate 3",t:"gate_in"},
+      {n:"Audio Out L",t:"audio_out"},
+      {n:"Audio Out R",t:"audio_out"}
+    ];
+  }
+
+  if (modIdx === ZOIA_LOOPER_TYPE_ID) {
+    var looperBlocks = db.blocks.slice();
+    looperBlocks[ZOIA_LOOPER_EXTRA_RECORD_BLOCK] = {n:"Record",t:"gate_in"};
+    looperBlocks[ZOIA_LOOPER_EXTRA_CONTROL_BLOCK] = {n:"Control",t:"gate_in"};
+    return looperBlocks;
+  }
+
+  if (modIdx === ZOIA_AUDIO_MIXER_TYPE_ID) {
+    var mixerBlocks = db.blocks.slice();
+    mixerBlocks[ZOIA_AUDIO_MIXER_EVIDENCE_AUDIO_INPUT_BLOCK] = {n:"In 4",t:"audio_in"};
+    for (var mixerReserved = mixerBlocks.length; mixerReserved < ZOIA_AUDIO_MIXER_EVIDENCE_CV_LEVEL_BLOCK; mixerReserved++) {
+      if (!mixerBlocks[mixerReserved]) mixerBlocks[mixerReserved] = {n:"Unused " + mixerReserved,t:"unknown"};
+    }
+    mixerBlocks[ZOIA_AUDIO_MIXER_EVIDENCE_CV_LEVEL_BLOCK] = {n:"Level",t:"cv_in"};
+    for (var mixerControl = ZOIA_AUDIO_MIXER_EVIDENCE_CV_LEVEL_BLOCK + 1; mixerControl <= ZOIA_AUDIO_MIXER_HIGH_CONTROL_BLOCK_MAX; mixerControl++) {
+      mixerBlocks[mixerControl] = {n:"Level " + (mixerControl - ZOIA_AUDIO_MIXER_EVIDENCE_CV_LEVEL_BLOCK + 1),t:"cv_in"};
+    }
+    return mixerBlocks;
+  }
+
+  if (modIdx === ZOIA_PLATE_REVERB_TYPE_ID) {
+    var plateBlocks = db.blocks.concat([{n:"Stereo Out",t:"audio_out"}]);
+    for (var plateControl = ZOIA_PLATE_REVERB_EXTRA_CONTROL_BLOCK_MIN; plateControl <= ZOIA_PLATE_REVERB_EXTRA_CONTROL_BLOCK_MAX; plateControl++) {
+      plateBlocks[plateControl] = {n:"Control " + (plateControl - ZOIA_PLATE_REVERB_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return plateBlocks;
+  }
+
+  if (modIdx === ZOIA_HALL_REVERB_TYPE_ID) {
+    var hallBlocks = db.blocks.slice();
+    for (var hallReserved = hallBlocks.length; hallReserved < ZOIA_HALL_REVERB_HIGH_RIGHT_OUTPUT_BLOCK; hallReserved++) {
+      hallBlocks[hallReserved] = {n:"Unused " + hallReserved,t:"unknown"};
+    }
+    hallBlocks[ZOIA_HALL_REVERB_HIGH_RIGHT_OUTPUT_BLOCK] = {n:"R Out",t:"audio_out"};
+    return hallBlocks;
+  }
+
+  if (modIdx === ZOIA_GHOSTVERB_TYPE_ID) {
+    var ghostverbBlocks = db.blocks.slice();
+    for (var ghostReserved = ghostverbBlocks.length; ghostReserved < ZOIA_GHOSTVERB_HIGH_RIGHT_OUTPUT_BLOCK; ghostReserved++) {
+      ghostverbBlocks[ghostReserved] = {n:"Unused " + ghostReserved,t:"unknown"};
+    }
+    ghostverbBlocks[ZOIA_GHOSTVERB_HIGH_RIGHT_OUTPUT_BLOCK] = {n:"R Out",t:"audio_out"};
+    return ghostverbBlocks;
+  }
+
+  if (modIdx === ZOIA_KEYBOARD_TYPE_ID) {
+    var keyboardBlocks = [{n:"CV Out",t:"cv_out"},{n:"Gate Out",t:"gate_out"}];
+    for (var keyReserved = keyboardBlocks.length; keyReserved < ZOIA_KEYBOARD_HIGH_CV_BLOCK; keyReserved++) {
+      keyboardBlocks[keyReserved] = {n:"Unused " + keyReserved,t:"unknown"};
+    }
+    keyboardBlocks[ZOIA_KEYBOARD_HIGH_CV_BLOCK] = {n:"CV Out",t:"cv_out"};
+    keyboardBlocks[ZOIA_KEYBOARD_HIGH_GATE_BLOCK] = {n:"Gate Out",t:"gate_out"};
+    keyboardBlocks[ZOIA_KEYBOARD_EXTRA_GATE_BLOCK] = {n:"Gate Out",t:"gate_out"};
+    if (optionsBytes && optionsBytes[0] >= 39) {
+      for (var keyControl = ZOIA_KEYBOARD_EXTRA_GATE_BLOCK + 1; keyControl <= ZOIA_KEYBOARD_HIGH_CONTROL_BLOCK_MAX; keyControl++) {
+        keyboardBlocks[keyControl] = {n:"Key Control " + (keyControl - ZOIA_KEYBOARD_EXTRA_GATE_BLOCK),t:"cv_in"};
+      }
+    }
+    return keyboardBlocks;
+  }
+
+  if (modIdx === ZOIA_SEQUENCER_TYPE_ID) {
+    var sequencerBlocks = [
+      {n:"CV Out",t:"cv_out"},
+      {n:"Gate Out",t:"gate_out"},
+      {n:"Clock",t:"gate_in"},
+      {n:"Reset",t:"gate_in"}
+    ];
+    for (var seqReserved = sequencerBlocks.length; seqReserved < ZOIA_SEQUENCER_HIGH_CLOCK_BLOCK; seqReserved++) {
+      sequencerBlocks[seqReserved] = {n:"Unused " + seqReserved,t:"unknown"};
+    }
+    sequencerBlocks[ZOIA_SEQUENCER_HIGH_CLOCK_BLOCK] = {n:"Clock",t:"gate_in"};
+    sequencerBlocks[ZOIA_SEQUENCER_HIGH_RESET_BLOCK] = {n:"Reset",t:"gate_in"};
+    for (var seqOut = ZOIA_SEQUENCER_HIGH_FIRST_OUTPUT_BLOCK; seqOut <= ZOIA_SEQUENCER_HIGH_LAST_OUTPUT_BLOCK; seqOut++) {
+      sequencerBlocks[seqOut] = {n:"Output " + (seqOut - ZOIA_SEQUENCER_HIGH_FIRST_OUTPUT_BLOCK + 1),t:"cv_out"};
+    }
+    for (var seqGate = ZOIA_SEQUENCER_HIGH_FIRST_GATE_OUTPUT_BLOCK; seqGate <= ZOIA_SEQUENCER_HIGH_LAST_GATE_OUTPUT_BLOCK; seqGate++) {
+      sequencerBlocks[seqGate] = {n:"Gate Out " + (seqGate - ZOIA_SEQUENCER_HIGH_FIRST_GATE_OUTPUT_BLOCK + 1),t:"gate_out"};
+    }
+    for (var seqControl = ZOIA_SEQUENCER_EXTRA_CONTROL_BLOCK_MIN; seqControl <= ZOIA_SEQUENCER_EXTRA_CONTROL_BLOCK_MAX; seqControl++) {
+      sequencerBlocks[seqControl] = {n:"Control " + (seqControl - ZOIA_SEQUENCER_EXTRA_CONTROL_BLOCK_MIN + 1),t:"cv_in"};
+    }
+    return sequencerBlocks;
+  }
+
+  if (modIdx === ZOIA_RANDOM_TYPE_ID && blockHint === ZOIA_RANDOM_TRIGGER_FIRST_BLOCK_COUNT) {
+    return [
+      {n:"Trigger",t:"gate_in"},
+      {n:"Output",t:"cv_out"}
+    ];
   }
 
   // No variants defined, or no options to select a variant
