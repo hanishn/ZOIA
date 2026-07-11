@@ -14,12 +14,11 @@ const NPM_COMMAND = "npm";
 const PREBUILT_PATH = resolve(REPO_ROOT, "products", "zoia", "dist", "zoia-emulator.html");
 const SOURCE_TEMPLATE_PATH = resolve(REPO_ROOT, "products", "zoia", "src", "index.template.html");
 const SOURCE_STYLE_PATH = resolve(REPO_ROOT, "products", "zoia", "src", "styles", "app.css");
-const SOURCE_SCRIPT_PATH = resolve(REPO_ROOT, "products", "zoia", "src", "scripts", "app.js");
 const SOURCE_INIT_PATH = resolve(REPO_ROOT, "products", "zoia", "src", "scripts", "init.js");
 const SOURCE_MANIFEST_PATH = resolve(REPO_ROOT, "products", "zoia", "src", "data", "exhibit-manifest.json");
 const INDEX_PATH = resolve(REPO_ROOT, "products", "zoia", "index.html");
 const ENTRY_URL = `http://${HOST}:${PORT}/products/zoia/dist/zoia-emulator.html`;
-const REQUIRED_PATHS = [
+const STATIC_REQUIRED_PATHS = [
   "README.md",
   "CHANGELOG.md",
   "LICENSE",
@@ -28,8 +27,6 @@ const REQUIRED_PATHS = [
   "package-lock.json",
   "products/zoia/src/index.template.html",
   "products/zoia/src/styles/app.css",
-  "products/zoia/src/scripts/app.js",
-  "products/zoia/src/scripts/init.js",
   "products/zoia/src/data/exhibit-manifest.json",
   "products/zoia/dist/zoia-emulator.html",
   "products/zoia/index.html",
@@ -57,6 +54,13 @@ function nowIso() {
 async function sha256(filePath) {
   const bytes = await readFile(filePath);
   return createHash("sha256").update(bytes).digest("hex");
+}
+
+async function readSourceManifest() {
+  if (!existsSync(SOURCE_MANIFEST_PATH)) {
+    return null;
+  }
+  return JSON.parse(await readFile(SOURCE_MANIFEST_PATH, "utf8"));
 }
 
 function commandInvocation(command, args) {
@@ -164,7 +168,12 @@ async function smokePrebuiltHtml() {
 
 async function main() {
   const startedAt = nowIso();
-  const requiredPathResults = REQUIRED_PATHS.map((relativePath) => ({
+  const sourceManifest = await readSourceManifest();
+  const manifestRequiredPaths = sourceManifest
+    ? [...(sourceManifest.styles ?? []), ...(sourceManifest.scripts ?? [])]
+    : [];
+  const requiredPaths = [...new Set([...STATIC_REQUIRED_PATHS, ...manifestRequiredPaths])];
+  const requiredPathResults = requiredPaths.map((relativePath) => ({
     relativePath,
     fullPath: resolve(REPO_ROOT, relativePath),
     exists: existsSync(resolve(REPO_ROOT, relativePath)),
@@ -180,9 +189,15 @@ async function main() {
 
   const sourceTemplateHash = existsSync(SOURCE_TEMPLATE_PATH) ? await sha256(SOURCE_TEMPLATE_PATH) : null;
   const sourceStyleHash = existsSync(SOURCE_STYLE_PATH) ? await sha256(SOURCE_STYLE_PATH) : null;
-  const sourceScriptHash = existsSync(SOURCE_SCRIPT_PATH) ? await sha256(SOURCE_SCRIPT_PATH) : null;
   const sourceInitHash = existsSync(SOURCE_INIT_PATH) ? await sha256(SOURCE_INIT_PATH) : null;
   const sourceManifestHash = existsSync(SOURCE_MANIFEST_PATH) ? await sha256(SOURCE_MANIFEST_PATH) : null;
+  const sourceScriptHashes = await Promise.all(
+    (sourceManifest?.scripts ?? []).map(async (relativePath) => ({
+      relativePath,
+      fullPath: resolve(REPO_ROOT, relativePath),
+      sha256: existsSync(resolve(REPO_ROOT, relativePath)) ? await sha256(resolve(REPO_ROOT, relativePath)) : null,
+    })),
+  );
   const prebuiltHash = existsSync(PREBUILT_PATH) ? await sha256(PREBUILT_PATH) : null;
   const indexHash = existsSync(INDEX_PATH) ? await sha256(INDEX_PATH) : null;
   const smokeResult = missingRequiredPaths.length === 0 ? await smokePrebuiltHtml() : { status: "skipped" };
@@ -203,14 +218,14 @@ async function main() {
     resultPath: RESULT_PATH,
     sourceTemplateHtml: SOURCE_TEMPLATE_PATH,
     sourceStyle: SOURCE_STYLE_PATH,
-    sourceScript: SOURCE_SCRIPT_PATH,
+    sourceScripts: sourceScriptHashes.map((item) => item.fullPath),
     sourceInitScript: SOURCE_INIT_PATH,
     sourceManifest: SOURCE_MANIFEST_PATH,
     prebuiltHtml: PREBUILT_PATH,
     indexHtml: INDEX_PATH,
     sourceTemplateSha256: sourceTemplateHash,
     sourceStyleSha256: sourceStyleHash,
-    sourceScriptSha256: sourceScriptHash,
+    sourceScriptSha256: sourceScriptHashes,
     sourceInitSha256: sourceInitHash,
     sourceManifestSha256: sourceManifestHash,
     prebuiltSha256: prebuiltHash,

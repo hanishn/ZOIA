@@ -14,6 +14,7 @@
   <span id="patch-summary">No patch loaded</span>  <span id="patch-labels"></span>
   <button class="tbtn" onclick="document.getElementById('file-input').click()" title="Load a ZOIA .bin patch file from disk">Load .bin</button>
   <button class="tbtn" onclick="ZOIA.loadDemo()" title="Load a built-in demo patch to explore">Demo Patch</button>
+  <button class="tbtn" onclick="ZOIA.testPatchLoader.open()" title="Load a committed canonical test patch">Test Patches</button>
   <button class="tbtn" onclick="ZOIA.savePatch()" title="Export current patch as JSON file">Save</button>  <button class="tbtn" onclick="ZOIA.savePatchAs()" title="Save with a new name">Save As</button>
   <input type="file" id="file-input" accept=".bin" onchange="ZOIA.handleFile(this.files[0])">
   <button class="tbtn" onclick="ZOIA.toggleConsole()" title="Toggle debug console output panel">Console</button>
@@ -159,6 +160,21 @@
 
 <div id="tooltip"></div>
 
+<div id="test-patch-dialog">
+  <div class="test-patch-panel">
+    <div class="test-patch-header">
+      <span>Test Patches</span>
+      <button class="test-patch-close" onclick="ZOIA.testPatchLoader.close()" title="Close test patch selector">&times;</button>
+    </div>
+    <select id="test-patch-select" size="12" title="Committed canonical test patches"></select>
+    <div id="test-patch-status"></div>
+    <div class="test-patch-actions">
+      <button class="tbtn" onclick="ZOIA.testPatchLoader.loadSelected()" title="Load selected test patch">Load Selected</button>
+      <button class="tbtn" onclick="ZOIA.testPatchLoader.close()" title="Close test patch selector">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- Console output panel -->
 <div id="conn-toast"></div>
 
@@ -173,12 +189,8 @@
   <pre id="console-output"></pre>
 </div>
 
-<script data-zoia-build="src/scripts/app.js">
-<!-- ZOIA_BUILD_SCRIPT:src/scripts/app.js -->
-</script>
-<script data-zoia-build="src/scripts/init.js">
-<!-- ZOIA_BUILD_SCRIPT:src/scripts/init.js -->
-</script>
+<!-- ZOIA_EMBEDDED_TEST_PATCHES -->
+<!-- ZOIA_BUILD_SCRIPTS -->
 </body>
 </html>
 

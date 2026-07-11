@@ -1,19 +1,20 @@
 # ZOIA Emulator
 
-Version: 0.1.0
+Version: 0.2.0
 
-Revision: 3
+Revision: 4
 
-This repository contains the ZOIA Emulator `0.1.0` source tree, a prebuilt HTML exhibit, a local build script, committed staged test patches, and deterministic validation harnesses.
+This repository contains the ZOIA Emulator `0.2.0` source tree, a prebuilt HTML exhibit, a local build script, committed staged test patches, and deterministic validation harnesses.
 
-`0.1.0` is an evaluation baseline. It is not a complete ZOIA replacement and it does not claim binary export fidelity or full audio correctness.
+`0.2.0` is an evaluation baseline with a module-split browser source tree. It is not a complete ZOIA replacement and it does not claim binary export fidelity or full audio correctness.
 
 ## What This Version Does
 
 - Provides a browsable source tree for the HTML emulator exhibit.
-- Builds the prebuilt HTML exhibit from template, CSS, JavaScript, and JSON source files.
+- Builds the prebuilt HTML exhibit from template, CSS, JavaScript module, and JSON source files.
 - Serves the prebuilt HTML exhibit locally.
 - Loads and renders ZOIA patch data through the browser UI.
+- Loads embedded canonical test patches from the toolbar through `Test Patches`.
 - Includes staged/test patches for repeatable validation.
 - Runs clone-safe validation with `npm test`.
 - Runs deeper local validation when optional private/generated inputs are present.
@@ -26,7 +27,6 @@ This repository contains the ZOIA Emulator `0.1.0` source tree, a prebuilt HTML 
 - Does not claim full audio correctness beyond deterministic analyser evidence already covered by tests.
 - Does not include community patch binaries or patch-library cache files.
 - Does not publish an npm package for external dependency use.
-- Does not yet split the main emulator runtime into small JavaScript modules.
 - Does not yet make the HTML runtime consume every migrated shared SSL browser asset.
 
 ## Repository Layout
@@ -35,7 +35,7 @@ This repository contains the ZOIA Emulator `0.1.0` source tree, a prebuilt HTML 
 products/zoia/src/          Browsable source for the HTML exhibit
 products/zoia/src/index.template.html
 products/zoia/src/styles/app.css
-products/zoia/src/scripts/app.js
+products/zoia/src/scripts/modules/
 products/zoia/src/scripts/init.js
 products/zoia/src/data/exhibit-manifest.json
 products/zoia/dist/         Prebuilt HTML exhibit output
@@ -43,6 +43,7 @@ products/zoia/index.html    Compatibility entrypoint generated from source
 shared/ssl/                 Shared SSL package candidates used by ZOIA
 tests/parser-harness/       Parser fixture harness, schemas, manifests, and no-magic-number linter
 tests/workflow/             Playwright, audio, patch-library, CI, and evidence workflow scripts
+docs/                       Validation and project documentation
 .github/workflows/          GitHub Actions CI gates
 ```
 
@@ -72,10 +73,18 @@ Open:
 http://127.0.0.1:5173/products/zoia/dist/zoia-emulator.html
 ```
 
+Use the `Test Patches` toolbar button to load embedded canonical test patches without browsing the filesystem. This also works when opening the prebuilt HTML file directly from disk.
+
 The prebuilt HTML exhibit is:
 
 ```text
 products/zoia/dist/zoia-emulator.html
+```
+
+Direct local file path:
+
+```text
+G:\Projects\MusicAndMidi\ZOIA\products\zoia\dist\zoia-emulator.html
 ```
 
 The source used to build it is:
@@ -83,7 +92,7 @@ The source used to build it is:
 ```text
 products/zoia/src/index.template.html
 products/zoia/src/styles/app.css
-products/zoia/src/scripts/app.js
+products/zoia/src/scripts/modules/
 products/zoia/src/scripts/init.js
 products/zoia/src/data/exhibit-manifest.json
 ```
@@ -108,6 +117,21 @@ This runs:
 - parser no-magic-number lint
 - staged patch audio gate when canonical staged patches are present
 - Q106 community-audio packaging verification when the local community evidence baseline is present
+
+Validation details are documented in:
+
+```text
+docs/VALIDATION.md
+```
+
+Additional local gates:
+
+```text
+npm run zoia:test:staged
+npm run zoia:test:audio
+npm run zoia:test:community
+npm run zoia:test:playwright:test-patch-loader
+```
 
 ## Parser Harness
 
@@ -159,7 +183,7 @@ Generated evidence is ignored by Git and should be archived separately when it i
 
 ## Version Status
 
-Current version: `0.1.0`
+Current version: `0.2.0`
 
 This version is suitable for source review, local emulator evaluation, rebuild validation, and test-harness review.
 

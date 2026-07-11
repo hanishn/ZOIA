@@ -1,14 +1,14 @@
 # GitHub Readiness Boundary
 
-Version: 0.1.0
+Version: 0.2.0
 
-Revision: 3
+Revision: 4
 
 ## Current Status
 
-The repository is organized as a ZOIA `0.1.0` product repository with test harnesses and evidence workflows as supporting assets.
+The repository is organized as a ZOIA `0.2.0` product repository with test harnesses and evidence workflows as supporting assets.
 
-`0.1.0` is ready for local source/build/test review after staging validation passes. It is not a complete emulator release.
+`0.2.0` is ready for local source/build/test review after staging validation passes. It is not a complete emulator release.
 
 ## Source To Commit
 
@@ -70,6 +70,7 @@ The source is under Apache License 2.0.
 Included:
 
 - buildable source tree under `products/zoia/src/`
+- module-split browser source under `products/zoia/src/scripts/modules/`
 - prebuilt HTML exhibit under `products/zoia/dist/`
 - committed staged/test patches under `tests/workflow/canonical-patches/Test_Modules/`
 - parser harness and Playwright validation harness

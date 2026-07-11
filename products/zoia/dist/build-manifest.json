@@ -1,6 +1,6 @@
 {
   "schemaVersion": "zoia.exhibit-build-manifest.v2",
-  "generatedAt": "2026-07-10T14:22:47.408Z",
+  "generatedAt": "2026-07-11T00:16:55.501Z",
   "sourceManifest": "products/zoia/src/data/exhibit-manifest.json",
   "prebuiltHtml": "products/zoia/dist/zoia-emulator.html",
   "compatibilityHtml": "products/zoia/index.html",
@@ -8,30 +8,137 @@
     {
       "role": "source-manifest",
       "path": "products/zoia/src/data/exhibit-manifest.json",
-      "sha256": "34a69e14da854ce4a02ad8e7a2815d292d9cc9ec9680659179fac64ef8d9fc3c"
+      "sha256": "dd0a37cd363a3e72281bad43bd208059bd2d1d4c3acb70f34ea9b375a9becacd"
     },
     {
       "role": "template",
       "path": "products/zoia/src/index.template.html",
-      "sha256": "a87ea31fddd22891a48681345d1265dc9116e1b70524edd2b10ae135ddaa3107"
+      "sha256": "ea860d1db932a9cb7b8ae6068ec46e5d583c67563bdadc3d889c4505e5fee9d2"
     },
     {
       "role": "style",
       "path": "products/zoia/src/styles/app.css",
-      "sha256": "12e19b9ab78c739a8e22220ddd4787101c9d33cb0bd630abb480d68eccb16bc0"
+      "sha256": "826ea43502f2c6e825267659c5a73bd8dea86dc9cdf2830053f7d2dddf0dd0d0"
     },
     {
       "role": "script",
-      "path": "products/zoia/src/scripts/app.js",
-      "sha256": "f32f8ac9b9e8cb5d117466ba2618dce2b4b2a7b2a65a3f698a7f2129a9a20991"
+      "path": "products/zoia/src/scripts/modules/module-db.js",
+      "sha256": "69ef556a44ba948e226f87711c7ccd8bbcccbbf515b5e7de443cc5e2482d8744"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/patch-parser.js",
+      "sha256": "075a9055757fa26653af3253ce66a0376f2c506e647927925fd9a6ddf1df36a4"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/patch-state.js",
+      "sha256": "bc00055a8973973a2d3dddfec79c6bae3e9481dc5555867a376e2905cf49a74e"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/sim-engine.js",
+      "sha256": "973b04c0d53c6fccf9525ba315a17b0524ff08ec12294b087e8a39ebe03fece9"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/sim-mod-effects.js",
+      "sha256": "6dd85aff89aaf4d31ba6f37c568cd0a045f9dba74f75711cce89e668fbb03d46"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/sim-mod-audio.js",
+      "sha256": "a480cd342fc3d99259087dd4f45d133cef148d340e45ae69ee542e932e3df1ca"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/sim-mod-cv.js",
+      "sha256": "a6e93c582487c993638bdfc28780fcaccc8e11dc06b2da0d7595eeb42fddc5b6"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/sim-mod-interface.js",
+      "sha256": "4ad6294a3dd288b889b9b19cdef456a7542f33773f3e6564f2c9995d4c4efee8"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/demo-patch.js",
+      "sha256": "f9e89b25f51766adc5fe43ec2323589453d6f309098cc374aa091a1c504ea69c"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/oled-display.js",
+      "sha256": "f2116f867f6fd6c77ba1f532d23c9dc2cc4e630850485eccfde34ff50abdb467"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/knob.js",
+      "sha256": "da240fe7c52ed50c6418e0f7645eb3bffdbd1abb2bdc7e4fb3ec1ba6d356260a"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/grid-buttons.js",
+      "sha256": "c0d5f15ae1d1e754d7c43e7fe9ea03599ddb9c6a5f40ec942ae42757b47635b6"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/module-add.js",
+      "sha256": "24c742467b503e944c71a14e0b95aa7adb9f52c3a469a9fc5dd4ad700c8a1a16"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/stompswitches.js",
+      "sha256": "ed20c563013f45c88e5f36f60593228fb7759ca94946e26a5b592cebb36272ac"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/midi-keyboard.js",
+      "sha256": "1b4ab16b8b955318407ba7533ecefbb75c67533724c1522da179bf7a99fd0610"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/waveform-timeline.js",
+      "sha256": "3db9e01d3ebd45c35f157ec16c96e5be3d6ccb4313466bc58a2aaa487b78de22"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/hardware-view.js",
+      "sha256": "88fb35aa45568d7c300f1f65ad6bd8b1e3022cc326bf1a419062b789892ba093"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/schematic-view.js",
+      "sha256": "274873826591ade98cefe27024f19690abc30ee16f8f3ae11b9e3d25a1ca3056"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/view-manager.js",
+      "sha256": "ee648c6765c72302ba9505b8a2a58028ed48ada854f45aa34dd87d9a5f2c0665"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/patch-browser.js",
+      "sha256": "eb2a3798043fc59ba5a5dfbee18f9cdc9513033859f913ca22aafb87b2d5aafd"
+    },
+    {
+      "role": "script",
+      "path": "products/zoia/src/scripts/modules/test-patch-loader.js",
+      "sha256": "d1749ddb0d338e71bd9d63da4879894ade6579b5c26af508b25d5fe13b76f99d"
     },
     {
       "role": "script",
       "path": "products/zoia/src/scripts/init.js",
       "sha256": "b503c77ea657e17939b74755a043a16cdd3108a7322d060176db6e0c4051db19"
+    },
+    {
+      "role": "embedded-test-patch-manifest",
+      "path": "tests/workflow/canonical-patches/Test_Modules.manifest.json",
+      "sha256": "3d18010f694908f07eaf44973ed9ee15a5bb09445bd4382ec150ed0f06ef4a9c",
+      "patchCount": 88,
+      "byteCount": 2883584
     }
   ],
-  "prebuiltSha256": "550c40f935ab99c81808166101f61b649ca3ea17713ed498ec52589beb70dbab",
-  "compatibilitySha256": "550c40f935ab99c81808166101f61b649ca3ea17713ed498ec52589beb70dbab",
+  "prebuiltSha256": "ae7074f2425cda7232f63d952c078719c594985a05803f957129bf87565bd5ee",
+  "compatibilitySha256": "ae7074f2425cda7232f63d952c078719c594985a05803f957129bf87565bd5ee",
   "status": "pass"
 }

@@ -42,6 +42,11 @@ const gates = [
     command: process.execPath,
     args: [NPM_CLI, "run", "zoia:lint:no-magic"],
   },
+  {
+    id: "test-patch-loader",
+    command: process.execPath,
+    args: [NPM_CLI, "run", "zoia:test:playwright:test-patch-loader"],
+  },
 ];
 
 function runGate(gate) {

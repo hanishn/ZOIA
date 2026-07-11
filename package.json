@@ -1,6 +1,6 @@
 {
   "name": "zoia-emulator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "ZOIA emulator source, shared SSL support package, and deterministic parser/Playwright/audio test harness.",
   "scripts": {
@@ -27,6 +27,10 @@
     "zoia:test:playwright:audio-delay-tone": "node tests/workflow/playwright/run-zoia-playwright-audio-delay-tone-evidence.mjs",
     "zoia:test:playwright:staged-patch-audio": "node tests/workflow/playwright/run-zoia-playwright-staged-patch-audio-evidence.mjs",
     "zoia:test:playwright:community-audio": "node tests/workflow/playwright/run-zoia-playwright-community-audio-evidence.mjs",
+    "zoia:test:playwright:test-patch-loader": "node tests/workflow/playwright/run-zoia-playwright-test-patch-loader-evidence.mjs",
+    "zoia:test:staged": "npm run zoia:test:playwright:staged-deep",
+    "zoia:test:audio": "npm run zoia:test:playwright:staged-patch-audio",
+    "zoia:test:community": "npm run zoia:test:playwright:community-audio",
     "zoia:test:evidence": "npm run zoia:test:parser && npm run zoia:test:playwright && npm run zoia:test:playwright:interactions && npm run zoia:test:playwright:controls && npm run zoia:test:playwright:broad",
     "zoia:test:evidence:full": "npm run zoia:test:evidence && npm run zoia:test:playwright:all-patches",
     "zoia:test:evidence:library-full": "npm run zoia:patch-library:prepare && npm run zoia:test:evidence && npm run zoia:test:playwright:patch-library-full",

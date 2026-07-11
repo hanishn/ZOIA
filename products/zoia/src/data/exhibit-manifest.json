@@ -1,11 +1,36 @@
 {
   "template": "products/zoia/src/index.template.html",
   "scripts": [
-    "products/zoia/src/scripts/app.js",
+    "products/zoia/src/scripts/modules/module-db.js",
+    "products/zoia/src/scripts/modules/patch-parser.js",
+    "products/zoia/src/scripts/modules/patch-state.js",
+    "products/zoia/src/scripts/modules/sim-engine.js",
+    "products/zoia/src/scripts/modules/sim-mod-effects.js",
+    "products/zoia/src/scripts/modules/sim-mod-audio.js",
+    "products/zoia/src/scripts/modules/sim-mod-cv.js",
+    "products/zoia/src/scripts/modules/sim-mod-interface.js",
+    "products/zoia/src/scripts/modules/demo-patch.js",
+    "products/zoia/src/scripts/modules/oled-display.js",
+    "products/zoia/src/scripts/modules/knob.js",
+    "products/zoia/src/scripts/modules/grid-buttons.js",
+    "products/zoia/src/scripts/modules/module-add.js",
+    "products/zoia/src/scripts/modules/stompswitches.js",
+    "products/zoia/src/scripts/modules/midi-keyboard.js",
+    "products/zoia/src/scripts/modules/waveform-timeline.js",
+    "products/zoia/src/scripts/modules/hardware-view.js",
+    "products/zoia/src/scripts/modules/schematic-view.js",
+    "products/zoia/src/scripts/modules/view-manager.js",
+    "products/zoia/src/scripts/modules/patch-browser.js",
+    "products/zoia/src/scripts/modules/test-patch-loader.js",
     "products/zoia/src/scripts/init.js"
   ],
   "title": "ZOIA Patch Simulator 6",
   "prebuiltHtml": "products/zoia/dist/zoia-emulator.html",
+  "embeddedTestPatches": {
+    "enabled": true,
+    "manifest": "tests/workflow/canonical-patches/Test_Modules.manifest.json",
+    "root": "tests/workflow/canonical-patches/Test_Modules"
+  },
   "schemaVersion": "zoia.exhibit-source-manifest.v1",
   "compatibilityHtml": "products/zoia/index.html",
   "styles": [

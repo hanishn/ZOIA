@@ -6,6 +6,8 @@ const REPO_ROOT = resolve(import.meta.dirname, "..");
 const MANIFEST_PATH = resolve(REPO_ROOT, "products", "zoia", "src", "data", "exhibit-manifest.json");
 const BUILD_MANIFEST_PATH = resolve(REPO_ROOT, "products", "zoia", "dist", "build-manifest.json");
 const JSON_SPACES = 2;
+const SCRIPT_BLOCK_PLACEHOLDER = "<!-- ZOIA_BUILD_SCRIPTS -->";
+const EMBEDDED_TEST_PATCHES_PLACEHOLDER = "<!-- ZOIA_EMBEDDED_TEST_PATCHES -->";
 
 function repoPath(relativePath) {
   return resolve(REPO_ROOT, relativePath);
@@ -19,8 +21,59 @@ function sha256Text(text) {
   return createHash("sha256").update(text).digest("hex");
 }
 
+function sha256Bytes(bytes) {
+  return createHash("sha256").update(bytes).digest("hex");
+}
+
+function sourceDataPath(sourcePath) {
+  return sourcePath.replace("products/zoia/", "");
+}
+
+function inlineScriptBlock(scriptEntry) {
+  return `<script data-zoia-build="${sourceDataPath(scriptEntry.path)}">\n${scriptEntry.content.trimEnd()}\n</script>`;
+}
+
 async function hashFile(relativePath) {
   return sha256Text(await readText(relativePath));
+}
+
+async function buildEmbeddedTestPatches(config) {
+  if (!config?.enabled) {
+    return { html: "", manifestHash: null, patchCount: 0, byteCount: 0 };
+  }
+  const manifestText = await readText(config.manifest);
+  const manifest = JSON.parse(manifestText);
+  const binFiles = (manifest.files || [])
+    .filter((file) => /\.bin$/i.test(file.relativePath || ""))
+    .sort((left, right) => left.relativePath.localeCompare(right.relativePath));
+  const patches = [];
+  let byteCount = 0;
+  for (const file of binFiles) {
+    const relativePath = file.relativePath.replace(/\\/g, "/");
+    const bytes = await readFile(repoPath(`${config.root}/${relativePath}`));
+    byteCount += bytes.byteLength;
+    patches.push({
+      relativePath,
+      size: bytes.byteLength,
+      sha256: sha256Bytes(bytes).toUpperCase(),
+      base64: bytes.toString("base64"),
+    });
+  }
+  const payload = {
+    schemaVersion: "zoia.embedded-test-patches.v1",
+    generatedAt: new Date().toISOString(),
+    sourceManifest: config.manifest,
+    sourceRoot: config.root,
+    patchCount: patches.length,
+    byteCount,
+    patches,
+  };
+  return {
+    html: `<script id="zoia-embedded-test-patches" type="application/json">${JSON.stringify(payload).replace(/</g, "\\u003c")}</script>`,
+    manifestHash: sha256Text(manifestText),
+    patchCount: patches.length,
+    byteCount,
+  };
 }
 
 async function main() {
@@ -39,13 +92,29 @@ async function main() {
       content: await readText(scriptPath),
     })),
   );
+  const embeddedTestPatches = await buildEmbeddedTestPatches(sourceManifest.embeddedTestPatches);
 
   let html = template;
   for (const style of styleEntries) {
-    html = html.replace(`<!-- ZOIA_BUILD_STYLE:${style.path.replace("products/zoia/", "")} -->`, style.content.trimEnd());
+    const placeholder = `<!-- ZOIA_BUILD_STYLE:${sourceDataPath(style.path)} -->`;
+    if (!html.includes(placeholder)) {
+      throw new Error(`Missing style placeholder: ${placeholder}`);
+    }
+    html = html.replace(placeholder, style.content.trimEnd());
   }
-  for (const script of scriptEntries) {
-    html = html.replace(`<!-- ZOIA_BUILD_SCRIPT:${script.path.replace("products/zoia/", "")} -->`, script.content.trimEnd());
+  if (html.includes(EMBEDDED_TEST_PATCHES_PLACEHOLDER)) {
+    html = html.replace(EMBEDDED_TEST_PATCHES_PLACEHOLDER, embeddedTestPatches.html);
+  }
+  if (html.includes(SCRIPT_BLOCK_PLACEHOLDER)) {
+    html = html.replace(SCRIPT_BLOCK_PLACEHOLDER, scriptEntries.map(inlineScriptBlock).join("\n"));
+  } else {
+    for (const script of scriptEntries) {
+      const placeholder = `<!-- ZOIA_BUILD_SCRIPT:${sourceDataPath(script.path)} -->`;
+      if (!html.includes(placeholder)) {
+        throw new Error(`Missing script placeholder: ${placeholder}`);
+      }
+      html = html.replace(placeholder, script.content.trimEnd());
+    }
   }
 
   await mkdir(dirname(repoPath(sourceManifest.prebuiltHtml)), { recursive: true });
@@ -78,6 +147,15 @@ async function main() {
       })),
     )),
   ];
+  if (sourceManifest.embeddedTestPatches?.enabled) {
+    inputs.push({
+      role: "embedded-test-patch-manifest",
+      path: sourceManifest.embeddedTestPatches.manifest,
+      sha256: embeddedTestPatches.manifestHash,
+      patchCount: embeddedTestPatches.patchCount,
+      byteCount: embeddedTestPatches.byteCount,
+    });
+  }
   const prebuiltHash = await hashFile(sourceManifest.prebuiltHtml);
   const compatibilityHash = await hashFile(sourceManifest.compatibilityHtml);
   const buildManifest = {
