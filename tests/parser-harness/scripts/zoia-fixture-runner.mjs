@@ -19,6 +19,7 @@ const MIN_COLOR_ID = 1;
 const MAX_COLOR_ID = 15;
 const MIN_VALID_PAGE_COUNT = 1;
 const MAX_VALID_PAGE_COUNT = 64;
+const ZOIA_GRID_SIZE = 40;
 const DEFAULT_PAGE_NUMBER = 1;
 const DEFAULT_MISMATCH_LIMIT = 50;
 const SUCCESS_EXIT_CODE = 0;
@@ -212,6 +213,24 @@ function optionWordsToBytes(opt1, opt2) {
   ];
 }
 
+function normalizeLegacyInvalidModulePages(modules, pages) {
+  if (!Array.isArray(modules) || modules.length === BLOCK_INDEX.ZERO || !Array.isArray(pages) || pages.length === BLOCK_INDEX.ZERO) return null;
+  let invalidPage = null;
+  for (const module of modules) {
+    if (module.page < pages.length) return null;
+    if (module.gridPos < ZOIA_GRID_SIZE || module.gridPos >= ZOIA_GRID_SIZE * BLOCK_INDEX.TWO) return null;
+    if (invalidPage === null) invalidPage = module.page;
+    if (module.page !== invalidPage) return null;
+  }
+  for (const module of modules) {
+    module.rawPage = module.page;
+    module.rawGridPos = module.gridPos;
+    module.page = BLOCK_INDEX.ZERO;
+    module.gridPos -= ZOIA_GRID_SIZE;
+  }
+  return invalidPage;
+}
+
 function parsePatch(buffer) {
   const arrayBuffer = buffer.buffer.slice(buffer.byteOffset, buffer.byteOffset + buffer.byteLength);
   const view = new DataView(arrayBuffer);
@@ -294,6 +313,18 @@ function parsePatch(buffer) {
     } else {
       diagnostics.push({ severity: "warning", code: "invalid-page-count", pageCount });
     }
+  }
+  const invalidPage = normalizeLegacyInvalidModulePages(modules, pages);
+  if (invalidPage !== null) {
+    diagnostics.push({
+      severity: "info",
+      code: "legacy-invalid-module-page-normalized",
+      rawPage: invalidPage,
+      normalizedPage: BLOCK_INDEX.ZERO,
+      gridPosOffset: ZOIA_GRID_SIZE,
+      moduleCount: modules.length,
+      pageCount: pages.length
+    });
   }
 
   return {

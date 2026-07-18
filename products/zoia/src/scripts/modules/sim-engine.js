@@ -34,9 +34,25 @@ ZOIA.sim = {
   analyser: null,
   inputAnalyser: null,
   masterGain: null,
+  masterLimiter: null,
   testToneActive: false,
   _testToneOsc: null,
   _testToneGain: null
+};
+
+ZOIA.sim._createSoftLimiter = function(ctx, limit) {
+  var shaper = ctx.createWaveShaper();
+  var n = 2048;
+  var curve = new Float32Array(n);
+  var max = Number(limit);
+  if (!isFinite(max) || max <= 0) max = 1;
+  for (var i = 0; i < n; i++) {
+    var x = (i / (n - 1)) * 2 - 1;
+    curve[i] = Math.tanh(x * 2.5) * max;
+  }
+  shaper.curve = curve;
+  shaper.oversample = '2x';
+  return shaper;
 };
 
 
@@ -213,8 +229,17 @@ ZOIA.sim._createVCA = function(ctx, mod) {
 
   var vca = ctx.createGain();
   vca.gain.value = 1.0;
+  var fallbackMix = ctx.createGain();
+  fallbackMix.gain.value = 1.0;
+  var fallbackLevel = ctx.createGain();
+  fallbackLevel.gain.value = 1.0;
+  var limiter = ZOIA.sim._createSoftLimiter(ctx, 1);
+  vca.connect(limiter);
+  fallbackMix.connect(fallbackLevel);
+  fallbackLevel.connect(limiter);
 
   var levelIdx = null;
+  var audioInputs = [];
 
   for (var i = 0; i < blocks.length; i++) {
     var b = blocks[i];
@@ -222,12 +247,14 @@ ZOIA.sim._createVCA = function(ctx, mod) {
       var inGain = ctx.createGain();
       inGain.gain.value = 1.0;
       inGain.connect(vca);
+      inGain.connect(fallbackMix);
       inputs[i] = inGain;
+      audioInputs.push(inGain);
     } else if (b.t === 'cv_in') {
       levelIdx = i;
       inputs[i] = vca.gain; // CV connects directly to VCA gain AudioParam
     } else if (b.t === 'audio_out') {
-      outputs[i] = vca;
+      outputs[i] = limiter;
     } else {
       inputs[i] = null;
       outputs[i] = null;
@@ -248,9 +275,16 @@ ZOIA.sim._createVCA = function(ctx, mod) {
     inputs: inputs,
     outputs: outputs,
     _vca: vca,
+    _audioInputs: audioInputs,
+    _fallbackMix: fallbackMix,
+    _fallbackLevel: fallbackLevel,
+    _limiter: limiter,
     levelIdx: levelIdx,
     dispose: function() {
       try { this._vca.disconnect(); } catch (e) {}
+      try { fallbackMix.disconnect(); } catch (e) {}
+      try { this._fallbackLevel.disconnect(); } catch (e) {}
+      try { this._limiter.disconnect(); } catch (e) {}
       for (var j = 0; j < this.inputs.length; j++) {
         if (this.inputs[j] && this.inputs[j].disconnect) {
           try { this.inputs[j].disconnect(); } catch (e) {}
@@ -265,6 +299,9 @@ ZOIA.sim._createOscillator = function(ctx, mod) {
   var blocks = mod.blocks || [];
   var inputs = [];
   var outputs = [];
+  var MIN_OSC_FREQUENCY_HZ = 20;
+  var MAX_OSC_FREQUENCY_HZ = 20000;
+  var OSC_FREQUENCY_RATIO = 1000;
 
   var osc = ctx.createOscillator();
   osc.type = 'sine';
@@ -315,7 +352,7 @@ ZOIA.sim._createOscillator = function(ctx, mod) {
   var baseFreq = 440;
   if (freqIdx !== null && mod.params && mod.params[freqIdx] !== undefined) {
     var norm = mod.params[freqIdx] / 65535;
-    baseFreq = 20 * Math.pow(1000, norm);
+    baseFreq = MIN_OSC_FREQUENCY_HZ * Math.pow(OSC_FREQUENCY_RATIO, norm);
   }
   osc.frequency.value = baseFreq;
 
@@ -341,7 +378,7 @@ ZOIA.sim._createOscillator = function(ctx, mod) {
     if (cv !== _lastCV) {
       _lastCV = cv;
       if (cv > 0.001) {
-        osc.frequency.value = 20 * Math.pow(1000, cv);
+        osc.frequency.value = Math.max(MIN_OSC_FREQUENCY_HZ, Math.min(MAX_OSC_FREQUENCY_HZ, MIN_OSC_FREQUENCY_HZ * Math.pow(OSC_FREQUENCY_RATIO, cv)));
       } else if (cv <= 0.001) {
         osc.frequency.value = baseFreq;
       }
@@ -501,6 +538,7 @@ ZOIA.sim._createLFO = function(ctx, mod) {
 
   var rateIdx = null;
   var depthIdx = null;
+  var depthHasConnection = false;
 
   for (var i = 0; i < blocks.length; i++) {
     var b = blocks[i];
@@ -526,6 +564,19 @@ ZOIA.sim._createLFO = function(ctx, mod) {
 
   if (depthIdx !== null && mod.params && mod.params[depthIdx] !== undefined) {
     outGain.gain.value = mod.params[depthIdx] / 65535;
+  }
+  if (depthIdx !== null && ZOIA.state && ZOIA.state.patch && ZOIA.state.patch.connections) {
+    for (var lfoConnIdx = 0; lfoConnIdx < ZOIA.state.patch.connections.length; lfoConnIdx++) {
+      var lfoConn = ZOIA.state.patch.connections[lfoConnIdx];
+      if (lfoConn && lfoConn.dstMod === mod.idx && lfoConn.dstBlock === depthIdx) {
+        depthHasConnection = true;
+        break;
+      }
+    }
+  }
+  if (depthIdx !== null && !depthHasConnection && outGain.gain.value === 0) {
+    outGain.gain.value = 1.0;
+    ZOIA.log('[DIAG] LFO depth defaulted to 1.0 for unconnected depth input modIdx=' + mod.idx);
   }
 
   osc.start();
@@ -636,11 +687,16 @@ ZOIA.sim._createADSR = function(ctx, mod) {
       cvOutIdx = i;
       outputs[i] = outGain;
     } else if (b.t === 'gate_in') {
-      gateIdx = i;
+      if (gateIdx === null || (b.n || '').toLowerCase().indexOf('gate') >= 0) {
+        gateIdx = i;
+      }
       inputs[i] = null; // Gate handled via direct JS callbacks, not audio graph
     } else if (b.t === 'cv_in') {
       var name = (b.n || '').toLowerCase();
-      if (name.indexOf('gate') >= 0) { gateIdx = i; inputs[i] = null; /* direct JS callbacks */ }
+      if (name.indexOf('gate') >= 0) {
+        if (gateIdx === null) { gateIdx = i; }
+        inputs[i] = null; /* direct JS callbacks */
+      }
       else if (name.indexOf('attack') >= 0) { attackIdx = i; inputs[i] = attackProxy.gain; }
       else if (name.indexOf('decay') >= 0) { decayIdx = i; inputs[i] = decayProxy.gain; }
       else if (name.indexOf('sustain') >= 0) { sustainIdx = i; inputs[i] = sustainProxy.gain; }
@@ -688,6 +744,7 @@ ZOIA.sim._createADSR = function(ctx, mod) {
     adsr: adsr,
     _gateOpen: false,
     _gateBlockIdx: gateIdx,
+    _gateSourceStates: {},
     dispose: function() {
       _disposed = true;
       if (_endGateTimeout) { clearTimeout(_endGateTimeout); }
@@ -752,6 +809,19 @@ ZOIA.sim._createADSR = function(ctx, mod) {
     } else if (value <= 0.5 && node._gateOpen) {
       node.release();
     }
+  };
+
+  node._onGateChangeFromSource = function(sourceId, value) {
+    var key = String(sourceId);
+    node._gateSourceStates[key] = value > 0.5 ? 1 : 0;
+    var anyGateOpen = false;
+    for (var sourceKey in node._gateSourceStates) {
+      if (node._gateSourceStates.hasOwnProperty(sourceKey) && node._gateSourceStates[sourceKey] > 0.5) {
+        anyGateOpen = true;
+        break;
+      }
+    }
+    node._onGateChange(anyGateOpen ? 1 : 0);
   };
 
   // Poll ADSR CV modulation inputs (attack, decay, sustain, release)
@@ -890,11 +960,21 @@ ZOIA.sim._createDelay = function(ctx, mod) {
   var feedback = ctx.createGain();
   feedback.gain.value = 0.4;
 
+  var timeCv = ctx.createGain();
+  timeCv.gain.value = 1.0;
+  timeCv.connect(delay.delayTime);
+
+  var feedbackCv = ctx.createGain();
+  feedbackCv.gain.value = 0.5;
+  feedbackCv.connect(feedback.gain);
+
   var inGain = ctx.createGain();
   inGain.gain.value = 1.0;
 
   var outGain = ctx.createGain();
   outGain.gain.value = 1.0;
+  var feedbackLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
+  var outputLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
 
   var dryGain = ctx.createGain();
   dryGain.gain.value = 0.5;
@@ -908,10 +988,12 @@ ZOIA.sim._createDelay = function(ctx, mod) {
   inGain.connect(delay);
   inGain.connect(dryGain);
   delay.connect(feedback);
-  feedback.connect(delay);
+  feedback.connect(feedbackLimiter);
+  feedbackLimiter.connect(delay);
   delay.connect(wetGain);
   dryGain.connect(outGain);
   wetGain.connect(outGain);
+  outGain.connect(outputLimiter);
 
   var timeIdx = null, fbIdx = null, mixIdx = null;
 
@@ -923,10 +1005,10 @@ ZOIA.sim._createDelay = function(ctx, mod) {
       var name = (b.n || '').toLowerCase();
       if (name.indexOf('time') >= 0) {
         timeIdx = i;
-        inputs[i] = delay.delayTime;
+        inputs[i] = timeCv;
       } else if (name.indexOf('feed') >= 0) {
         fbIdx = i;
-        inputs[i] = feedback.gain;
+        inputs[i] = feedbackCv;
       } else if (name.indexOf('mix') >= 0) {
         mixIdx = i;
         inputs[i] = null; // Mix handled manually
@@ -934,7 +1016,7 @@ ZOIA.sim._createDelay = function(ctx, mod) {
         inputs[i] = null;
       }
     } else if (b.t === 'audio_out') {
-      outputs[i] = outGain;
+      outputs[i] = outputLimiter;
     } else {
       inputs[i] = null;
       outputs[i] = null;
@@ -943,10 +1025,10 @@ ZOIA.sim._createDelay = function(ctx, mod) {
 
   // Initial params
   if (timeIdx !== null && mod.params && mod.params[timeIdx] !== undefined) {
-    delay.delayTime.value = (mod.params[timeIdx] / 65535) * 5.0;
+    delay.delayTime.value = 0.005 + (mod.params[timeIdx] / 65535) * 1.5;
   }
   if (fbIdx !== null && mod.params && mod.params[fbIdx] !== undefined) {
-    feedback.gain.value = mod.params[fbIdx] / 65535;
+    feedback.gain.value = (mod.params[fbIdx] / 65535) * 0.35;
   }
   if (mixIdx !== null && mod.params && mod.params[mixIdx] !== undefined) {
     var mix = mod.params[mixIdx] / 65535;
@@ -960,6 +1042,10 @@ ZOIA.sim._createDelay = function(ctx, mod) {
     outputs: outputs,
     _delay: delay,
     _feedback: feedback,
+    _feedbackLimiter: feedbackLimiter,
+    _outputLimiter: outputLimiter,
+    _timeCv: timeCv,
+    _feedbackCv: feedbackCv,
     _inGain: inGain,
     _outGain: outGain,
     _dryGain: dryGain,
@@ -968,6 +1054,10 @@ ZOIA.sim._createDelay = function(ctx, mod) {
       try { this._inGain.disconnect(); } catch (e) {}
       try { this._delay.disconnect(); } catch (e) {}
       try { this._feedback.disconnect(); } catch (e) {}
+      try { this._feedbackLimiter.disconnect(); } catch (e) {}
+      try { this._outputLimiter.disconnect(); } catch (e) {}
+      try { this._timeCv.disconnect(); } catch (e) {}
+      try { this._feedbackCv.disconnect(); } catch (e) {}
       try { this._outGain.disconnect(); } catch (e) {}
       try { this._dryGain.disconnect(); } catch (e) {}
       try { this._wetGain.disconnect(); } catch (e) {}
@@ -1680,6 +1770,8 @@ ZOIA.sim._moduleFactories = {
   0:  ZOIA.sim._createSVFilter,
   1:  ZOIA.sim._createAudioInput,
   2:  ZOIA.sim._createAudioOutput,
+  93: ZOIA.sim._createAudioInput,
+  95: ZOIA.sim._createAudioOutput,
   5:  ZOIA.sim._createLFO,
   6:  ZOIA.sim._createADSR,
   7:  ZOIA.sim._createVCA,
@@ -1733,7 +1825,9 @@ ZOIA.sim.build = function() {
   ZOIA.sim.analyser.fftSize = 2048;
   ZOIA.sim.masterGain = ctx.createGain();
   ZOIA.sim.masterGain.gain.value = 1.0;
-  ZOIA.sim.masterGain.connect(ZOIA.sim.analyser);
+  ZOIA.sim.masterLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
+  ZOIA.sim.masterGain.connect(ZOIA.sim.masterLimiter);
+  ZOIA.sim.masterLimiter.connect(ZOIA.sim.analyser);
   ZOIA.sim.analyser.connect(ctx.destination);
 
   // Create input analyser for oscilloscope INPUT display
@@ -1790,12 +1884,12 @@ ZOIA.sim.build = function() {
     nodes.push(node);
 
     // Connect Audio Output modules to master output
-    if (modules[i].typeIdx === 2 && node.getDestinationNode) {
+    if ((modules[i].typeIdx === 2 || modules[i].typeIdx === 95) && node.getDestinationNode) {
       node.getDestinationNode().connect(ZOIA.sim.masterGain);
     }
 
     // Tap Audio Input module outputs into the input analyser
-    if (modules[i].typeIdx === 1) {
+    if (modules[i].typeIdx === 1 || modules[i].typeIdx === 93) {
       for (var ai = 0; ai < node.outputs.length; ai++) {
         if (node.outputs[ai]) {
           try { node.outputs[ai].connect(ZOIA.sim.inputAnalyser); } catch (e) {}
@@ -1807,6 +1901,7 @@ ZOIA.sim.build = function() {
   // Phase 2: Wire connections
   var conns = s.patch.connections;
   var connGains = [];
+  var gatePollers = [];
   var wired = 0;
   var skipped = 0;
 
@@ -1823,6 +1918,120 @@ ZOIA.sim.build = function() {
 
     var srcOut = srcNode.outputs[c.srcBlock];
     var dstIn = dstNode.inputs[c.dstBlock];
+    var sourceBlock = modules[c.srcMod] && modules[c.srcMod].blocks ? modules[c.srcMod].blocks[c.srcBlock] : null;
+    var destBlock = modules[c.dstMod] && modules[c.dstMod].blocks ? modules[c.dstMod].blocks[c.dstBlock] : null;
+    var sourceBlockType = sourceBlock ? sourceBlock.t : null;
+    var sourceName = ((modules[c.srcMod] && modules[c.srcMod].name) || '').toLowerCase();
+    var sourceBlockName = ((sourceBlock && sourceBlock.n) || '').toLowerCase();
+    var sourceLooksControl = sourceBlockType === 'cv_out' || sourceBlockType === 'gate_out' || srcNode.type === 'value' || srcNode.type === 'keyboard' || srcNode.type === 'midi_note_in' || srcNode.type === 'stompswitch' || srcNode.type === 'pushbutton';
+
+    if (srcOut && !dstIn && dstNode.type === 'vca' && dstNode.levelIdx !== null && sourceLooksControl) {
+      dstIn = dstNode.inputs[dstNode.levelIdx];
+      ZOIA.log('SIM:   COMPAT conn[' + j + '] VCA destination block ' + c.dstBlock + ' resolved to Level input block ' + dstNode.levelIdx);
+    }
+
+    if (srcOut && dstNode.type === 'audio_output' && destBlock && destBlock.t === 'cv_in' && sourceBlockType === 'audio_out') {
+      if (!dstNode._compatAudioInputs) dstNode._compatAudioInputs = {};
+      if (!dstNode._compatAudioInputs[c.dstBlock]) {
+        var compatAudioIn = ctx.createGain();
+        compatAudioIn.gain.value = 1.0;
+        compatAudioIn.connect(dstNode._outGain);
+        dstNode._compatAudioInputs[c.dstBlock] = compatAudioIn;
+      }
+      dstIn = dstNode._compatAudioInputs[c.dstBlock];
+      ZOIA.log('SIM:   COMPAT conn[' + j + '] Audio Output destination block ' + c.dstBlock + ' treated as audio input for audio-rate source');
+    }
+
+    if (srcOut && dstNode.type === 'vca' && destBlock && destBlock.t === 'audio_in' && sourceBlockType === 'audio_out') {
+      if (!dstIn) {
+        dstIn = dstNode._fallbackMix || dstNode._vca;
+        ZOIA.log('SIM:   COMPAT conn[' + j + '] VCA audio input block ' + c.dstBlock + ' routed to VCA compatibility mix');
+      } else {
+        ZOIA.log('SIM:   COMPAT conn[' + j + '] VCA audio input block ' + c.dstBlock + ' uses native VCA input');
+      }
+    }
+
+    if (srcOut && dstNode.type === 'adsr' && sourceLooksControl) {
+      var adsrBlocksForCompat = modules[c.dstMod].blocks || [];
+      var adsrTargetName = '';
+      if (sourceName.indexOf('attack') >= 0 || sourceBlockName.indexOf('attack') >= 0) adsrTargetName = 'attack';
+      else if (sourceName.indexOf('decay') >= 0 || sourceBlockName.indexOf('decay') >= 0) adsrTargetName = 'decay';
+      else if (sourceName.indexOf('sustain') >= 0 || sourceBlockName.indexOf('sustain') >= 0) adsrTargetName = 'sustain';
+      else if (sourceName.indexOf('release') >= 0 || sourceBlockName.indexOf('release') >= 0) adsrTargetName = 'release';
+      else if (!dstIn && (sourceName.indexOf('gate') >= 0 || sourceBlockName.indexOf('gate') >= 0 || sourceBlockType === 'gate_out')) adsrTargetName = 'gate';
+      if (adsrTargetName) {
+        for (var ad = 0; ad < adsrBlocksForCompat.length; ad++) {
+          var adName = (adsrBlocksForCompat[ad].n || '').toLowerCase();
+          if (adsrBlocksForCompat[ad].t !== 'cv_in' && adsrBlocksForCompat[ad].t !== 'gate_in') continue;
+          if (adName.indexOf(adsrTargetName) >= 0 && dstNode.inputs[ad]) {
+            if (ad !== c.dstBlock) {
+              dstIn = dstNode.inputs[ad];
+              ZOIA.log('SIM:   COMPAT conn[' + j + '] ADSR destination block ' + c.dstBlock + ' remapped to ' + adsrTargetName + ' input block ' + ad);
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    if (!dstIn && dstNode.type === 'sequencer' && modules[c.dstMod]) {
+      var seqBlocks = modules[c.dstMod].blocks || [];
+      for (var sqi = 0; sqi < seqBlocks.length; sqi++) {
+        var sqName = (seqBlocks[sqi].n || '').toLowerCase();
+        if ((seqBlocks[sqi].t === 'gate_in' || seqBlocks[sqi].t === 'cv_in') && sqName.indexOf('clock') >= 0 && dstNode.inputs[sqi]) {
+          dstIn = dstNode.inputs[sqi];
+          ZOIA.log('SIM:   COMPAT conn[' + j + '] Sequencer destination block ' + c.dstBlock + ' resolved to Clock input block ' + sqi);
+          break;
+        }
+      }
+    }
+
+    if (srcOut && !dstIn && sourceLooksControl && modules[c.dstMod]) {
+      var compatDstBlocks = modules[c.dstMod].blocks || [];
+      var sourceTokens = [];
+      var sourceTokenText = (sourceName + ' ' + sourceBlockName).replace(/[^a-z0-9]+/g, ' ');
+      var sourceTokenParts = sourceTokenText.split(' ');
+      for (var stp = 0; stp < sourceTokenParts.length; stp++) {
+        if (sourceTokenParts[stp].length >= 3) sourceTokens.push(sourceTokenParts[stp]);
+      }
+      if (sourceName.indexOf('freq') >= 0 || sourceName.indexOf('pitch') >= 0 || sourceBlockName.indexOf('freq') >= 0) sourceTokens.push('frequency');
+      if (sourceName.indexOf('rev') >= 0 || sourceBlockName.indexOf('rev') >= 0) sourceTokens.push('reverse');
+      if (sourceName.indexOf('fdbk') >= 0 || sourceName.indexOf('feedback') >= 0) sourceTokens.push('feedback');
+      if (sourceName.indexOf('mod') >= 0 || sourceBlockName.indexOf('mod') >= 0) sourceTokens.push('mod');
+
+      var resolvedControlInput = -1;
+      for (var cdi = 0; cdi < compatDstBlocks.length && resolvedControlInput < 0; cdi++) {
+        if ((compatDstBlocks[cdi].t !== 'cv_in' && compatDstBlocks[cdi].t !== 'gate_in') || !dstNode.inputs[cdi]) continue;
+        var dstNameForMatch = (compatDstBlocks[cdi].n || '').toLowerCase();
+        for (var sti = 0; sti < sourceTokens.length; sti++) {
+          if (dstNameForMatch.indexOf(sourceTokens[sti]) >= 0) {
+            resolvedControlInput = cdi;
+            break;
+          }
+        }
+      }
+      if (resolvedControlInput < 0) {
+        var preferredInputType = (sourceBlockType === 'gate_out' || srcNode.type === 'stompswitch' || srcNode.type === 'pushbutton') ? 'gate_in' : 'cv_in';
+        for (var cdp = 0; cdp < compatDstBlocks.length; cdp++) {
+          if (compatDstBlocks[cdp].t === preferredInputType && dstNode.inputs[cdp]) {
+            resolvedControlInput = cdp;
+            break;
+          }
+        }
+      }
+      if (resolvedControlInput < 0) {
+        for (var cda = 0; cda < compatDstBlocks.length; cda++) {
+          if ((compatDstBlocks[cda].t === 'cv_in' || compatDstBlocks[cda].t === 'gate_in') && dstNode.inputs[cda]) {
+            resolvedControlInput = cda;
+            break;
+          }
+        }
+      }
+      if (resolvedControlInput >= 0) {
+        dstIn = dstNode.inputs[resolvedControlInput];
+        ZOIA.log('SIM:   COMPAT conn[' + j + '] control destination block ' + c.dstBlock + ' on "' + modules[c.dstMod].name + '" resolved to input block ' + resolvedControlInput);
+      }
+    }
 
     if (!srcOut && modules[c.srcMod] && modules[c.srcMod].typeIdx === 13) {
       var srcBlocks = modules[c.srcMod].blocks || [];
@@ -1830,6 +2039,17 @@ ZOIA.sim.build = function() {
         if (srcBlocks[ao].t === 'audio_out' && srcNode.outputs[ao]) {
           srcOut = srcNode.outputs[ao];
           ZOIA.log('SIM:   COMPAT conn[' + j + '] Delay Line source block ' + c.srcBlock + ' resolved to audio_out block ' + ao);
+          break;
+        }
+      }
+    }
+
+    if (!srcOut && dstNode && dstNode._onGateChange && modules[c.srcMod]) {
+      var gateSrcBlocks = modules[c.srcMod].blocks || [];
+      for (var gso = 0; gso < gateSrcBlocks.length; gso++) {
+        if (gateSrcBlocks[gso].t === 'gate_out' && srcNode.outputs[gso]) {
+          srcOut = srcNode.outputs[gso];
+          ZOIA.log('SIM:   COMPAT conn[' + j + '] gate source block ' + c.srcBlock + ' on "' + modules[c.srcMod].name + '" resolved to gate_out block ' + gso);
           break;
         }
       }
@@ -1847,6 +2067,50 @@ ZOIA.sim.build = function() {
       }
     }
 
+    if (srcOut && !dstIn && dstNode && dstNode._onGateChange && dstNode._gateBlockIdx !== null && c.dstBlock === dstNode._gateBlockIdx) {
+      var gateAnalyser = ctx.createAnalyser();
+      gateAnalyser.fftSize = 256;
+      try {
+        srcOut.connect(gateAnalyser);
+        (function(analyser, adsrNode, connIdx) {
+          var GATE_ON_THRESHOLD = 0.5;
+          var GATE_POLL_MS = 8;
+          var gateBuf = new Float32Array(1);
+          var lastGate = 0;
+          var stopped = false;
+          function pollGate() {
+            if (stopped) return;
+            analyser.getFloatTimeDomainData(gateBuf);
+            var gateValue = gateBuf[0] > GATE_ON_THRESHOLD ? 1 : 0;
+            if (gateValue !== lastGate) {
+              if (adsrNode._onGateChangeFromSource) {
+                adsrNode._onGateChangeFromSource('conn-' + connIdx, gateValue);
+              } else {
+                adsrNode._onGateChange(gateValue);
+              }
+              lastGate = gateValue;
+            }
+            setTimeout(pollGate, GATE_POLL_MS);
+          }
+          pollGate();
+          gatePollers.push({
+            connIdx: connIdx,
+            stop: function() {
+              stopped = true;
+              try { analyser.disconnect(); } catch (e) {}
+            }
+          });
+        })(gateAnalyser, dstNode, j);
+        wired++;
+        var _gsm = modules[c.srcMod]; var _gdm = modules[c.dstMod];
+        ZOIA.log('SIM:   GATE-BRIDGE "' + (_gsm ? _gsm.name : '?') + '"[' + c.srcBlock + ']->"' + (_gdm ? _gdm.name : '?') + '"[' + c.dstBlock + ']');
+        continue;
+      } catch (gateBridgeError) {
+        try { gateAnalyser.disconnect(); } catch (e) {}
+        ZOIA.log('SIM:   ERROR gate bridge conn[' + j + ']: ' + gateBridgeError.message);
+      }
+    }
+
     if (!srcOut || !dstIn) {
       var _sm = modules[c.srcMod]; var _dm = modules[c.dstMod];
       var _sbn = _sm && _sm.blocks && _sm.blocks[c.srcBlock] ? _sm.blocks[c.srcBlock].n : '?';
@@ -1857,6 +2121,55 @@ ZOIA.sim.build = function() {
 
     // Connection strength as a GainNode (0-10000 -> 0.0-1.0)
     var strength = (c.strength !== undefined ? c.strength : 10000) / 10000;
+
+    if (dstNode.type === 'vca' && dstNode.levelIdx !== null && c.dstBlock === dstNode.levelIdx && sourceLooksControl) {
+      var vcaLevelAnalyser = ctx.createAnalyser();
+      vcaLevelAnalyser.fftSize = 256;
+      var vcaLevelGain = ctx.createGain();
+      vcaLevelGain.gain.value = strength;
+      try {
+        srcOut.connect(vcaLevelGain);
+        vcaLevelGain.connect(vcaLevelAnalyser);
+        dstNode._vca._audioInputs = dstNode._audioInputs || [];
+        (function(analyser, gainNode, connIdx) {
+          var levelBuf = new Float32Array(analyser.fftSize || 256);
+          var stopped = false;
+          function pollVcaLevel() {
+            if (stopped) return;
+            analyser.getFloatTimeDomainData(levelBuf);
+            var nextLevel = 0;
+            for (var lb = 0; lb < levelBuf.length; lb++) {
+              if (levelBuf[lb] > nextLevel) nextLevel = levelBuf[lb];
+            }
+            try {
+              gainNode.gain.setValueAtTime(nextLevel, ZOIA.sim.ctx.currentTime);
+            } catch (e) {
+              gainNode.gain.value = nextLevel;
+            }
+            setTimeout(pollVcaLevel, 8);
+          }
+          pollVcaLevel();
+          gatePollers.push({
+            connIdx: connIdx,
+            stop: function() {
+              stopped = true;
+              try { analyser.disconnect(); } catch (e) {}
+              try { vcaLevelGain.disconnect(); } catch (e) {}
+            }
+          });
+        })(vcaLevelAnalyser, dstNode._vca, j);
+        connGains.push({ gain: vcaLevelGain, connIdx: j });
+        wired++;
+        var _cvsm = modules[c.srcMod]; var _cvdm = modules[c.dstMod];
+        ZOIA.log('SIM:   VCA-CV-BRIDGE "' + (_cvsm ? _cvsm.name : '?') + '"[' + c.srcBlock + ']->"' + (_cvdm ? _cvdm.name : '?') + '"[' + c.dstBlock + '] str=' + strength);
+        continue;
+      } catch (vcaBridgeError) {
+        try { vcaLevelAnalyser.disconnect(); } catch (e) {}
+        try { vcaLevelGain.disconnect(); } catch (e) {}
+        ZOIA.log('SIM:   ERROR VCA CV bridge conn[' + j + ']: ' + vcaBridgeError.message);
+      }
+    }
+
     var connGain = ctx.createGain();
     connGain.gain.value = strength;
 
@@ -1886,6 +2199,7 @@ ZOIA.sim.build = function() {
   ZOIA.sim.nodes = nodes;
   ZOIA.log('[DIAG] Sim nodes created: ' + ZOIA.sim.nodes.length + ' nodes');
   ZOIA.sim.connGains = connGains;
+  ZOIA.sim.gatePollers = gatePollers;
 
   ZOIA.log('SIM: Graph built. ' + wired + ' connections wired, ' + skipped + ' skipped.');
 
@@ -1936,10 +2250,21 @@ ZOIA.sim.teardown = function() {
   }
   ZOIA.sim.connGains = [];
 
+  if (ZOIA.sim.gatePollers) {
+    for (var gp = 0; gp < ZOIA.sim.gatePollers.length; gp++) {
+      try { ZOIA.sim.gatePollers[gp].stop(); } catch (e) {}
+    }
+  }
+  ZOIA.sim.gatePollers = [];
+
   // Dispose master chain
   if (ZOIA.sim.masterGain) {
     try { ZOIA.sim.masterGain.disconnect(); } catch (e) {}
     ZOIA.sim.masterGain = null;
+  }
+  if (ZOIA.sim.masterLimiter) {
+    try { ZOIA.sim.masterLimiter.disconnect(); } catch (e) {}
+    ZOIA.sim.masterLimiter = null;
   }
   if (ZOIA.sim.analyser) {
     try { ZOIA.sim.analyser.disconnect(); } catch (e) {}

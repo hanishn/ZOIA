@@ -4,8 +4,8 @@
  *
  * Implements Web Audio node graphs for audio-processing modules:
  *   Multi Filter (24), Stereo Spread (53), Audio Balance (64),
- *   Inverter (65), EQ (73), Granular (78), Audio In Switch (33),
- *   Audio Out Switch (34), Looper (62)
+ *   Inverter (65), EQ (73), Granular (78/83), Audio In Switch (33),
+ *   Audio Out Switch (34), Looper (62), Sampler (102)
  *
  * Each factory returns: { type, inputs[], outputs[], dispose() }
  *   - inputs[blockIdx]  = AudioNode (audio_in) | AudioParam (cv_in) | null
@@ -23,9 +23,17 @@ ZOIA.sim = ZOIA.sim || {};
 
 ZOIA.sim._readParam = function(mod, idx) {
   if (idx !== null && mod.params && mod.params[idx] !== undefined) {
-    return mod.params[idx] / 65535;
+    return ZOIA.sim._clampUnit(mod.params[idx] / 65535, 0.5);
   }
   return null;
+};
+
+ZOIA.sim._clampUnit = function(value, fallback) {
+  var n = Number(value);
+  if (!isFinite(n)) return fallback;
+  if (n < 0) return 0;
+  if (n > 1) return 1;
+  return n;
 };
 
 
@@ -51,9 +59,11 @@ ZOIA.sim._createMultiFilter = function(ctx, mod) {
 
   var outGain = ctx.createGain();
   outGain.gain.value = 1.0;
+  var outputLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
 
   inGain.connect(filter);
   filter.connect(outGain);
+  outGain.connect(outputLimiter);
 
   var freqIdx = null;
   var resIdx = null;
@@ -78,7 +88,7 @@ ZOIA.sim._createMultiFilter = function(ctx, mod) {
         inputs[i] = null;
       }
     } else if (b.t === 'audio_out') {
-      outputs[i] = outGain;
+      outputs[i] = outputLimiter;
     } else {
       inputs[i] = null;
       outputs[i] = null;
@@ -108,6 +118,7 @@ ZOIA.sim._createMultiFilter = function(ctx, mod) {
     _inGain: inGain,
     _filter: filter,
     _outGain: outGain,
+    _outputLimiter: outputLimiter,
     freqIdx: freqIdx,
     resIdx: resIdx,
     gainIdx: gainIdx,
@@ -115,6 +126,7 @@ ZOIA.sim._createMultiFilter = function(ctx, mod) {
       try { this._inGain.disconnect(); } catch (e) {}
       try { this._filter.disconnect(); } catch (e) {}
       try { this._outGain.disconnect(); } catch (e) {}
+      try { this._outputLimiter.disconnect(); } catch (e) {}
     },
     setFrequency: function(freq) {
       var t = ZOIA.sim.ctx.currentTime;
@@ -428,6 +440,7 @@ ZOIA.sim._createAudioBalance = function(ctx, mod) {
         try { selAnalyser.disconnect(); } catch (e) {}
       },
       setBalance: function(bal) {
+        bal = ZOIA.sim._clampUnit(bal, 0.5);
         var t = ZOIA.sim.ctx.currentTime;
         this._gainLA.gain.setTargetAtTime(1.0 - bal, t, 0.01);
         this._gainRA.gain.setTargetAtTime(1.0 - bal, t, 0.01);
@@ -444,7 +457,7 @@ ZOIA.sim._createAudioBalance = function(ctx, mod) {
     (function pollBalance() {
       if (_disposed) return;
       selAnalyser.getFloatTimeDomainData(_selBuf);
-      var b = _selBuf[0];
+      var b = ZOIA.sim._clampUnit(_selBuf[0], _lastSel < 0 ? 0.5 : _lastSel);
       if (Math.abs(b - _lastSel) > 0.05) {
         node.setBalance(b);
         _lastSel = b;
@@ -525,6 +538,7 @@ ZOIA.sim._createAudioBalance = function(ctx, mod) {
       try { selAnalyser.disconnect(); } catch (e) {}
     },
     setBalance: function(bal) {
+      bal = ZOIA.sim._clampUnit(bal, 0.5);
       var t = ZOIA.sim.ctx.currentTime;
       this._gainA.gain.setTargetAtTime(1.0 - bal, t, 0.01);
       this._gainB.gain.setTargetAtTime(bal, t, 0.01);
@@ -539,7 +553,7 @@ ZOIA.sim._createAudioBalance = function(ctx, mod) {
   (function pollBalance() {
     if (_disposed) return;
     selAnalyser.getFloatTimeDomainData(_selBuf);
-    var b = _selBuf[0];
+    var b = ZOIA.sim._clampUnit(_selBuf[0], _lastSel < 0 ? 0.5 : _lastSel);
     if (Math.abs(b - _lastSel) > 0.05) {
       node.setBalance(b);
       _lastSel = b;
@@ -705,7 +719,7 @@ ZOIA.sim._createEQ = function(ctx, mod) {
 
 
 // ================================================================
-//  Granular (Type 78)
+//  Granular (Types 78, 83)
 // ================================================================
 // Blocks: Audio In [audio_in], Position [cv_in], Size [cv_in],
 //         Audio Out [audio_out]
@@ -748,11 +762,13 @@ ZOIA.sim._createGranular = function(ctx, mod) {
   wetGain.gain.value = 0.7;
   var outGain = ctx.createGain();
   outGain.gain.value = 1.0;
+  var outputLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
 
   buffer.connect(dryGain);
   grainEnv.connect(wetGain);
   dryGain.connect(outGain);
   wetGain.connect(outGain);
+  outGain.connect(outputLimiter);
 
   var posIdx = null;
   var sizeIdx = null;
@@ -773,7 +789,7 @@ ZOIA.sim._createGranular = function(ctx, mod) {
         inputs[i] = null;
       }
     } else if (b.t === 'audio_out') {
-      outputs[i] = outGain;
+      outputs[i] = outputLimiter;
     } else {
       inputs[i] = null;
       outputs[i] = null;
@@ -803,6 +819,7 @@ ZOIA.sim._createGranular = function(ctx, mod) {
     _dryGain: dryGain,
     _wetGain: wetGain,
     _outGain: outGain,
+    _outputLimiter: outputLimiter,
     posIdx: posIdx,
     sizeIdx: sizeIdx,
     dispose: function() {
@@ -813,6 +830,7 @@ ZOIA.sim._createGranular = function(ctx, mod) {
       try { this._dryGain.disconnect(); } catch (e) {}
       try { this._wetGain.disconnect(); } catch (e) {}
       try { this._outGain.disconnect(); } catch (e) {}
+      try { this._outputLimiter.disconnect(); } catch (e) {}
     },
     setPosition: function(pos) {
       var t = ZOIA.sim.ctx.currentTime;
@@ -852,11 +870,13 @@ ZOIA.sim._createAudioInSwitch = function(ctx, mod) {
 
   var outGain = ctx.createGain();
   outGain.gain.value = 1.0;
+  var outputLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
 
   in1.connect(gain1);
   in2.connect(gain2);
   gain1.connect(outGain);
   gain2.connect(outGain);
+  outGain.connect(outputLimiter);
 
   var selectIdx = null;
   var inCount = 0;
@@ -887,7 +907,7 @@ ZOIA.sim._createAudioInSwitch = function(ctx, mod) {
         inputs[i] = null;
       }
     } else if (b.t === 'audio_out') {
-      outputs[i] = outGain;
+      outputs[i] = outputLimiter;
     } else {
       inputs[i] = null;
       outputs[i] = null;
@@ -913,6 +933,7 @@ ZOIA.sim._createAudioInSwitch = function(ctx, mod) {
     _in1: in1, _in2: in2,
     _gain1: gain1, _gain2: gain2,
     _outGain: outGain,
+    _outputLimiter: outputLimiter,
     selectIdx: selectIdx,
     dispose: function() {
       _disposed = true;
@@ -921,12 +942,14 @@ ZOIA.sim._createAudioInSwitch = function(ctx, mod) {
       try { this._gain1.disconnect(); } catch (e) {}
       try { this._gain2.disconnect(); } catch (e) {}
       try { this._outGain.disconnect(); } catch (e) {}
+      try { this._outputLimiter.disconnect(); } catch (e) {}
       try { selSrc.stop(); } catch (e) {}
       try { selSrc.disconnect(); } catch (e) {}
       try { selProxy.disconnect(); } catch (e) {}
       try { selAnalyser.disconnect(); } catch (e) {}
     },
     setSelect: function(sel) {
+      sel = ZOIA.sim._clampUnit(sel, 0);
       var t = ZOIA.sim.ctx.currentTime;
       if (sel >= 0.5) {
         this._gain1.gain.setTargetAtTime(0.0, t, 0.01);
@@ -946,7 +969,7 @@ ZOIA.sim._createAudioInSwitch = function(ctx, mod) {
   (function pollSelect() {
     if (_disposed) return;
     selAnalyser.getFloatTimeDomainData(_selBuf);
-    var s = _selBuf[0];
+    var s = ZOIA.sim._clampUnit(_selBuf[0], _lastSel < 0 ? 0 : _lastSel);
     if (Math.abs(s - _lastSel) > 0.05) {
       node.setSelect(s);
       _lastSel = s;
@@ -1079,6 +1102,110 @@ ZOIA.sim._createAudioOutSwitch = function(ctx, mod) {
 
 
 // ================================================================
+//  Sampler (Type 102)
+// ================================================================
+// Deterministic validation model. Provides audio outputs from a generated
+// fixture buffer so community patches that route Sampler modules can be tested.
+
+ZOIA.sim._createSampler = function(ctx, mod) {
+  var blocks = mod.blocks || [];
+  var inputs = [];
+  var outputs = [];
+
+  var playProxy = ctx.createGain();
+  playProxy.gain.value = 0;
+  var recordProxy = ctx.createGain();
+  recordProxy.gain.value = 0;
+  var cvProxy = ctx.createGain();
+  cvProxy.gain.value = 0;
+
+  var lOut = ctx.createGain();
+  lOut.gain.value = 1.0;
+  var rOut = ctx.createGain();
+  rOut.gain.value = 1.0;
+  var lLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
+  var rLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
+  lOut.connect(lLimiter);
+  rOut.connect(rLimiter);
+
+  var audioOutCount = 0;
+  for (var i = 0; i < blocks.length; i++) {
+    var b = blocks[i];
+    if (b.t === 'gate_in') {
+      var name = (b.n || '').toLowerCase();
+      inputs[i] = name.indexOf('record') >= 0 ? recordProxy : playProxy;
+    } else if (b.t === 'cv_in') {
+      inputs[i] = cvProxy;
+    } else if (b.t === 'audio_out') {
+      outputs[i] = audioOutCount === 0 ? lLimiter : rLimiter;
+      audioOutCount++;
+    } else {
+      inputs[i] = null;
+      outputs[i] = null;
+    }
+  }
+
+  var node = {
+    type: 'sampler',
+    inputs: inputs,
+    outputs: outputs,
+    _playProxy: playProxy,
+    _recordProxy: recordProxy,
+    _cvProxy: cvProxy,
+    _lOut: lOut,
+    _rOut: rOut,
+    _lLimiter: lLimiter,
+    _rLimiter: rLimiter,
+    _audioBuffer: null,
+    _sourceNode: null,
+    dispose: function() {
+      if (this._sourceNode) {
+        try { this._sourceNode.stop(); } catch (e) {}
+        try { this._sourceNode.disconnect(); } catch (e2) {}
+      }
+      try { this._playProxy.disconnect(); } catch (e3) {}
+      try { this._recordProxy.disconnect(); } catch (e4) {}
+      try { this._cvProxy.disconnect(); } catch (e5) {}
+      try { this._lOut.disconnect(); } catch (e6) {}
+      try { this._rOut.disconnect(); } catch (e7) {}
+      try { this._lLimiter.disconnect(); } catch (e8) {}
+      try { this._rLimiter.disconnect(); } catch (e9) {}
+    },
+    _loadTestLoop: function() {
+      var sampleRate = ctx.sampleRate || 44100;
+      var length = Math.max(1, Math.floor(sampleRate * 0.5));
+      var buffer = ctx.createBuffer(1, length, sampleRate);
+      var channelData = buffer.getChannelData(0);
+      for (var i = 0; i < length; i++) {
+        var fundamental = Math.sin((2 * Math.PI * 196 * i) / sampleRate) * 0.28;
+        var overtone = Math.sin((2 * Math.PI * 392 * i) / sampleRate) * 0.08;
+        channelData[i] = fundamental + overtone;
+      }
+      this._audioBuffer = buffer;
+      ZOIA.log('[DIAG] Sampler deterministic test sample loaded, length=' + length);
+    },
+    startPlay: function(source) {
+      if (!this._audioBuffer) this._loadTestLoop();
+      if (this._sourceNode) {
+        try { this._sourceNode.stop(); } catch (e) {}
+        try { this._sourceNode.disconnect(); } catch (e2) {}
+      }
+      var src = ctx.createBufferSource();
+      src.buffer = this._audioBuffer;
+      src.loop = true;
+      src.connect(this._lOut);
+      src.connect(this._rOut);
+      src.start();
+      this._sourceNode = src;
+      ZOIA.log('[DIAG] Sampler deterministic playback started, source=' + (source || 'button'));
+    }
+  };
+
+  return node;
+};
+
+
+// ================================================================
 //  Looper (Type 62)
 // ================================================================
 // Blocks: Audio In [audio_in], Record [gate_in], Play [gate_in],
@@ -1103,6 +1230,7 @@ ZOIA.sim._createLooper = function(ctx, mod) {
 
   var outGain = ctx.createGain();
   outGain.gain.value = 1.0;
+  var outputLimiter = ZOIA.sim._createSoftLimiter(ctx, 1);
 
   // Audio capture during recording
   var captureProcessor = ctx.createScriptProcessor(4096, 1, 1);
@@ -1122,6 +1250,7 @@ ZOIA.sim._createLooper = function(ctx, mod) {
   silentDrain.connect(ctx.destination);
   playGain.connect(outGain);
   inGain.connect(outGain); // dry signal always passes through
+  outGain.connect(outputLimiter);
 
   // Capture handler
   captureProcessor.onaudioprocess = function(e) {
@@ -1130,7 +1259,11 @@ ZOIA.sim._createLooper = function(ctx, mod) {
       var chunk = new Float32Array(input.length);
       // Copy samples (must copy, buffer is reused)
       for (var ci = 0; ci < input.length; ci++) {
-        chunk[ci] = input[ci];
+        var sample = Number(input[ci]);
+        if (!isFinite(sample)) sample = 0;
+        if (sample > 1) sample = 1;
+        if (sample < -1) sample = -1;
+        chunk[ci] = sample;
       }
       captureChunks.push(chunk);
     }
@@ -1211,7 +1344,7 @@ ZOIA.sim._createLooper = function(ctx, mod) {
         inputs[i] = null;
       }
     } else if (b.t === 'audio_out') {
-      outputs[i] = outGain;
+      outputs[i] = outputLimiter;
     } else {
       inputs[i] = null;
       outputs[i] = null;
@@ -1228,6 +1361,7 @@ ZOIA.sim._createLooper = function(ctx, mod) {
     _recordGain: recordGain,
     _playGain: playGain,
     _outGain: outGain,
+    _outputLimiter: outputLimiter,
     _audioBuffer: null,      // AudioBuffer created from captured samples
     _sourceNode: null,       // Current AudioBufferSourceNode (null when not playing)
     _recording: false,
@@ -1247,6 +1381,7 @@ ZOIA.sim._createLooper = function(ctx, mod) {
       try { this._recordGain.disconnect(); } catch (e) {}
       try { this._playGain.disconnect(); } catch (e) {}
       try { this._outGain.disconnect(); } catch (e) {}
+      try { this._outputLimiter.disconnect(); } catch (e) {}
       try { captureProcessor.disconnect(); } catch (e) {}
       try { silentDrain.disconnect(); } catch (e) {}
       if (this._sourceNode) {
@@ -1266,6 +1401,18 @@ ZOIA.sim._createLooper = function(ctx, mod) {
       try { stopProxy.disconnect(); } catch (e) {}
       try { stopAnalyser.disconnect(); } catch (e) {}
       try { energyAnalyser.disconnect(); } catch (e) {}
+    },
+    _loadTestLoop: function() {
+      var sampleRate = ctx.sampleRate || 44100;
+      var length = Math.max(1, Math.floor(sampleRate * 0.5));
+      var buffer = ctx.createBuffer(1, length, sampleRate);
+      var channelData = buffer.getChannelData(0);
+      for (var i = 0; i < length; i++) {
+        channelData[i] = Math.sin((2 * Math.PI * 220 * i) / sampleRate) * 0.35;
+      }
+      this._audioBuffer = buffer;
+      this._recordDuration = length / sampleRate;
+      ZOIA.log('[DIAG] Looper deterministic test loop loaded, length=' + length);
     },
     startRecord: function(source) {
       ZOIA.log('[DIAG] startRecord() called, source=' + (source || 'button') + ' _recording=' + this._recording);
@@ -1338,7 +1485,7 @@ ZOIA.sim._createLooper = function(ctx, mod) {
         src.connect(this._playGain);
         src.start(0);
         this._sourceNode = src;
-        this._playGain.gain.setTargetAtTime(1.0, t, 0.01);
+        this._playGain.gain.setTargetAtTime(0.6, t, 0.01);
         this._playing = true;
         this._playStartTime = ZOIA.sim.ctx.currentTime;
         ZOIA.log('[DIAG] startPlay: started AudioBufferSourceNode, loop=true, bufferLen=' + this._audioBuffer.length);
@@ -1487,12 +1634,14 @@ ZOIA.sim._moduleFactories[33] = ZOIA.sim._createAudioInSwitch;
 ZOIA.sim._moduleFactories[34] = ZOIA.sim._createAudioOutSwitch;
 ZOIA.sim._moduleFactories[53] = ZOIA.sim._createStereoSpread;
 ZOIA.sim._moduleFactories[62] = ZOIA.sim._createLooper;
+ZOIA.sim._moduleFactories[102] = ZOIA.sim._createSampler;
 ZOIA.sim._moduleFactories[64] = ZOIA.sim._createAudioBalance;
 ZOIA.sim._moduleFactories[65] = ZOIA.sim._createInverter;
 ZOIA.sim._moduleFactories[73] = ZOIA.sim._createEQ;
 ZOIA.sim._moduleFactories[78] = ZOIA.sim._createGranular;
 ZOIA.sim._moduleFactories[79] = ZOIA.sim._createAudioBalance;
+ZOIA.sim._moduleFactories[83] = ZOIA.sim._createGranular;
 
-ZOIA.log('sim-mod-audio.js loaded: 9 audio modules registered');
+ZOIA.log('sim-mod-audio.js loaded: 10 audio modules registered');
 
 

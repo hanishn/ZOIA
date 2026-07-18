@@ -1,6 +1,6 @@
 {
   "name": "zoia-emulator",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "ZOIA emulator source, shared SSL support package, and deterministic parser/Playwright/audio test harness.",
   "scripts": {
@@ -32,6 +32,13 @@
     "zoia:trace:community": "node tests/workflow/playwright/run-zoia-playwright-trace-community-patches-evidence.mjs",
     "zoia:trace:validate": "python tests/workflow/python/validate_trace_baseline.py",
     "zoia:trace:validate:community": "python tests/workflow/python/validate_community_trace_baseline.py",
+    "zoia:verify:test-patches:stimulus": "node tests/workflow/playwright/run-zoia-playwright-test-patch-stimulus-evidence.mjs",
+    "zoia:verify:community:stimulus": "node tests/workflow/playwright/run-zoia-playwright-community-audio-evidence.mjs --v04-stimulus",
+    "zoia:verify:community:stimulus:targets": "node tests/workflow/playwright/run-zoia-playwright-community-audio-evidence.mjs --v04-stimulus",
+    "zoia:verify:community:stimulus:resume": "node tests/workflow/playwright/run-zoia-playwright-community-audio-evidence.mjs --v04-stimulus --resume",
+    "zoia:verify:community:playability-backlog": "node tests/workflow/scripts/generate-community-playability-backlog.mjs",
+    "zoia:verify:community:classified-modalities": "node tests/workflow/scripts/run-community-classified-modality-gate.mjs",
+    "zoia:verify:community:modality-rollup": "node tests/workflow/scripts/generate-community-modality-rollup.mjs",
     "zoia:test:staged": "npm run zoia:test:playwright:staged-deep",
     "zoia:test:audio": "npm run zoia:test:playwright:staged-patch-audio",
     "zoia:test:community": "npm run zoia:test:playwright:community-audio",
@@ -42,6 +49,7 @@
     "zoia:ssl:proof": "node tests/workflow/scripts/generate-ssl-rebaseline-proof.mjs",
     "zoia:test:ci": "npm run zoia:build && node tests/workflow/scripts/run-zoia-ci-gates.mjs",
     "zoia:github:boundary": "node tests/workflow/scripts/generate-github-readiness-boundary.mjs",
+    "zoia:verify:v04": "node tests/workflow/scripts/run-zoia-v04-readiness.mjs",
     "zoia:test:publication": "npm run zoia:test:ci && npm run zoia:patch-library:prepare && npm run zoia:test:playwright:community-audio"
   },
   "devDependencies": {

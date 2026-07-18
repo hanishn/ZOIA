@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "zoia.patch-verification-result.schema.v1",
+  "version": "0.4.0",
+  "revision": 1,
+  "requiredTopLevelFields": [
+    "schemaVersion",
+    "status",
+    "patchId",
+    "corpus",
+    "classification",
+    "artifacts",
+    "assertions"
+  ],
+  "statusValues": [
+    "pass",
+    "classified",
+    "blocked",
+    "fail"
+  ],
+  "requiredArtifactClasses": [
+    "result-json",
+    "console-log",
+    "page-error-log",
+    "model-json",
+    "trace-json",
+    "signal-flow-json",
+    "dom-snapshot",
+    "hardware-screenshot",
+    "schematic-screenshot"
+  ],
+  "audioArtifactClassesWhenAudioExpected": [
+    "audio-features-json",
+    "audio-state-json",
+    "quantized-sample-hash"
+  ],
+  "failureCategories": [
+    "parser-defect",
+    "module-db-defect",
+    "ui-render-defect",
+    "schematic-defect",
+    "signal-flow-defect",
+    "audio-engine-defect",
+    "playability-stimulus-missing",
+    "external-input-required",
+    "midi-required",
+    "cv-required",
+    "unsupported-module",
+    "malformed-patch-data",
+    "rights-or-provenance-excluded",
+    "non-audio-patch",
+    "empty-patch"
+  ],
+  "claimBoundary": "This schema records deterministic evidence for tested behavior. It does not imply hardware fidelity, full DSP accuracy, or binary export fidelity unless a result contains explicit evidence for that dimension."
+}

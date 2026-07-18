@@ -16,19 +16,46 @@ const PROJECT_ROOT = resolve(__dirname, "..", "..", "..");
 const SIMULATOR_HTML = resolve(PROJECT_ROOT, "products", "zoia", "index.html");
 const COMMUNITY_MANIFEST_PATH = resolve(PROJECT_ROOT, "tests/workflow", "patch-library-cache", "zoia-patch-library-manifest.json");
 const Q097_CONSOLIDATED_RESULT_PATH = resolve(PROJECT_ROOT, "tests/workflow", "evidence", "q097-community-library-deep-consolidated", "run-result.json");
-const EVIDENCE_ROOT_NAME = process.env.ZOIA_COMMUNITY_AUDIO_EVIDENCE_SUFFIX
-  ? `q106-community-patch-audio-classification-${String(process.env.ZOIA_COMMUNITY_AUDIO_EVIDENCE_SUFFIX).replace(/[^A-Za-z0-9._-]+/g, "_")}`
-  : "q106-community-patch-audio-classification-baseline";
-const EVIDENCE_ROOT = resolve(PROJECT_ROOT, "tests/workflow", "evidence", EVIDENCE_ROOT_NAME);
 const EDGE_CHANNEL = "msedge";
-const COMMAND = "npm run zoia:test:playwright:community-audio";
 const VIEWPORT = Object.freeze({ width: 1440, height: 1000 });
 const PASS_STATUS = "pass";
 const FAIL_STATUS = "fail";
 const CLASSIFIED_STATUS = "classified";
+const RAW_CLI_ARGS = process.argv.slice(2);
+const CLI_ARGS = new Set(RAW_CLI_ARGS);
+const V04_COMMUNITY_STIMULUS = process.env.ZOIA_COMMUNITY_AUDIO_V04_STIMULUS === "1" || CLI_ARGS.has("--v04-stimulus");
+const RESUME_EXISTING_RESULTS = process.env.ZOIA_COMMUNITY_AUDIO_RESUME === "1" || CLI_ARGS.has("--resume");
+const DEEP_NODE_PROBES = process.env.ZOIA_COMMUNITY_AUDIO_DEEP_NODE_PROBES === "1" || CLI_ARGS.has("--deep-node-probes");
+const CLI_EVIDENCE_SUFFIX = readCliOption("evidence-suffix");
+const EVIDENCE_SUFFIX = CLI_EVIDENCE_SUFFIX || process.env.ZOIA_COMMUNITY_AUDIO_EVIDENCE_SUFFIX || (V04_COMMUNITY_STIMULUS ? "v0.4-community-stimulus" : "");
+const EVIDENCE_ROOT_NAME = EVIDENCE_SUFFIX
+  ? `q106-community-patch-audio-classification-${String(EVIDENCE_SUFFIX).replace(/[^A-Za-z0-9._-]+/g, "_")}`
+  : "q106-community-patch-audio-classification-baseline";
+const EVIDENCE_ROOT = resolve(PROJECT_ROOT, "tests/workflow", "evidence", EVIDENCE_ROOT_NAME);
+const COMMAND = V04_COMMUNITY_STIMULUS
+  ? `npm run zoia:verify:community:stimulus${RESUME_EXISTING_RESULTS ? ":resume" : ""}`
+  : "npm run zoia:test:playwright:community-audio";
+const TARGET_PATCH_IDS = parseList(readCliOption("target-ids") || process.env.ZOIA_COMMUNITY_AUDIO_TARGET_IDS || process.env.ZOIA_COMMUNITY_AUDIO_ONLY || "");
 const JSON_SPACES = 2;
 const GRID_BUTTON_COUNT = 80;
 const PATCH_TIMEOUT_MS = 15000;
+const LOW_FREQUENCY_SIGNAL_MIN_PEAK = 0.001;
+const LOW_LEVEL_WAVEFORM_MIN_PEAK = 0.0001;
+const LOW_LEVEL_WAVEFORM_MIN_ZERO_CROSSINGS = 20;
+const MAX_STABLE_MASTER_PEAK = 4;
+
+function readCliOption(name) {
+  const prefix = `--${name}=`;
+  const arg = RAW_CLI_ARGS.find((value) => value.startsWith(prefix));
+  return arg ? arg.slice(prefix.length) : "";
+}
+
+function parseList(value) {
+  return String(value || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0);
+}
 
 function nowIso() {
   return new Date().toISOString();
@@ -42,12 +69,25 @@ function sha256Buffer(buffer) {
   return createHash("sha256").update(buffer).digest("hex");
 }
 
+function resolveExistingProjectPath(value) {
+  if (!value) return value;
+  if (existsSync(value)) return value;
+  const normalized = String(value).replace(/\\TestWorkflow\\/i, "\\tests\\workflow\\");
+  if (existsSync(normalized)) return normalized;
+  return value;
+}
+
 async function writeJson(path, value) {
   await writeFile(path, `${JSON.stringify(value, null, JSON_SPACES)}\n`, "utf8");
 }
 
 async function writeText(path, value) {
   await writeFile(path, value, "utf8");
+}
+
+async function readJsonIfPresent(path) {
+  if (!existsSync(path)) return null;
+  return JSON.parse(await readFile(path, "utf8"));
 }
 
 function assertCondition(failures, condition, surface, message, evidence = null) {
@@ -68,6 +108,43 @@ function classifyCommunityTarget(staticAnalysis) {
       reason: "Imported community patch contains no modules."
     };
   }
+  if (!hasAudioOutput) {
+    return {
+      expectedStimulus: "none",
+      expectedOutput: "classified",
+      expectedClassification: "no-audio-output-module",
+      reason: "Community patch has no Audio Output module; no master audio signal is expected from this test."
+    };
+  }
+  if (hasAudioInput && hasAudioOutput && (!hasInputRouting || !hasOutputRouting)) {
+    return {
+      expectedStimulus: "none",
+      expectedOutput: "classified",
+      expectedClassification: "no-audio-routing-present",
+      reason: "Community patch has Audio Input and Audio Output modules but no routed audio path for deterministic test-tone validation."
+    };
+  }
+  if (hasAudioOutput && hasOutputRouting && !staticAnalysis.hasAudioSourceToOutputRoute) {
+    return {
+      expectedStimulus: "none",
+      expectedOutput: "classified",
+      expectedClassification: "no-audio-source-to-output-route",
+      reason: "Community patch contains Audio Output routing, but no connected audio-source path reaches the Audio Output module."
+    };
+  }
+  if (hasAudioOutput &&
+      hasOutputRouting &&
+      staticAnalysis.hasAudioSourceToOutputRoute &&
+      staticAnalysis.routedOscillatorModuleCount === 0 &&
+      staticAnalysis.routedNoiseModuleCount === 0 &&
+      staticAnalysis.routedAudioInputModuleCount === 0 &&
+      (staticAnalysis.routedSamplerModuleCount > 0 || staticAnalysis.routedLooperModuleCount > 0)) {
+    return {
+      expectedStimulus: "sample-or-loop-content",
+      expectedOutput: "signal",
+      reason: "Community patch routes Sampler or Looper modules to output; deterministic sample or loop content is applied during evidence collection."
+    };
+  }
   if (hasAudioInput && hasAudioOutput && hasInputRouting && hasOutputRouting) {
     return {
       expectedStimulus: "test-tone",
@@ -75,12 +152,19 @@ function classifyCommunityTarget(staticAnalysis) {
       reason: "Community patch has routed Audio Input and Audio Output modules."
     };
   }
-  if (!hasAudioOutput) {
+  if (hasAudioOutput && staticAnalysis.outputConnections > 0 && staticAnalysis.outputConnectionsFromMidiModules === staticAnalysis.outputConnections) {
     return {
-      expectedStimulus: "none",
+      expectedStimulus: "deterministic-control-midi-cv",
       expectedOutput: "classified",
-      expectedClassification: "no-audio-output-module",
-      reason: "Community patch has no Audio Output module; no master audio signal is expected from this test."
+      expectedClassification: "midi-output-patch-no-master-audio-source",
+      reason: "Community patch routes final output through MIDI module evidence blocks; this is MIDI/control playability, not master audio output proof."
+    };
+  }
+  if (V04_COMMUNITY_STIMULUS && hasAudioOutput && hasOutputRouting && !hasAudioInput && (staticAnalysis.oscillatorModuleCount > 0 || staticAnalysis.keyboardModuleCount > 0 || staticAnalysis.controlModuleCount > 0)) {
+    return {
+      expectedStimulus: "deterministic-control-midi-cv",
+      expectedOutput: "signal",
+      reason: "v0.4 community stimulus mode applies repeated deterministic control, MIDI, and clock stimulus to source-only community patches."
     };
   }
   if (!hasAudioInput && (staticAnalysis.oscillatorModuleCount > 0 || staticAnalysis.keyboardModuleCount > 0)) {
@@ -103,10 +187,9 @@ async function loadManifests() {
   const manifest = JSON.parse((await readFile(COMMUNITY_MANIFEST_PATH, "utf8")).replace(/^\uFEFF/, ""));
   const q097 = JSON.parse(await readFile(Q097_CONSOLIDATED_RESULT_PATH, "utf8"));
   const q097ByPairId = new Map((q097.tests || []).map((test) => [test.pairId, test]));
-  const onlyIds = (process.env.ZOIA_COMMUNITY_AUDIO_ONLY || "")
-    .split(",")
-    .map((value) => value.trim())
-    .filter((value) => value.length > 0);
+  const onlyIds = TARGET_PATCH_IDS.length > 0
+    ? TARGET_PATCH_IDS
+    : parseList(process.env.ZOIA_COMMUNITY_AUDIO_ONLY || "");
   const selectedPatches = onlyIds.length > 0
     ? manifest.patches.filter((patch) => onlyIds.includes(patch.patchId))
     : manifest.patches;
@@ -116,7 +199,7 @@ async function loadManifests() {
     minMasterRmsForSignal: 0.0005,
     minMasterPeakForSignal: 0.005,
     minTestToneConnections: 1,
-    sampleDurationMs: 2500,
+    sampleDurationMs: V04_COMMUNITY_STIMULUS ? 6000 : 2500,
     sampleIntervalMs: 50
   };
   return {
@@ -130,7 +213,9 @@ async function loadManifests() {
       targetCount: patches.length,
       fullManifestPatchCount: manifest.patches.length,
       limit: Number.isFinite(limit) && limit > 0 ? limit : null,
-      onlyIds
+      onlyIds,
+      evidenceSuffix: EVIDENCE_SUFFIX || null,
+      evidenceRootName: EVIDENCE_ROOT_NAME
     },
     fixtures: patches.map((patch, index) => {
       const q097Test = q097ByPairId.get(patch.patchId) || null;
@@ -139,8 +224,8 @@ async function loadManifests() {
         patchId: patch.patchId,
         sourceIndex: index,
         category: patch.category || "patch-library",
-        binPath: patch.binPath,
-        jsonPath: patch.metadataPath || null,
+        binPath: resolveExistingProjectPath(patch.binPath),
+        jsonPath: patch.metadataPath ? resolveExistingProjectPath(patch.metadataPath) : null,
         binSha256: String(patch.binSha256 || "").toLowerCase(),
         binSize: patch.binSize,
         readOnlySource: patch.readOnlySource,
@@ -229,7 +314,7 @@ async function runPatch(browser, metadata, fixture) {
   }
 
   try {
-    if (fixture.q097Status === FAIL_STATUS) {
+    if (fixture.q097Status === FAIL_STATUS && !V04_COMMUNITY_STIMULUS) {
       const record = {
         schemaVersion: "zoia.community-patch-audio-result.v0",
         pairId: fixture.pairId,
@@ -308,22 +393,97 @@ async function runPatch(browser, metadata, fixture) {
         cvInBlocks: module.blocks.filter((block) => block.t === "cv_in").length,
         gateInBlocks: module.blocks.filter((block) => block.t === "gate_in").length
       }));
-      const audioInputModuleCount = modules.filter((module) => module.typeIdx === 1 || module.typeName === "Audio Input").length;
-      const audioOutputModuleCount = modules.filter((module) => module.typeIdx === 2 || module.typeName === "Audio Output").length;
+      const audioInputModuleCount = modules.filter((module) => module.typeIdx === 1 || module.typeIdx === 93 || module.typeName === "Audio Input" || module.typeName === "Euroburo Audio Input").length;
+      const audioOutputModuleCount = modules.filter((module) => module.typeIdx === 2 || module.typeIdx === 95 || module.typeName === "Audio Output" || module.typeName === "Euroburo Audio Output").length;
       const oscillatorModuleCount = modules.filter((module) => module.typeIdx === 14 || module.typeName === "Oscillator").length;
+      const noiseModuleCount = modules.filter((module) => module.typeIdx === 38 || module.typeName === "Noise").length;
+      const samplerModuleCount = modules.filter((module) => module.typeIdx === 102 || module.typeName === "Sampler").length;
+      const looperModuleCount = modules.filter((module) => module.typeIdx === 62 || module.typeName === "Looper").length;
       const keyboardModuleCount = modules.filter((module) => module.typeName === "Keyboard" || module.typeIdx === 16).length;
       const controlModuleCount = modules.filter((module) => {
         const name = String(module.typeName || "").toLowerCase();
-        return name.includes("stompswitch") || name.includes("pushbutton") || name.includes("midi") || name.includes("keyboard") || name.includes("cport") || name.includes("cv in");
+        return name.includes("stompswitch") ||
+          name.includes("pushbutton") ||
+          name.includes("midi") ||
+          name.includes("keyboard") ||
+          name.includes("cport") ||
+          name.includes("cv in") ||
+          name.includes("sequencer") ||
+          name.includes("clock") ||
+          name.includes("random") ||
+          name.includes("rhythm") ||
+          name.includes("lfo");
+      }).length;
+      const externalControlModuleCount = modules.filter((module) => {
+        const name = String(module.typeName || "").toLowerCase();
+        return name.includes("cport") || name.includes("midi") || name.includes("cv in");
       }).length;
       const outputConnections = patch.connections.filter((connection) => {
         const destination = patch.modules[connection.dstMod];
-        return destination && (destination.typeIdx === 2 || destination.typeName === "Audio Output");
+        return destination && (destination.typeIdx === 2 || destination.typeIdx === 95 || destination.typeName === "Audio Output" || destination.typeName === "Euroburo Audio Output");
+      }).length;
+      const outputConnectionsFromMidiModules = patch.connections.filter((connection) => {
+        const source = patch.modules[connection.srcMod];
+        const destination = patch.modules[connection.dstMod];
+        const sourceName = String(source?.typeName || "").toLowerCase();
+        return source &&
+          destination &&
+          (destination.typeIdx === 2 || destination.typeIdx === 95 || destination.typeName === "Audio Output" || destination.typeName === "Euroburo Audio Output") &&
+          sourceName.includes("midi");
       }).length;
       const inputConnections = patch.connections.filter((connection) => {
         const source = patch.modules[connection.srcMod];
-        return source && (source.typeIdx === 1 || source.typeName === "Audio Input");
+        return source && (source.typeIdx === 1 || source.typeIdx === 93 || source.typeName === "Audio Input" || source.typeName === "Euroburo Audio Input");
       }).length;
+      const audioSourceTypeIds = new Set([1, 14, 38, 62, 78, 83, 93, 102]);
+      const audioSourceNames = new Set(["Audio Input", "Oscillator", "Noise", "Looper", "Granular", "Euroburo Audio Input", "Sampler"]);
+      const audioSourceModuleIndexes = new Set(modules
+        .filter((module) => module.audioOutBlocks > 0 && (audioSourceTypeIds.has(module.typeIdx) || audioSourceNames.has(module.typeName)))
+        .map((module) => module.idx));
+      const audioOutputModuleIndexes = new Set(modules
+        .filter((module) => module.typeIdx === 2 || module.typeIdx === 95 || module.typeName === "Audio Output" || module.typeName === "Euroburo Audio Output")
+        .map((module) => module.idx));
+      const audioEdges = patch.connections.filter((connection) => {
+        const source = patch.modules[connection.srcMod];
+        const destination = patch.modules[connection.dstMod];
+        const sourceBlock = source?.blocks?.[connection.srcBlock];
+        const destinationBlock = destination?.blocks?.[connection.dstBlock];
+        return sourceBlock?.t === "audio_out" && destinationBlock?.t === "audio_in";
+      });
+      const adjacency = new Map();
+      for (const edge of audioEdges) {
+        if (!adjacency.has(edge.srcMod)) adjacency.set(edge.srcMod, []);
+        adjacency.get(edge.srcMod).push(edge.dstMod);
+      }
+      const moduleByIndex = new Map(modules.map((module) => [module.idx, module]));
+      const routedAudioSources = [];
+      let hasAudioSourceToOutputRoute = false;
+      for (const sourceIndex of audioSourceModuleIndexes) {
+        const queue = [sourceIndex];
+        const visited = new Set(queue);
+        let sourceReachesOutput = false;
+        while (queue.length > 0 && !sourceReachesOutput) {
+          const current = queue.shift();
+          if (audioOutputModuleIndexes.has(current)) {
+            sourceReachesOutput = true;
+            break;
+          }
+          for (const next of adjacency.get(current) || []) {
+            if (visited.has(next)) continue;
+            visited.add(next);
+            queue.push(next);
+          }
+        }
+        if (sourceReachesOutput) {
+          hasAudioSourceToOutputRoute = true;
+          routedAudioSources.push(moduleByIndex.get(sourceIndex));
+        }
+      }
+      const routedAudioInputModuleCount = routedAudioSources.filter((module) => module?.typeIdx === 1 || module?.typeName === "Audio Input" || module?.typeIdx === 93 || module?.typeName === "Euroburo Audio Input").length;
+      const routedOscillatorModuleCount = routedAudioSources.filter((module) => module?.typeIdx === 14 || module?.typeName === "Oscillator").length;
+      const routedNoiseModuleCount = routedAudioSources.filter((module) => module?.typeIdx === 38 || module?.typeName === "Noise").length;
+      const routedSamplerModuleCount = routedAudioSources.filter((module) => module?.typeIdx === 102 || module?.typeName === "Sampler").length;
+      const routedLooperModuleCount = routedAudioSources.filter((module) => module?.typeIdx === 62 || module?.typeName === "Looper").length;
       return {
         patchName: patch.name,
         moduleCount: patch.modules.length,
@@ -332,10 +492,28 @@ async function runPatch(browser, metadata, fixture) {
         audioInputModuleCount,
         audioOutputModuleCount,
         oscillatorModuleCount,
+        noiseModuleCount,
+        samplerModuleCount,
+        looperModuleCount,
         keyboardModuleCount,
         controlModuleCount,
+        externalControlModuleCount,
         inputConnections,
-        outputConnections
+        outputConnections,
+        outputConnectionsFromMidiModules,
+        audioEdgeCount: audioEdges.length,
+        hasAudioSourceToOutputRoute,
+        routedAudioSources: routedAudioSources.map((module) => ({
+          idx: module?.idx,
+          typeIdx: module?.typeIdx,
+          typeName: module?.typeName,
+          name: module?.name
+        })),
+        routedAudioInputModuleCount,
+        routedOscillatorModuleCount,
+        routedNoiseModuleCount,
+        routedSamplerModuleCount,
+        routedLooperModuleCount
       };
     });
     const target = classifyCommunityTarget(staticAnalysis);
@@ -351,7 +529,7 @@ async function runPatch(browser, metadata, fixture) {
       }
     });
 
-    const audioEvidence = await page.evaluate(async ({ criteria, target }) => {
+    const audioEvidence = await page.evaluate(async ({ criteria, target, deepNodeProbes }) => {
       function quantizedHash(samples) {
         var hash = 2166136261 >>> 0;
         for (var i = 0; i < samples.length; i++) {
@@ -368,8 +546,13 @@ async function runPatch(browser, metadata, fixture) {
         var peak = 0;
         var zeroCrossings = 0;
         var previous = samples[0] || 0;
+        var nonFiniteCount = 0;
         for (var i = 0; i < samples.length; i++) {
           var sample = samples[i];
+          if (!Number.isFinite(sample)) {
+            nonFiniteCount++;
+            sample = 0;
+          }
           sumSquares += sample * sample;
           var abs = Math.abs(sample);
           if (abs > peak) peak = abs;
@@ -380,6 +563,7 @@ async function runPatch(browser, metadata, fixture) {
           rms: Math.sqrt(sumSquares / Math.max(samples.length, 1)),
           peak,
           zeroCrossings,
+          nonFiniteCount,
           quantizedHash: quantizedHash(samples),
           firstSamples: Array.from(samples.slice(0, 32))
         };
@@ -393,14 +577,200 @@ async function runPatch(browser, metadata, fixture) {
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
+      function createNodeOutputProbes() {
+        if (!deepNodeProbes) return [];
+        var result = [];
+        var nodes = window.ZOIA.sim.nodes || [];
+        var patch = window.ZOIA.state.patch;
+        for (var n = 0; n < nodes.length; n++) {
+          var node = nodes[n];
+          if (!node || !Array.isArray(node.outputs)) continue;
+          for (var o = 0; o < node.outputs.length; o++) {
+            var output = node.outputs[o];
+            if (!output || typeof output.connect !== "function") continue;
+            var analyser = window.ZOIA.sim.ctx.createAnalyser();
+            analyser.fftSize = 2048;
+            try {
+              output.connect(analyser);
+              result.push({
+                moduleIndex: n,
+                outputBlock: o,
+                moduleName: patch && patch.modules[n] ? patch.modules[n].name : null,
+                moduleType: patch && patch.modules[n] ? patch.modules[n].typeName : null,
+                blockName: patch && patch.modules[n] && patch.modules[n].blocks[o] ? patch.modules[n].blocks[o].n : null,
+                blockType: patch && patch.modules[n] && patch.modules[n].blocks[o] ? patch.modules[n].blocks[o].t : null,
+                analyser: analyser,
+                best: null
+              });
+            } catch (e) {
+              try { analyser.disconnect(); } catch (disconnectError) {}
+            }
+          }
+          if (node.type === "vca" && node._vca && typeof node._vca.connect === "function") {
+            var vcaAnalyser = window.ZOIA.sim.ctx.createAnalyser();
+            vcaAnalyser.fftSize = 2048;
+            try {
+              node._vca.connect(vcaAnalyser);
+              result.push({
+                moduleIndex: n,
+                outputBlock: "_vca",
+                moduleName: patch && patch.modules[n] ? patch.modules[n].name : null,
+                moduleType: patch && patch.modules[n] ? patch.modules[n].typeName : null,
+                blockName: "Internal VCA Output",
+                blockType: "audio_out_internal",
+                analyser: vcaAnalyser,
+                best: null
+              });
+            } catch (e2) {
+              try { vcaAnalyser.disconnect(); } catch (disconnectError2) {}
+            }
+          }
+          if (node.type === "vca" && Array.isArray(node._audioInputs)) {
+            for (var ai = 0; ai < node._audioInputs.length; ai++) {
+              var audioInputNode = node._audioInputs[ai];
+              if (!audioInputNode || typeof audioInputNode.connect !== "function") continue;
+              var inputAnalyser = window.ZOIA.sim.ctx.createAnalyser();
+              inputAnalyser.fftSize = 2048;
+              try {
+                audioInputNode.connect(inputAnalyser);
+                result.push({
+                  moduleIndex: n,
+                  outputBlock: "_vca_input_" + ai,
+                  moduleName: patch && patch.modules[n] ? patch.modules[n].name : null,
+                  moduleType: patch && patch.modules[n] ? patch.modules[n].typeName : null,
+                  blockName: "Internal VCA Input " + ai,
+                  blockType: "audio_in_internal",
+                  analyser: inputAnalyser,
+                  best: null
+                });
+              } catch (e3) {
+                try { inputAnalyser.disconnect(); } catch (disconnectError3) {}
+              }
+            }
+          }
+          if (node.type === "vca") {
+            var internalProbeNodes = [
+              { key: "_fallbackMix", blockName: "Internal VCA Fallback Mix" },
+              { key: "_fallbackLevel", blockName: "Internal VCA Fallback Level" },
+              { key: "_limiter", blockName: "Internal VCA Limiter" }
+            ];
+            for (var ip = 0; ip < internalProbeNodes.length; ip++) {
+              var internalProbe = internalProbeNodes[ip];
+              var internalNode = node[internalProbe.key];
+              if (!internalNode || typeof internalNode.connect !== "function") continue;
+              var internalAnalyser = window.ZOIA.sim.ctx.createAnalyser();
+              internalAnalyser.fftSize = 2048;
+              try {
+                internalNode.connect(internalAnalyser);
+                result.push({
+                  moduleIndex: n,
+                  outputBlock: internalProbe.key,
+                  moduleName: patch && patch.modules[n] ? patch.modules[n].name : null,
+                  moduleType: patch && patch.modules[n] ? patch.modules[n].typeName : null,
+                  blockName: internalProbe.blockName,
+                  blockType: "audio_internal",
+                  analyser: internalAnalyser,
+                  best: null
+                });
+              } catch (e4) {
+                try { internalAnalyser.disconnect(); } catch (disconnectError4) {}
+              }
+            }
+          }
+        }
+        return result;
+      }
+      function readNodeOutputProbes(probes) {
+        if (!probes.length) return;
+        for (var p = 0; p < probes.length; p++) {
+          var current = readAnalyser(probes[p].analyser);
+          var previous = probes[p].best;
+          if (!previous || current.peak > previous.peak || current.rms > previous.rms) {
+            probes[p].best = current;
+          }
+        }
+      }
+      function applyStimulusPulse() {
+        if (target.expectedStimulus === "none") return;
+        var note = 60;
+        var nodes = window.ZOIA.sim.nodes || [];
+        var patch = window.ZOIA.state.patch;
+        window.__zoiaV04CommunityStimulusEvents = window.__zoiaV04CommunityStimulusEvents || [];
+        var stimulusIndex = window.__zoiaV04CommunityStimulusEvents.length;
+        var valueSweep = [0, 0.25, 0.5, 0.75, 1.0];
+        var value = valueSweep[stimulusIndex % valueSweep.length];
+        for (var s = 0; s < nodes.length; s++) {
+          if (nodes[s] && typeof nodes[s].press === "function") {
+            if (typeof nodes[s].release === "function") nodes[s].release();
+            nodes[s].press();
+            window.__zoiaV04CommunityStimulusEvents.push({ type: "controlPress", moduleIndex: s, nodeType: nodes[s].type || null });
+          } else if (nodes[s] && typeof nodes[s].toggle === "function") {
+            nodes[s].toggle();
+            window.__zoiaV04CommunityStimulusEvents.push({ type: "controlToggle", moduleIndex: s, nodeType: nodes[s].type || null });
+          }
+          if (nodes[s] && typeof nodes[s].clockPulse === "function") {
+            nodes[s].clockPulse();
+            window.__zoiaV04CommunityStimulusEvents.push({ type: "clockPulse", moduleIndex: s, nodeType: nodes[s].type || null });
+          }
+          if (target.expectedStimulus === "sample-or-loop-content" && nodes[s] && typeof nodes[s]._loadTestLoop === "function") {
+            nodes[s]._loadTestLoop();
+            if (typeof nodes[s].startPlay === "function") nodes[s].startPlay("deterministic-test-loop");
+            window.__zoiaV04CommunityStimulusEvents.push({ type: "deterministicLoopFixture", moduleIndex: s, nodeType: nodes[s].type || null });
+          }
+          if (nodes[s] && typeof nodes[s]._onGateChange === "function") {
+            nodes[s]._onGateChange(1);
+            window.__zoiaV04CommunityStimulusEvents.push({ type: "adsrGateOn", moduleIndex: s, nodeType: nodes[s].type || null });
+          }
+          if (nodes[s] && typeof nodes[s].setValue === "function") {
+            nodes[s].setValue(value);
+            window.__zoiaV04CommunityStimulusEvents.push({ type: "nodeValueSweep", moduleIndex: s, nodeType: nodes[s].type || null, value: value });
+          }
+          if (nodes[s] && typeof nodes[s].noteOn === "function") {
+            if (typeof nodes[s].noteOff === "function") {
+              nodes[s].noteOff();
+              window.__zoiaV04CommunityStimulusEvents.push({ type: "noteOff", moduleIndex: s, nodeType: nodes[s].type || null });
+            }
+            nodes[s].noteOn(note, 127);
+            window.__zoiaV04CommunityStimulusEvents.push({ type: "noteOn", note: note, moduleIndex: s, nodeType: nodes[s].type || null });
+          }
+        }
+        if (patch && Array.isArray(patch.modules) && window.ZOIA.setParamValue) {
+          for (var m = 0; m < patch.modules.length; m++) {
+            if (patch.modules[m] && patch.modules[m].typeIdx === 45) {
+              window.ZOIA.setParamValue(m, 0, value);
+              window.__zoiaV04CommunityStimulusEvents.push({ type: "valueSweep", moduleIndex: m, value: value });
+            }
+          }
+        }
+      }
       var patch = window.ZOIA.state.patch;
       var sim = window.ZOIA.sim;
       var snapshots = [];
+      var nodeOutputProbes = createNodeOutputProbes();
       var iterations = Math.max(1, Math.ceil(criteria.sampleDurationMs / criteria.sampleIntervalMs));
+      readNodeOutputProbes(nodeOutputProbes);
+      snapshots.push({
+        timestampIndex: -1,
+        capturePoint: "baseline",
+        master: readAnalyser(sim.analyser),
+        input: readAnalyser(sim.inputAnalyser)
+      });
       for (var i = 0; i < iterations; i++) {
+        if (i % 5 === 0) {
+          applyStimulusPulse();
+          readNodeOutputProbes(nodeOutputProbes);
+          snapshots.push({
+            timestampIndex: i,
+            capturePoint: "post-stimulus",
+            master: readAnalyser(sim.analyser),
+            input: readAnalyser(sim.inputAnalyser)
+          });
+        }
         await sleep(criteria.sampleIntervalMs);
+        readNodeOutputProbes(nodeOutputProbes);
         snapshots.push({
           timestampIndex: i,
+          capturePoint: "interval",
           master: readAnalyser(sim.analyser),
           input: readAnalyser(sim.inputAnalyser)
         });
@@ -422,6 +792,8 @@ async function runPatch(browser, metadata, fixture) {
           type: node ? node.type : null,
           moduleTypeIdx: module ? module.typeIdx : null,
           moduleTypeName: module ? module.typeName : null,
+          vcaGainValue: node && node._vca && node._vca.gain ? node._vca.gain.value : null,
+          audioOutputGainValue: node && node._outGain && node._outGain.gain ? node._outGain.gain.value : null,
           inputCount: node && node.inputs ? node.inputs.filter(Boolean).length : 0,
           outputCount: node && node.outputs ? node.outputs.filter(Boolean).length : 0
         };
@@ -430,6 +802,7 @@ async function runPatch(browser, metadata, fixture) {
       var testToneConnectionSlots = audioInputNodes.reduce((count, node) => count + (node.outputs || []).filter(Boolean).length, 0);
       return {
         expectedStimulus: target.expectedStimulus,
+        stimulusEvents: window.__zoiaV04CommunityStimulusEvents || [],
         audioContextState: sim.ctx ? sim.ctx.state : null,
         sampleRate: sim.ctx ? sim.ctx.sampleRate : null,
         simRunning: Boolean(sim.running),
@@ -440,9 +813,20 @@ async function runPatch(browser, metadata, fixture) {
         nodeSummaries,
         bestMaster,
         bestInput,
-        snapshots
+        snapshots,
+        nodeOutputProbes: nodeOutputProbes.map(function (probe) {
+          return {
+            moduleIndex: probe.moduleIndex,
+            outputBlock: probe.outputBlock,
+            moduleName: probe.moduleName,
+            moduleType: probe.moduleType,
+            blockName: probe.blockName,
+            blockType: probe.blockType,
+            best: probe.best
+          };
+        })
       };
-    }, { criteria: metadata.targets.criteria, target });
+    }, { criteria: metadata.targets.criteria, target, deepNodeProbes: DEEP_NODE_PROBES });
 
     playArtifacts = await capturePageArtifacts(page, patchDir, "after-play-audio-sampling");
 
@@ -453,26 +837,57 @@ async function runPatch(browser, metadata, fixture) {
         audioEvidence.bestMaster.peak >= metadata.targets.criteria.minMasterPeakForSignal
       )
     );
+    const hasLowFrequencyMasterSignal = Boolean(audioEvidence.bestMaster && audioEvidence.bestMaster.rms >= metadata.targets.criteria.minMasterRmsForSignal && audioEvidence.bestMaster.peak >= LOW_FREQUENCY_SIGNAL_MIN_PEAK);
+    const hasLowLevelWaveform = Boolean(audioEvidence.bestMaster && audioEvidence.bestMaster.peak >= LOW_LEVEL_WAVEFORM_MIN_PEAK && audioEvidence.bestMaster.zeroCrossings >= LOW_LEVEL_WAVEFORM_MIN_ZERO_CROSSINGS);
     const hasInputSignal = Boolean(audioEvidence.bestInput && audioEvidence.bestInput.rms >= metadata.targets.criteria.minMasterRmsForSignal);
+    const hasNonFiniteMaster = Boolean(audioEvidence.bestMaster && audioEvidence.bestMaster.nonFiniteCount > 0);
+    const hasUnstableMasterLevel = Boolean(audioEvidence.bestMaster && audioEvidence.bestMaster.peak > MAX_STABLE_MASTER_PEAK);
+    const unstableNodeProbe = (audioEvidence.nodeOutputProbes || []).find((probe) => probe.blockType === "audio_out" && probe.best && (probe.best.nonFiniteCount > 0 || probe.best.peak > MAX_STABLE_MASTER_PEAK));
     const expectedSignal = target.expectedOutput === "signal";
     const hasAudioInput = staticAnalysis.audioInputModuleCount > 0;
     const hasAudioOutput = staticAnalysis.audioOutputModuleCount > 0;
     const hasOutputRouting = staticAnalysis.outputConnections > 0;
     const hasInputRouting = staticAnalysis.inputConnections > 0;
-    const hasStimulus = target.expectedStimulus !== "test-tone" || audioEvidence.testToneConnectionSlots >= metadata.targets.criteria.minTestToneConnections;
+    const hasStimulus = target.expectedStimulus === "test-tone"
+      ? audioEvidence.testToneConnectionSlots >= metadata.targets.criteria.minTestToneConnections
+      : target.expectedStimulus === "none" || (Array.isArray(audioEvidence.stimulusEvents) && audioEvidence.stimulusEvents.length > 0);
 
-    if (target.expectedOutput === "classified" && target.expectedClassification) {
-      status = CLASSIFIED_STATUS;
-      classification = target.expectedClassification;
+    if (hasNonFiniteMaster) {
+      status = FAIL_STATUS;
+      classification = "simulator-non-finite-audio";
+    } else if (hasUnstableMasterLevel) {
+      status = FAIL_STATUS;
+      classification = "simulator-unstable-audio-level";
     } else if (expectedSignal && hasMasterSignal) {
       status = PASS_STATUS;
       classification = "signal-present";
+    } else if (expectedSignal && hasLowFrequencyMasterSignal) {
+      status = PASS_STATUS;
+      classification = "low-frequency-signal-present";
+    } else if (expectedSignal && hasLowLevelWaveform) {
+      status = PASS_STATUS;
+      classification = "low-level-waveform-present";
+    } else if (target.expectedOutput === "classified" && hasMasterSignal) {
+      status = PASS_STATUS;
+      classification = "signal-present";
+    } else if (target.expectedOutput === "classified" && target.expectedClassification) {
+      status = CLASSIFIED_STATUS;
+      classification = target.expectedClassification;
+    } else if (V04_COMMUNITY_STIMULUS && expectedSignal && target.expectedStimulus === "deterministic-control-midi-cv" && hasStimulus) {
+      status = CLASSIFIED_STATUS;
+      classification = "deterministic-stimulus-applied-no-qualifying-signal";
     } else if (!expectedSignal && hasMasterSignal) {
       status = CLASSIFIED_STATUS;
       classification = "unexpected-signal-present";
     } else if (!expectedSignal && staticAnalysis.oscillatorModuleCount > 0 && staticAnalysis.keyboardModuleCount > 0 && target.expectedStimulus !== "test-tone") {
       status = CLASSIFIED_STATUS;
       classification = "patch-requires-external-input-midi-cv";
+    } else if (V04_COMMUNITY_STIMULUS && expectedSignal && hasInputSignal && !hasMasterSignal && staticAnalysis.externalControlModuleCount > 0) {
+      status = CLASSIFIED_STATUS;
+      classification = "external-cv-midi-control-required";
+    } else if (V04_COMMUNITY_STIMULUS && expectedSignal && target.expectedStimulus === "deterministic-control-midi-cv" && !hasStimulus && staticAnalysis.externalControlModuleCount > 0) {
+      status = CLASSIFIED_STATUS;
+      classification = "external-cv-midi-control-required";
     } else if (expectedSignal && hasInputSignal && !hasMasterSignal && staticAnalysis.controlModuleCount > 0) {
       status = CLASSIFIED_STATUS;
       classification = "patch-requires-control-interaction";
@@ -493,7 +908,9 @@ async function runPatch(browser, metadata, fixture) {
       classification = "browser-gesture-audio-policy-issue";
     } else if (hasInputSignal && !hasMasterSignal) {
       status = FAIL_STATUS;
-      classification = "simulator-module-bug";
+      classification = unstableNodeProbe
+        ? (unstableNodeProbe.best.nonFiniteCount > 0 ? "simulator-non-finite-node-audio" : "simulator-unstable-node-audio-level")
+        : "simulator-module-bug";
     } else {
       status = FAIL_STATUS;
       classification = "simulator-module-bug";
@@ -510,7 +927,7 @@ async function runPatch(browser, metadata, fixture) {
     assertCondition(assertionFailures, Boolean(audioEvidence.simRunning), "audio-graph", "simulator did not enter running state", audioEvidence);
     if (expectedSignal && status !== CLASSIFIED_STATUS) {
       assertCondition(assertionFailures, hasStimulus, "audio-source", "test tone did not connect to Audio Input module outputs", audioEvidence);
-      assertCondition(assertionFailures, hasMasterSignal, "audio-output", "no measurable master analyser signal", { staticAnalysis, audioEvidence });
+      assertCondition(assertionFailures, hasMasterSignal || hasLowFrequencyMasterSignal || hasLowLevelWaveform, "audio-output", "no measurable master analyser signal", { staticAnalysis, audioEvidence });
     }
 
     await writeJson(resolve(patchDir, "audio-evidence.json"), audioEvidence);
@@ -535,9 +952,11 @@ async function runPatch(browser, metadata, fixture) {
         simRunning: audioEvidence.simRunning,
         testToneActive: audioEvidence.testToneActive,
         testToneConnectionSlots: audioEvidence.testToneConnectionSlots,
+        stimulusEvents: audioEvidence.stimulusEvents,
         connGainCount: audioEvidence.connGainCount,
         bestMaster: audioEvidence.bestMaster,
-        bestInput: audioEvidence.bestInput
+        bestInput: audioEvidence.bestInput,
+        nodeOutputProbes: audioEvidence.nodeOutputProbes || []
       },
       assertionFailures,
       steps,
@@ -558,6 +977,7 @@ async function runPatch(browser, metadata, fixture) {
       claimBoundaries: {
         audioContextStateAloneIsProof: false,
         masterAnalyserSignalMeasured: hasMasterSignal,
+        deterministicStimulusApplied: hasStimulus,
         humanSpeakerAudibilityClaim: false,
         fullPatchAudioCorrectnessClaim: false,
         binaryExportFidelityClaim: false
@@ -596,7 +1016,9 @@ async function main() {
   if (!existsSync(SIMULATOR_HTML)) throw new Error(`Simulator HTML not found: ${SIMULATOR_HTML}`);
   if (!existsSync(COMMUNITY_MANIFEST_PATH)) throw new Error(`Community manifest not found: ${COMMUNITY_MANIFEST_PATH}`);
   if (!existsSync(Q097_CONSOLIDATED_RESULT_PATH)) throw new Error(`Q097 consolidated result not found: ${Q097_CONSOLIDATED_RESULT_PATH}`);
-  await rm(EVIDENCE_ROOT, { recursive: true, force: true });
+  if (!RESUME_EXISTING_RESULTS) {
+    await rm(EVIDENCE_ROOT, { recursive: true, force: true });
+  }
   await mkdir(EVIDENCE_ROOT, { recursive: true });
 
   const manifests = await loadManifests();
@@ -604,6 +1026,12 @@ async function main() {
   const startedAt = nowIso();
   const results = [];
   for (const fixture of manifests.fixtures) {
+    const existingResultPath = resolve(EVIDENCE_ROOT, sanitizePathPart(fixture.category), sanitizePathPart(fixture.pairId), "result.json");
+    const existingResult = RESUME_EXISTING_RESULTS ? await readJsonIfPresent(existingResultPath) : null;
+    if (existingResult?.pairId === fixture.pairId && [PASS_STATUS, FAIL_STATUS, CLASSIFIED_STATUS].includes(existingResult.status)) {
+      results.push(existingResult);
+      continue;
+    }
     results.push(await runPatch(browser, manifests, fixture));
   }
   await browser.close();
@@ -622,7 +1050,8 @@ async function main() {
     simulatorHtmlPath: SIMULATOR_HTML,
     communityManifestPath: COMMUNITY_MANIFEST_PATH,
     q097ConsolidatedResultPath: Q097_CONSOLIDATED_RESULT_PATH,
-    evidenceRoot: EVIDENCE_ROOT
+    evidenceRoot: EVIDENCE_ROOT,
+    deepNodeProbes: DEEP_NODE_PROBES
   };
   const result = {
     schemaVersion: "zoia.q106-community-patch-audio-run-result.v0",

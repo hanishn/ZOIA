@@ -471,6 +471,23 @@ ZOIA.sim._createSequencer = function (ctx, mod) {
   // --- 5. Step state and polling loop ---
   var _currentStep = 0;
   var _disposed = false;
+  var node = null;
+
+  function advanceStep() {
+    _currentStep = (_currentStep + 1) % stepCount;
+    var t = ZOIA.sim.ctx.currentTime;
+    cvOut.offset.setValueAtTime(_stepValues[_currentStep], t);
+    gateOut.offset.setValueAtTime(1, t);
+    gateOut.offset.setValueAtTime(0, t + 0.002);
+    if (node && node._modIdx !== undefined) {
+      ZOIA.sim._fireGateCallbacks(node._modIdx, 1);
+      setTimeout(function () {
+        if (!_disposed && node && node._modIdx !== undefined) {
+          ZOIA.sim._fireGateCallbacks(node._modIdx, 0);
+        }
+      }, 2);
+    }
+  }
 
   (function pollSeq() {
     if (_disposed) return;
@@ -479,13 +496,7 @@ ZOIA.sim._createSequencer = function (ctx, mod) {
     clockAnalyser.getFloatTimeDomainData(_clockBuf);
     var clk = _clockBuf[0];
     if (clk > 0.5 && _lastClock <= 0.5) {
-      // Advance step
-      _currentStep = (_currentStep + 1) % stepCount;
-      var t = ZOIA.sim.ctx.currentTime;
-      cvOut.offset.setValueAtTime(_stepValues[_currentStep], t);
-      // Fire gate pulse (2ms)
-      gateOut.offset.setValueAtTime(1, t);
-      gateOut.offset.setValueAtTime(0, t + 0.002);
+      advanceStep();
     }
     _lastClock = clk;
 
@@ -504,8 +515,6 @@ ZOIA.sim._createSequencer = function (ctx, mod) {
 
   // --- 6. Block wiring loop ---
   var inIdx = 0;
-  var outDone = false;
-  var gateDone = false;
   var _stepSinks = [];
 
   for (var i = 0; i < blocks.length; i++) {
@@ -525,18 +534,11 @@ ZOIA.sim._createSequencer = function (ctx, mod) {
       outputs[i] = null;
       inIdx++;
     } else if (b.t === 'cv_out') {
-      if (!outDone) {
-        inputs[i] = null;
-        outputs[i] = cvOutGain; // CV output
-        outDone = true;
-      } else if (!gateDone) {
-        inputs[i] = null;
-        outputs[i] = gateOutGain; // Gate output
-        gateDone = true;
-      } else {
-        inputs[i] = null;
-        outputs[i] = null;
-      }
+      inputs[i] = null;
+      outputs[i] = cvOutGain;
+    } else if (b.t === 'gate_out') {
+      inputs[i] = null;
+      outputs[i] = gateOutGain;
     } else {
       inputs[i] = null;
       outputs[i] = null;
@@ -544,10 +546,11 @@ ZOIA.sim._createSequencer = function (ctx, mod) {
   }
 
   // --- 7. Return module descriptor ---
-  return {
+  node = {
     type: 'sequencer',
     inputs: inputs,
     outputs: outputs,
+    clockPulse: advanceStep,
     dispose: function () {
       _disposed = true;
       try { cvOut.stop(); } catch (e) {}
@@ -569,6 +572,7 @@ ZOIA.sim._createSequencer = function (ctx, mod) {
       }
     }
   };
+  return node;
 };
 
 // ============================================================================
@@ -1586,19 +1590,23 @@ ZOIA.sim._createTapTempo = function (ctx, mod) {
 
   var _lastTapTime = 0;
   var _disposed = false;
+  function registerTap() {
+    var now = ZOIA.sim.ctx.currentTime;
+    if (_lastTapTime > 0) {
+      var interval = Math.max(0.02, now - _lastTapTime);
+      constOut.offset.value = Math.min(1.0, interval / 2.0);
+    } else {
+      constOut.offset.value = 0.5;
+    }
+    _lastTapTime = now;
+  }
 
   (function poll() {
     if (_disposed) return;
     analyser.getFloatTimeDomainData(_buf);
     var g = _buf[0];
     if (g > 0.5 && _last <= 0.5) {
-      // Rising edge: compute interval and update output CV
-      var now = ZOIA.sim.ctx.currentTime;
-      if (_lastTapTime > 0) {
-        var interval = now - _lastTapTime;
-        constOut.offset.value = Math.min(1.0, interval / 2.0);
-      }
-      _lastTapTime = now;
+      registerTap();
     }
     _last = g;
     requestAnimationFrame(poll);
@@ -1611,7 +1619,7 @@ ZOIA.sim._createTapTempo = function (ctx, mod) {
     var b = blocks[i];
     if (b.t === 'cv_in' || b.t === 'audio_in' || b.t === 'gate_in') {
       inputs[i] = inIdx === 0 ? proxy.gain : null;
-      outputs[i] = null;
+      outputs[i] = inIdx === 0 ? outGain : null;
       inIdx++;
     } else if (b.t === 'cv_out' || b.t === 'audio_out' || b.t === 'gate_out') {
       inputs[i] = null;
@@ -1627,6 +1635,8 @@ ZOIA.sim._createTapTempo = function (ctx, mod) {
     type: 'tap_tempo',
     inputs: inputs,
     outputs: outputs,
+    press: registerTap,
+    clockPulse: registerTap,
     dispose: function () {
       _disposed = true;
       try { probeSrc.stop(); } catch (e) {}
@@ -1823,6 +1833,20 @@ ZOIA.sim._createRandom = function (ctx, mod) {
     src.playbackRate.value = 0.01;
     src.connect(outGain);
     src.start();
+
+    proxy = ctx.createGain();
+    proxy.gain.value = 0;
+    probeSrc = ctx.createConstantSource();
+    probeSrc.offset.value = 1;
+    probeSrc.connect(proxy);
+    probeSrc.start();
+    analyser = ctx.createAnalyser();
+    analyser.fftSize = 256;
+    proxy.connect(analyser);
+    constOut = ctx.createConstantSource();
+    constOut.offset.value = 0;
+    constOut.connect(outGain);
+    constOut.start();
   }
 
   var inIdx = 0;
@@ -1839,7 +1863,7 @@ ZOIA.sim._createRandom = function (ctx, mod) {
       outputs[i] = null;
       inIdx++;
     } else if (b.t === 'cv_out' || b.t === 'audio_out' || b.t === 'gate_out') {
-      inputs[i] = null;
+      inputs[i] = hasGateIn ? null : proxy.gain;
       outputs[i] = outDone ? null : outGain;
       outDone = true;
     } else {
@@ -1863,6 +1887,12 @@ ZOIA.sim._createRandom = function (ctx, mod) {
         try { constOut.stop(); } catch (e) {}
         try { constOut.disconnect(); } catch (e) {}
       } else {
+        try { probeSrc.stop(); } catch (e) {}
+        try { probeSrc.disconnect(); } catch (e) {}
+        try { proxy.disconnect(); } catch (e) {}
+        try { analyser.disconnect(); } catch (e) {}
+        try { constOut.stop(); } catch (e) {}
+        try { constOut.disconnect(); } catch (e) {}
         try { src.stop(); } catch (e) {}
         try { src.disconnect(); } catch (e) {}
       }

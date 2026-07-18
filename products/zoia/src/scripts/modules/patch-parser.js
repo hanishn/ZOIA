@@ -90,6 +90,40 @@ ZOIA.normalizeMissingConnectionBlock = function(mod, blockIdx, role) {
   return onlyCompatibleBlock === null ? blockIdx : onlyCompatibleBlock;
 };
 
+ZOIA.normalizeLegacyInvalidModulePages = function(modules, pages, moduleTrace) {
+  if (!modules || !modules.length || !pages || !pages.length) return null;
+  var invalidPage = null;
+  for (var i = 0; i < modules.length; i++) {
+    var mod = modules[i];
+    if (mod.page < pages.length) return null;
+    if (mod.gridPos < ZOIA.GRID_SIZE || mod.gridPos >= ZOIA.GRID_SIZE * 2) return null;
+    if (invalidPage === null) invalidPage = mod.page;
+    if (mod.page !== invalidPage) return null;
+  }
+  for (var j = 0; j < modules.length; j++) {
+    modules[j].rawPage = modules[j].page;
+    modules[j].rawGridPos = modules[j].gridPos;
+    modules[j].page = 0;
+    modules[j].gridPos = modules[j].gridPos - ZOIA.GRID_SIZE;
+    if (moduleTrace && moduleTrace[j]) {
+      moduleTrace[j].rawPage = moduleTrace[j].page;
+      moduleTrace[j].rawGridPos = moduleTrace[j].gridPos;
+      moduleTrace[j].page = 0;
+      moduleTrace[j].gridPos = moduleTrace[j].gridPos - ZOIA.GRID_SIZE;
+      moduleTrace[j].pageNormalized = true;
+      moduleTrace[j].gridPosNormalized = true;
+    }
+  }
+  return {
+    code: "legacy-invalid-module-page-normalized",
+    rawPage: invalidPage,
+    normalizedPage: 0,
+    gridPosOffset: ZOIA.GRID_SIZE,
+    moduleCount: modules.length,
+    pageCount: pages.length
+  };
+};
+
 ZOIA.parsePatch = function(buf) {
   ZOIA.log('Parsing patch: ' + buf.byteLength + ' bytes');
   var dv = new DataView(buf);
@@ -264,6 +298,10 @@ ZOIA.parsePatch = function(buf) {
   } catch (e) {
     ZOIA.log('Page read note (ok for some patches): ' + e.message);
   }
+  var pageNormalization = ZOIA.normalizeLegacyInvalidModulePages(modules, pages, moduleTrace);
+  if (pageNormalization) {
+    ZOIA.log('Normalized legacy module page ' + pageNormalization.rawPage + ' -> ' + pageNormalization.normalizedPage + ' for ' + pageNormalization.moduleCount + ' modules');
+  }
 
   ZOIA.log('Parse complete: ' + modules.length + ' modules, ' + connections.length + ' connections, ' + pages.length + ' pages');
   return {
@@ -280,6 +318,7 @@ ZOIA.parsePatch = function(buf) {
       moduleCount: moduleCount,
       connectionCount: connCount,
       pageCount: pages.length,
+      pageNormalization: pageNormalization,
       modules: moduleTrace,
       connections: connectionTrace,
       finalOffset: off

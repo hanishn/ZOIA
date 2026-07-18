@@ -23,7 +23,11 @@ ZOIA.sim._fireGateCallbacks = function(modIdx, value) {
     if (c.srcMod === modIdx) {
       var dn = nodes[c.dstMod];
       if (dn && dn._onGateChange && dn._gateBlockIdx !== null && c.dstBlock === dn._gateBlockIdx) {
-        dn._onGateChange(value);
+        if (dn._onGateChangeFromSource) {
+          dn._onGateChangeFromSource(modIdx, value);
+        } else {
+          dn._onGateChange(value);
+        }
       }
     }
   }
@@ -230,6 +234,13 @@ ZOIA.sim._createCportExpCv = function (ctx, mod) {
     type: 'cport_exp_cv',
     inputs: inputs,
     outputs: outputs,
+    setValue: function (value) {
+      var next = Number(value);
+      if (!isFinite(next)) next = 0;
+      if (next < 0) next = 0;
+      if (next > 1) next = 1;
+      src.offset.value = next;
+    },
     dispose: function () {
       src.disconnect();
     }
@@ -605,6 +616,10 @@ ZOIA.sim._createMidiNoteIn = function (ctx, mod) {
   var blocks = mod.blocks || [];
   var inputs = [];
   var outputs = [];
+  var MIDI_REFERENCE_NOTE = 69;
+  var MIDI_REFERENCE_FREQUENCY_HZ = 440;
+  var ZOIA_MIN_OSC_FREQUENCY_HZ = 20;
+  var ZOIA_CV_FREQUENCY_RATIO = 1000;
 
   var noteSrc = ctx.createConstantSource();
   noteSrc.offset.value = 0;
@@ -652,12 +667,15 @@ ZOIA.sim._createMidiNoteIn = function (ctx, mod) {
     inputs: inputs,
     outputs: outputs,
     noteOn: function (note, velocity) {
-      noteSrc.offset.value = note / 127;
+      var freq = MIDI_REFERENCE_FREQUENCY_HZ * Math.pow(2, (note - MIDI_REFERENCE_NOTE) / 12);
+      noteSrc.offset.value = Math.log(freq / ZOIA_MIN_OSC_FREQUENCY_HZ) / Math.log(ZOIA_CV_FREQUENCY_RATIO);
       velSrc.offset.value = (velocity !== undefined ? velocity : 127) / 127;
       gateSrc.offset.value = 1;
+      ZOIA.sim._fireGateCallbacks(this._modIdx, 1);
     },
     noteOff: function () {
       gateSrc.offset.value = 0;
+      ZOIA.sim._fireGateCallbacks(this._modIdx, 0);
     },
     dispose: function () {
       noteSrc.disconnect();
@@ -1023,7 +1041,9 @@ ZOIA.sim._moduleFactories[58]  = ZOIA.sim._createPixel;
 ZOIA.sim._moduleFactories[59]  = ZOIA.sim._createMidiCcOut;
 ZOIA.sim._moduleFactories[60]  = ZOIA.sim._createOnsetDetect;
 ZOIA.sim._moduleFactories[101] = ZOIA.sim._createMidiPcIn;
-ZOIA.sim._moduleFactories[102] = ZOIA.sim._createMidiPcOut;
+if (!ZOIA.sim._moduleFactories[102]) {
+  ZOIA.sim._moduleFactories[102] = ZOIA.sim._createMidiPcOut;
+}
 ZOIA.sim._moduleFactories[106] = ZOIA.sim._createMidiClockIn;
 ZOIA.sim._moduleFactories[107] = ZOIA.sim._createMidiClockOut;
 

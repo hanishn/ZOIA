@@ -19,6 +19,7 @@ Reports/
 
 # Local repository push/pull validation staging
 RepositoryValidation/
+repository-validation-result.json
 
 # Local installers and archives
 *.zip

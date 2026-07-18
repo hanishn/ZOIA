@@ -1,6 +1,6 @@
 {
   "schemaVersion": "zoia.exhibit-build-manifest.v2",
-  "generatedAt": "2026-07-11T12:57:56.348Z",
+  "generatedAt": "2026-07-18T02:02:12.325Z",
   "sourceManifest": "products/zoia/src/data/exhibit-manifest.json",
   "prebuiltHtml": "products/zoia/dist/zoia-emulator.html",
   "compatibilityHtml": "products/zoia/index.html",
@@ -28,7 +28,7 @@
     {
       "role": "script",
       "path": "products/zoia/src/scripts/modules/patch-parser.js",
-      "sha256": "7c4a0ea3389b719b44df369b82a3a88f24be199d6dc16594fb9cc8386d7dafd3"
+      "sha256": "2cf3bef969b1b7f242341662d076dfafec905ecb5756736bdfc1739ea5393e30"
     },
     {
       "role": "script",
@@ -43,7 +43,7 @@
     {
       "role": "script",
       "path": "products/zoia/src/scripts/modules/sim-engine.js",
-      "sha256": "973b04c0d53c6fccf9525ba315a17b0524ff08ec12294b087e8a39ebe03fece9"
+      "sha256": "8f462eaad1993a52bf2d9743ae32b505257a9c53c566157bed1ac5e628447cdf"
     },
     {
       "role": "script",
@@ -53,17 +53,17 @@
     {
       "role": "script",
       "path": "products/zoia/src/scripts/modules/sim-mod-audio.js",
-      "sha256": "a480cd342fc3d99259087dd4f45d133cef148d340e45ae69ee542e932e3df1ca"
+      "sha256": "0109f47be289090c5299f276c6565a2a8aab704c0bac7f286ac02dc028a8418e"
     },
     {
       "role": "script",
       "path": "products/zoia/src/scripts/modules/sim-mod-cv.js",
-      "sha256": "98205d6657b5735fe961257a646e7ce9bb6227e5c4084be4807d4c6b2a273071"
+      "sha256": "a028d07fdcb564c858d57768dcc4ab4523fe0f8c0a2eb8c32380fb4d76ca598a"
     },
     {
       "role": "script",
       "path": "products/zoia/src/scripts/modules/sim-mod-interface.js",
-      "sha256": "6c2e3646009193b84979c7dfd4d29fe06e65b4fd32e050e0a645025b8f81d308"
+      "sha256": "2346a6882582a10ceb4fb37326739ec0705c4d5cac1bc18c200901d76e5a9a12"
     },
     {
       "role": "script",
@@ -143,7 +143,7 @@
       "byteCount": 2883584
     }
   ],
-  "prebuiltSha256": "5c3a37e9eb1038daf9b003868c1180d3e1d05a6d5bb0b3ed8c41c84419d6e9f6",
-  "compatibilitySha256": "5c3a37e9eb1038daf9b003868c1180d3e1d05a6d5bb0b3ed8c41c84419d6e9f6",
+  "prebuiltSha256": "84b56f27105b2c3f3665975d4cfa03b102892103ca6eb94880e49d7a4c67cdfa",
+  "compatibilitySha256": "84b56f27105b2c3f3665975d4cfa03b102892103ca6eb94880e49d7a4c67cdfa",
   "status": "pass"
 }

@@ -15,7 +15,10 @@ const __dirname = dirname(__filename);
 const PROJECT_ROOT = resolve(__dirname, "..", "..", "..");
 const SIMULATOR_HTML = resolve(PROJECT_ROOT, "products", "zoia", "index.html");
 const MANIFEST_PATH = resolve(PROJECT_ROOT, "tests/workflow", "patch-library-cache", "zoia-patch-library-manifest.json");
-const EVIDENCE_ROOT = resolve(PROJECT_ROOT, "tests/workflow", "evidence", "q097-community-library-deep-baseline");
+const EVIDENCE_ROOT_NAME = process.env.ZOIA_LIBRARY_DEEP_EVIDENCE_SUFFIX
+  ? `q097-community-library-deep-${process.env.ZOIA_LIBRARY_DEEP_EVIDENCE_SUFFIX}`
+  : "q097-community-library-deep-baseline";
+const EVIDENCE_ROOT = resolve(PROJECT_ROOT, "tests/workflow", "evidence", EVIDENCE_ROOT_NAME);
 const EDGE_CHANNEL = "msedge";
 const VIEWPORT = Object.freeze({ width: 1440, height: 1000 });
 const COMMAND = "npm run zoia:test:playwright:library-deep";
@@ -71,8 +74,8 @@ async function loadManifest() {
       patchId: patch.patchId,
       sourceIndex: index,
       category: patch.category || "patch-library",
-      binPath: patch.binPath,
-      jsonPath: patch.metadataPath || null,
+      binPath: normalizeManifestPath(patch.binPath),
+      jsonPath: patch.metadataPath ? normalizeManifestPath(patch.metadataPath) : null,
       binSha256: patch.binSha256,
       binSize: patch.binSize,
       readOnlySource: patch.readOnlySource,
@@ -80,6 +83,12 @@ async function loadManifest() {
       source: "patch-library"
     }))
   };
+}
+
+function normalizeManifestPath(sourcePath) {
+  if (!sourcePath || existsSync(sourcePath)) return sourcePath;
+  const currentWorkflowPath = sourcePath.replace(/\\TestWorkflow\\/i, "\\tests\\workflow\\");
+  return existsSync(currentWorkflowPath) ? currentWorkflowPath : sourcePath;
 }
 
 async function loadSimulator(page) {
