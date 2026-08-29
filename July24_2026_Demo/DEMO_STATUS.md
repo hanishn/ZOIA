@@ -2,7 +2,7 @@
 
 ## Scope
 
-This is a local, project-owned demo bundle for bounded ZOIA 0.4.0 generated-patch/runtime evidence. It packages current evidence artifacts and a verifier for the best supported local generated-patch paths.
+This is a local, project-owned demo bundle for bounded ZOIA 0.4.0 generated-patch/runtime evidence. It includes a verifier for the best supported local generated-patch paths. Generated demo outputs are local artifacts and are ignored by Git.
 
 ## Latest Accepted Evidence
 
@@ -61,11 +61,11 @@ Direct verifier command:
 node .\July24_2026_Demo\verify-demo.mjs
 ```
 
-The verifier fails if required copied artifacts are missing, key source evidence is missing or stale, key source/copy JSON values no longer match the accepted pass boundaries, or this status file contains overbroad claim wording. It also writes SHA-256 records for copied demo artifacts to `DEMO_MANIFEST.json`, records seeded negative controls, and exposes `seededControlInventory`, `seededControlRiskCategoryCounts`, `explicitSourceEvidenceCount`, `wrapperResultDiscoveryCheckCount`, `wrapperFullEvidenceCopySyncCheckCount`, `wrapperFullEvidenceCopyFreshnessCheckCount`, `wrapperFullEvidenceSmokeCheckCount`, `sourceEvidenceWarningDocumentAgreementCheckCount`, `audioManifestContentCoverageCheckCount`, `audioCapabilityClaimChainCheckCount`, `audioConsumedFieldArtifactCountCheckCount`, `audioArtifactGenerationFreshnessCheckCount`, `audioGenerationWindowSurfaceAgreementCheckCount`, `audioGenerationWindowMaxDeltaMs`, `audioGenerationWindowMinutes`, `audioClassificationWavContentCheckCount`, `lfoTraceWavContentCheckCount`, and `filterWavContentCheckCount` in `verification-result.json`.
+The verifier fails if required local artifacts are missing, key source evidence is missing or stale, key source/copy JSON values no longer match the accepted pass boundaries, or this status file contains overbroad claim wording. It also writes SHA-256 records for copied demo artifacts to ignored local `DEMO_MANIFEST.json`, records seeded negative controls, and exposes `seededControlInventory`, `seededControlRiskCategoryCounts`, `explicitSourceEvidenceCount`, `wrapperResultDiscoveryCheckCount`, `wrapperFullEvidenceCopySyncCheckCount`, `wrapperFullEvidenceCopyFreshnessCheckCount`, `wrapperFullEvidenceSmokeCheckCount`, `sourceEvidenceWarningDocumentAgreementCheckCount`, `audioManifestContentCoverageCheckCount`, `audioCapabilityClaimChainCheckCount`, `audioConsumedFieldArtifactCountCheckCount`, `audioArtifactGenerationFreshnessCheckCount`, `audioGenerationWindowSurfaceAgreementCheckCount`, `audioGenerationWindowMaxDeltaMs`, `audioGenerationWindowMinutes`, `audioClassificationWavContentCheckCount`, `lfoTraceWavContentCheckCount`, and `filterWavContentCheckCount` in `verification-result.json`.
 
 Audio copied-artifact freshness uses a 10-minute audio generation window: each delay audio, LFO trace, and filter runtime group must keep its WAV files, classification log, run-result JSON, and stimulus manifest inside that window.
 
-The `-RunFullEvidence` wrapper path is expected to copy refreshed final-inventory artifacts into `July24_2026_Demo/artifacts` before verification. A full-evidence smoke run reports `wrapperFullEvidenceSmokeCheckCount` for those three refreshed copy targets.
+The `-RunFullEvidence` wrapper path is expected to regenerate source evidence and copy refreshed local artifacts into `July24_2026_Demo/artifacts` before verification. A full-evidence smoke run reports `wrapperFullEvidenceSmokeCheckCount` for the refreshed copy targets.
 
 For `-RunFullEvidence`, do not parse wrapper stdout as the consumed result because npm commands can emit output before verification. After the command exits, read `July24_2026_Demo/verification-result.json`.
 

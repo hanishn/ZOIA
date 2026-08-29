@@ -1,6 +1,6 @@
 # ZOIA 0.4.0 Generated-Patch Demo
 
-This directory is a local demo bundle for the current bounded generated-patch evidence. It packages copied evidence artifacts and a verification script. It is not a release artifact.
+This directory is a local demo bundle for the current bounded generated-patch evidence. It includes the verification script and documentation. Generated demo outputs are local artifacts and are ignored by Git. It is not a release artifact.
 
 ## Quick Verification
 
@@ -12,7 +12,7 @@ From the ZOIA project root:
 .\July24_2026_Demo\run-demo.ps1
 ```
 
-In default verification mode, the wrapper emits verifier JSON on stdout, so automation can pipe it to `jq` or read `July24_2026_Demo/verification-result.json` after the command exits.
+In default verification mode, the wrapper emits verifier JSON on stdout, so automation can pipe it to `jq` or read the locally generated `July24_2026_Demo/verification-result.json` after the command exits.
 
 Equivalent direct command:
 
@@ -20,9 +20,9 @@ Equivalent direct command:
 node .\July24_2026_Demo\verify-demo.mjs
 ```
 
-This checks that the copied demo artifacts exist, key source evidence is still fresh, key JSON results still pass, WAV/trace artifacts are present, copied artifacts have SHA-256 manifest records, the README artifact table matches manifest-derived counts, seeded tamper/staleness/manifest-omission/table-drift controls fail on the expected surfaces, and `DEMO_STATUS.md` preserves the claim boundary.
+This checks that the local demo artifacts exist, key source evidence is still fresh, key JSON results still pass, WAV/trace artifacts are present, copied artifacts have SHA-256 manifest records, the README artifact table matches manifest-derived counts, seeded tamper/staleness/manifest-omission/table-drift controls fail on the expected surfaces, and `DEMO_STATUS.md` preserves the claim boundary.
 
-The verifier writes `verification-result.json` and `DEMO_MANIFEST.json` in this directory. Key verifier fields for this demo are `copiedPatchCheckCount`, `runtimeConsumedArtifactCheckCount`, `seededNegativeControlPassingCount`, `seededControlInventory`, `seededControlRiskCategoryCounts`, `consumedMarkdownSectionCheckCount`, `wrapperJsonOutputBoundaryCheckCount`, `wrapperResultDiscoveryCheckCount`, `wrapperFullEvidenceCopySyncCheckCount`, `wrapperFullEvidenceCopyFreshnessCheckCount`, `wrapperFullEvidenceSmokeCheckCount`, `sourceEvidenceWarningDocumentAgreementCheckCount`, `manifestArtifactHashCheckCount`, `audioCaptureMappingCheckCount`, `audioManifestContentCoverageCheckCount`, `audioCapabilityClaimChainCheckCount`, `audioConsumedFieldArtifactCountCheckCount`, `audioArtifactGenerationFreshnessCheckCount`, `audioGenerationWindowSurfaceAgreementCheckCount`, `audioGenerationWindowMaxDeltaMs`, `audioGenerationWindowMinutes`, `audioClassificationAgreementCheckCount`, `audioClassificationWavContentCheckCount`, `lfoTraceWavContentCheckCount`, `filterWavContentCheckCount`, `explicitSourceEvidenceCount`, and `copiedClaimedArtifactCount`.
+The verifier writes ignored local outputs `verification-result.json` and `DEMO_MANIFEST.json` in this directory. Key verifier fields for this demo are `copiedPatchCheckCount`, `runtimeConsumedArtifactCheckCount`, `seededNegativeControlPassingCount`, `seededControlInventory`, `seededControlRiskCategoryCounts`, `consumedMarkdownSectionCheckCount`, `wrapperJsonOutputBoundaryCheckCount`, `wrapperResultDiscoveryCheckCount`, `wrapperFullEvidenceCopySyncCheckCount`, `wrapperFullEvidenceCopyFreshnessCheckCount`, `wrapperFullEvidenceSmokeCheckCount`, `sourceEvidenceWarningDocumentAgreementCheckCount`, `manifestArtifactHashCheckCount`, `audioCaptureMappingCheckCount`, `audioManifestContentCoverageCheckCount`, `audioCapabilityClaimChainCheckCount`, `audioConsumedFieldArtifactCountCheckCount`, `audioArtifactGenerationFreshnessCheckCount`, `audioGenerationWindowSurfaceAgreementCheckCount`, `audioGenerationWindowMaxDeltaMs`, `audioGenerationWindowMinutes`, `audioClassificationAgreementCheckCount`, `audioClassificationWavContentCheckCount`, `lfoTraceWavContentCheckCount`, `filterWavContentCheckCount`, `explicitSourceEvidenceCount`, and `copiedClaimedArtifactCount`.
 
 Audio copied-artifact freshness is bounded by a 10-minute audio generation window: each delay audio, LFO trace, and filter runtime group must keep its WAV files, classification log, run-result JSON, and stimulus manifest inside that window.
 
@@ -34,9 +34,15 @@ Run these from the ZOIA project root only when a longer local refresh is intende
 npm run zoia:generate:patch:text-prompt-runtime-rollup
 npm run zoia:generate:patch:final-evidence-inventory
 npm run zoia:generate:patch:final-evidence-inventory:negative-controls
+npm run zoia:release:review-summary
+npm run zoia:verify:v04
+npm run zoia:generate:patch:claim-boundary
+npm run zoia:test:playwright:generated-patch-audio
+npm run zoia:test:playwright:generated-patch-lfo-semantics
+npm run zoia:test:playwright:generated-patch-filter-semantics
 ```
 
-If `run-demo.ps1 -RunFullEvidence` is used instead, the npm commands may emit their own command output before the verifier writes the result file. Do not parse `-RunFullEvidence` stdout as the consumed result; after the command exits, read `July24_2026_Demo/verification-result.json`. The `-RunFullEvidence` wrapper path copies the refreshed final-inventory run result, final-inventory claim inventory, and final-inventory negative-control run result into `July24_2026_Demo/artifacts` before verification. A full-evidence smoke run reports `wrapperFullEvidenceSmokeCheckCount` for those three refreshed copy targets.
+If `run-demo.ps1 -RunFullEvidence` is used instead, the npm commands may emit their own command output before the verifier writes the result file. Do not parse `-RunFullEvidence` stdout as the consumed result; after the command exits, read `July24_2026_Demo/verification-result.json`. The `-RunFullEvidence` wrapper path regenerates source evidence and copies refreshed local artifacts into `July24_2026_Demo/artifacts` before verification. A full-evidence smoke run reports `wrapperFullEvidenceSmokeCheckCount` for the refreshed copy targets.
 
 `zoia:generate:patch:text-prompt-runtime-rollup` demonstrates the strongest supported delay-family prompt path: graph generation, emulator conversion, browser runtime load, WAV capture, signal-present audio classification, delay-route semantics, LFO/control trace evidence, expression-feedback route evidence, and negative controls.
 
@@ -46,7 +52,7 @@ If `run-demo.ps1 -RunFullEvidence` is used instead, the npm commands may emit th
 
 ## Included Artifact Copies
 
-`DEMO_MANIFEST.json` records SHA-256 hashes for 31 required demo files:
+The ignored local `DEMO_MANIFEST.json` records SHA-256 hashes for 31 required demo files:
 
 | Category | Manifested files | Contents |
 | --- | ---: | --- |

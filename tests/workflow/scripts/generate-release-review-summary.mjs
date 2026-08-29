@@ -425,7 +425,7 @@ const CAPABILITY_RULES = Object.freeze([
   },
   {
     capabilityArea: "july24-local-demo-bundle",
-    patterns: [/^July24_2026_Demo\//]
+    patterns: [/^July24_2026_Demo\//, /^\.gitignore$/]
   },
   {
     capabilityArea: "release-review-summary",

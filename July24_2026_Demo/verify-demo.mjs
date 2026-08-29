@@ -165,7 +165,7 @@ const requiredDocSurfaces = [
       "In default verification mode, the wrapper emits verifier JSON on stdout",
       "Do not parse `-RunFullEvidence` stdout as the consumed result",
       "after the command exits, read `July24_2026_Demo/verification-result.json`",
-      "The `-RunFullEvidence` wrapper path copies the refreshed final-inventory run result, final-inventory claim inventory, and final-inventory negative-control run result into `July24_2026_Demo/artifacts` before verification.",
+      "The `-RunFullEvidence` wrapper path regenerates source evidence and copies refreshed local artifacts into `July24_2026_Demo/artifacts` before verification.",
       "wrapperJsonOutputBoundaryCheckCount",
       "wrapperResultDiscoveryCheckCount",
       "wrapperFullEvidenceCopySyncCheckCount",
@@ -234,7 +234,7 @@ const requiredDocSurfaces = [
       "filterWavContentCheckCount",
       "For `-RunFullEvidence`, do not parse wrapper stdout as the consumed result",
       "After the command exits, read `July24_2026_Demo/verification-result.json`",
-      "The `-RunFullEvidence` wrapper path is expected to copy refreshed final-inventory artifacts into `July24_2026_Demo/artifacts` before verification.",
+      "The `-RunFullEvidence` wrapper path is expected to regenerate source evidence and copy refreshed local artifacts into `July24_2026_Demo/artifacts` before verification.",
       "sourceEvidenceNextStaleAt",
       "sourceEvidenceRefreshRecommended",
       "sourceEvidenceWarningThresholdHours",
@@ -285,10 +285,28 @@ const statusAcceptedEvidencePaths = [
 const documentedFullEvidenceScripts = [
   "zoia:generate:patch:text-prompt-runtime-rollup",
   "zoia:generate:patch:final-evidence-inventory",
-  "zoia:generate:patch:final-evidence-inventory:negative-controls"
+  "zoia:generate:patch:final-evidence-inventory:negative-controls",
+  "zoia:release:review-summary",
+  "zoia:verify:v04",
+  "zoia:generate:patch:claim-boundary",
+  "zoia:test:playwright:generated-patch-audio",
+  "zoia:test:playwright:generated-patch-lfo-semantics",
+  "zoia:test:playwright:generated-patch-filter-semantics"
 ];
 
 const wrapperFullEvidenceCopySyncs = [
+  {
+    source: "$ProjectRoot\\tests\\workflow\\generated-patches\\manual-test-emulator\\01-143816-v2.patch.json",
+    destination: "$DemoRoot\\artifacts\\generated-patches\\manual-test-emulator\\01-143816-v2.patch.json"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\generated-patches\\manual-test-emulator\\02-108214.patch.json",
+    destination: "$DemoRoot\\artifacts\\generated-patches\\manual-test-emulator\\02-108214.patch.json"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\generated-patches\\manual-test-emulator\\03-184325.patch.json",
+    destination: "$DemoRoot\\artifacts\\generated-patches\\manual-test-emulator\\03-184325.patch.json"
+  },
   {
     source: "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory\\run-result.json",
     destination: "$DemoRoot\\artifacts\\generated-patch-final-evidence-inventory\\run-result.json"
@@ -300,6 +318,30 @@ const wrapperFullEvidenceCopySyncs = [
   {
     source: "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\run-result.json",
     destination: "$DemoRoot\\artifacts\\generated-patch-final-evidence-inventory-negative-controls\\run-result.json"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\evidence\\release-review-summary\\run-result.json",
+    destination: "$DemoRoot\\artifacts\\release-review-summary\\run-result.json"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\evidence\\v0.4-readiness\\run-result.json",
+    destination: "$DemoRoot\\artifacts\\v0.4-readiness\\run-result.json"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-claim-boundary\\run-result.json",
+    destination: "$DemoRoot\\artifacts\\generated-patch-claim-boundary\\run-result.json"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-audio",
+    destination: "$DemoRoot\\artifacts\\generated-patch-audio"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-lfo-semantics",
+    destination: "$DemoRoot\\artifacts\\generated-patch-lfo-semantics"
+  },
+  {
+    source: "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-filter-semantics",
+    destination: "$DemoRoot\\artifacts\\generated-patch-filter-runtime"
   }
 ];
 
@@ -2986,7 +3028,7 @@ async function runSeededNegativeControls(readmeText, statusText, manifest, runti
     const runDemoText = await readFile(resolve(DEMO_ROOT, "run-demo.ps1"), "utf8");
     const omittedSync = wrapperFullEvidenceCopySyncs[0];
     const copyPattern = new RegExp(
-      `\\n?\\s*Copy-Item\\s+-LiteralPath\\s+"${omittedSync.source.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}"\\s+-Destination\\s+"${omittedSync.destination.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}"\\s+-Force\\s*\\n?`,
+      `\\n?\\s*Copy-Demo(?:File|Directory)\\s+"${omittedSync.source.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}"\\s+"${omittedSync.destination.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}"\\s*\\n?`,
       "u"
     );
     const copyOmittedRunDemoText = runDemoText.replace(copyPattern, "\n");

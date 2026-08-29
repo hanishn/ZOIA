@@ -1,10 +1,19 @@
 node_modules/
+.clairvoyance/
 
 # Generated test evidence and local logs
 tests/parser-harness/results/
 tests/workflow/evidence/
 tests/workflow/playwright/evidence/
 tests/workflow/logs/
+
+# Generated demo verification outputs
+July24_2026_Demo/artifacts/
+July24_2026_Demo/artifacts.local-test-backup/
+July24_2026_Demo/DEMO_MANIFEST.json
+July24_2026_Demo/DEMO_MANIFEST.local-test-backup.json
+July24_2026_Demo/verification-result.json
+July24_2026_Demo/verification-result.local-test-backup.json
 
 # Cached community patch-library downloads and extracted patch files
 tests/workflow/patch-library-cache/
