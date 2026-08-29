@@ -86,7 +86,7 @@ tests\workflow\evidence\generated-patch-drafts\run-result.json
 Draft validation command:
 
 ```powershell
-npm run zoia:generate:patch:validate -- --fixture-root tests/workflow/generated-patches/from-selection --no-negative-fixtures
+npm run zoia:generate:patch:validate -- --fixture-root tests/workflow/evidence/generated-patches/from-selection --no-negative-fixtures
 ```
 
 Draft provenance command:

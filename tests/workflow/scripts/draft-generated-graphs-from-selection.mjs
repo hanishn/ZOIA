@@ -6,8 +6,8 @@ import { fileURLToPath } from "node:url";
 
 const PROJECT_ROOT = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const SELECTION_RESULT_PATH = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patch-selection/run-result.json");
-const DEFAULT_DRAFT_ROOT = resolve(PROJECT_ROOT, "tests/workflow/generated-patches/from-selection");
 const DEFAULT_EVIDENCE_ROOT = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patch-drafts");
+const DEFAULT_DRAFT_ROOT = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patches/from-selection");
 const DEFAULT_RESULT_PATH = resolve(DEFAULT_EVIDENCE_ROOT, "run-result.json");
 const JSON_SPACES = 2;
 const FAMILY_KEYWORDS = Object.freeze([

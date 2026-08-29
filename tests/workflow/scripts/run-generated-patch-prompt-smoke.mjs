@@ -91,7 +91,7 @@ async function main() {
   for (const prompt of PROMPTS) {
     const promptRoot = resolve(EVIDENCE_ROOT, prompt.id);
     const workflowPath = resolve(promptRoot, "workflow.json");
-    const draftRoot = resolve(PROJECT_ROOT, "tests/workflow/generated-patches/prompt-smoke", prompt.id);
+    const draftRoot = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patches/prompt-smoke", prompt.id);
 
     await mkdir(promptRoot, { recursive: true });
     const workflowCommand = runNode([

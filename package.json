@@ -55,7 +55,7 @@
     "zoia:generate:patch:select": "node tests/workflow/scripts/select-verified-patch-template.mjs",
     "zoia:generate:patch:select:regression": "node tests/workflow/scripts/run-generated-patch-selector-scoring-regression.mjs",
     "zoia:generate:patch:draft-from-selection": "node tests/workflow/scripts/draft-generated-graphs-from-selection.mjs",
-    "zoia:generate:patch:validate": "node tests/workflow/scripts/validate-generated-patch-candidates.mjs --fixture-root tests/workflow/generated-patches/from-selection --no-negative-fixtures",
+    "zoia:generate:patch:validate": "node tests/workflow/scripts/validate-generated-patch-candidates.mjs --fixture-root tests/workflow/evidence/generated-patches/from-selection --no-negative-fixtures",
     "zoia:generate:patch:trace-evidence:negative-controls": "node tests/workflow/scripts/validate-generated-patch-candidates.mjs --fixture-root tests/workflow/generated-patches/selection-bridge --result-path tests/workflow/evidence/generated-patch-trace-evidence-negative-controls/run-result.json",
     "zoia:generate:patch:provenance": "node tests/workflow/scripts/verify-generated-draft-provenance.mjs",
     "zoia:generate:patch:prompt-smoke": "node tests/workflow/scripts/run-generated-patch-prompt-smoke.mjs",

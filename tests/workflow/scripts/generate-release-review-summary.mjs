@@ -249,7 +249,7 @@ const VALIDATION_COMMANDS = Object.freeze([
   "npm run zoia:generate:patch:select -- --description \"ambient delay with slow modulation and expression pedal feedback control\" --limit 8",
   "npm run zoia:generate:patch:select:regression",
   "npm run zoia:generate:patch:draft-from-selection -- --limit 3",
-  "npm run zoia:generate:patch:validate -- --fixture-root tests/workflow/generated-patches/from-selection --no-negative-fixtures",
+  "npm run zoia:generate:patch:validate -- --fixture-root tests/workflow/evidence/generated-patches/from-selection --no-negative-fixtures",
   "npm run zoia:generate:patch:trace-evidence:negative-controls",
   "npm run zoia:generate:patch:provenance",
   "npm run zoia:generate:patch:prompt-smoke",
@@ -422,6 +422,13 @@ const CAPABILITY_RULES = Object.freeze([
   {
     capabilityArea: "npm-script-surface",
     patterns: [/^package\.json$/]
+  },
+  {
+    capabilityArea: "repository-hygiene",
+    patterns: [
+      /^tests\/workflow\/scripts\/run-repository-hygiene-gate\.mjs$/,
+      /^tests\/workflow\/scripts\/run-zoia-ci-gates\.mjs$/
+    ]
   },
   {
     capabilityArea: "july24-local-demo-bundle",

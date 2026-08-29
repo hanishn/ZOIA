@@ -8,7 +8,7 @@ import { spawnSync } from "node:child_process";
 const PROJECT_ROOT = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
 const EVIDENCE_ROOT = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patch-from-description");
 const DEFAULT_RESULT_PATH = resolve(EVIDENCE_ROOT, "run-result.json");
-const DEFAULT_DRAFT_ROOT = resolve(PROJECT_ROOT, "tests/workflow/generated-patches/from-description");
+const DEFAULT_DRAFT_ROOT = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patches/from-description");
 const DEFAULT_DESCRIPTION = "ambient delay with slow modulation and expression pedal feedback control";
 const JSON_SPACES = 2;
 
