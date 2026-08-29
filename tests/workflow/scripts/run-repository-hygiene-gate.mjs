@@ -23,6 +23,31 @@ const PROHIBITED_TRACKED_PATHS = [
     reason: "workflow logs are generated locally",
   },
   {
+    id: "generated-patch-from-selection-output",
+    pattern: /^tests\/workflow\/generated-patches\/from-selection\//,
+    reason: "from-selection generated-patch drafts regenerate under workflow evidence",
+  },
+  {
+    id: "generated-patch-from-description-output",
+    pattern: /^tests\/workflow\/generated-patches\/from-description\//,
+    reason: "from-description generated-patch drafts regenerate under workflow evidence",
+  },
+  {
+    id: "generated-patch-manual-test-output",
+    pattern: /^tests\/workflow\/generated-patches\/manual-test\//,
+    reason: "manual generated-patch graph outputs regenerate under workflow evidence",
+  },
+  {
+    id: "generated-patch-prompt-smoke-output",
+    pattern: /^tests\/workflow\/generated-patches\/prompt-smoke\//,
+    reason: "prompt-smoke generated-patch drafts regenerate under workflow evidence",
+  },
+  {
+    id: "generated-patch-negative-description-output",
+    pattern: /^tests\/workflow\/generated-patches\/negative-description\//,
+    reason: "negative-description generated-patch drafts regenerate under workflow evidence",
+  },
+  {
     id: "demo-copied-artifacts",
     pattern: /^July24_2026_Demo\/artifacts\//,
     reason: "demo artifacts are copied/generated local outputs",
