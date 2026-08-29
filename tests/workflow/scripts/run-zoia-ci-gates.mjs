@@ -28,6 +28,11 @@ if (!NPM_CLI) {
 
 const gates = [
   {
+    id: "repository-hygiene",
+    command: process.execPath,
+    args: [NPM_CLI, "run", "zoia:repo:hygiene"],
+  },
+  {
     id: "shared-ssl-provenance",
     command: process.execPath,
     args: [NPM_CLI, "--prefix", "shared/ssl/zoia-shared-ssl", "run", "verify"],

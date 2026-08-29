@@ -100,6 +100,7 @@
     "test": "npm run zoia:test:ci",
     "zoia:ssl:proof": "node tests/workflow/scripts/generate-ssl-rebaseline-proof.mjs",
     "zoia:test:ci": "npm run zoia:build && node tests/workflow/scripts/run-zoia-ci-gates.mjs",
+    "zoia:repo:hygiene": "node tests/workflow/scripts/run-repository-hygiene-gate.mjs",
     "zoia:github:boundary": "node tests/workflow/scripts/generate-github-readiness-boundary.mjs",
     "zoia:verify:v04": "node tests/workflow/scripts/run-zoia-v04-readiness.mjs",
     "zoia:test:publication": "npm run zoia:test:ci && npm run zoia:patch-library:prepare && npm run zoia:test:playwright:community-audio",
