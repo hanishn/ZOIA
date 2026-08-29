@@ -127,8 +127,8 @@ A local user can provide a text description for a ZOIA-style patch and receive g
 The current implemented user-visible path is:
 
 ```powershell
-npm run zoia:generate:patch:from-description -- --description "ambient delay with slow modulation and expression pedal feedback control" --draft-root tests/workflow/generated-patches/manual-test --result-path tests/workflow/evidence/manual-text-prompt-test/run-result.json
-npm run zoia:generate:patch:convert-emulator -- --graph-root tests/workflow/generated-patches/manual-test --output-root tests/workflow/generated-patches/manual-test-emulator --result-path tests/workflow/evidence/manual-text-prompt-emulator-conversion/run-result.json
+npm run zoia:generate:patch:from-description -- --description "ambient delay with slow modulation and expression pedal feedback control" --draft-root tests/workflow/evidence/generated-patches/manual-test --result-path tests/workflow/evidence/manual-text-prompt-test/run-result.json
+npm run zoia:generate:patch:convert-emulator -- --graph-root tests/workflow/evidence/generated-patches/manual-test --output-root tests/workflow/evidence/generated-patches/manual-test-emulator --result-path tests/workflow/evidence/manual-text-prompt-emulator-conversion/run-result.json
 npm run zoia:build
 npm run zoia:test:playwright:generated-patch-load -- --patch-root tests/workflow/generated-patches/manual-test-emulator --result-path tests/workflow/evidence/manual-text-prompt-generated-patch-load/run-result.json
 ```

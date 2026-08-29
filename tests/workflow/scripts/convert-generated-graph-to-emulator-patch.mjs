@@ -5,8 +5,8 @@ import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const PROJECT_ROOT = resolve(fileURLToPath(new URL("../../..", import.meta.url)));
-const DEFAULT_GRAPH_ROOT = resolve(PROJECT_ROOT, "tests/workflow/generated-patches/manual-test");
-const DEFAULT_OUTPUT_ROOT = resolve(PROJECT_ROOT, "tests/workflow/generated-patches/manual-test-emulator");
+const DEFAULT_GRAPH_ROOT = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patches/manual-test");
+const DEFAULT_OUTPUT_ROOT = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patches/manual-test-emulator");
 const DEFAULT_RESULT_PATH = resolve(PROJECT_ROOT, "tests/workflow/evidence/generated-patch-emulator-conversion/run-result.json");
 const JSON_SPACES = 2;
 const GRID_SIZE = 40;
