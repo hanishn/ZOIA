@@ -1,0 +1,284 @@
+{
+  "schemaVersion": "zoia.generated-patch-text-prompt-runtime-rollup.v1",
+  "version": "0.4.0",
+  "revision": 1,
+  "status": "pass",
+  "command": "npm run zoia:generate:patch:text-prompt-runtime-rollup",
+  "startedAt": "2026-07-23T01:27:35.836Z",
+  "completedAt": "2026-07-23T01:28:51.298Z",
+  "description": "ambient delay with slow modulation and expression pedal feedback control",
+  "runRoot": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z",
+  "graphRoot": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\generated-graphs",
+  "patchRoot": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+  "summary": {
+    "blockerCount": 0,
+    "stepCount": 10,
+    "executedStepCount": 10,
+    "passedStepCount": 10
+  },
+  "assertionFailures": [],
+  "steps": [
+    {
+      "id": "prompt-graph",
+      "scriptPath": "tests/workflow/scripts/generate-patch-from-description.mjs",
+      "args": [
+        "--description",
+        "ambient delay with slow modulation and expression pedal feedback control",
+        "--draft-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\generated-graphs",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\prompt-graph\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\prompt-graph\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "selectedCandidateCount": 8,
+        "measuredCandidateCount": 8,
+        "draftCount": 3,
+        "validatedDraftCount": 3
+      },
+      "completedAt": "2026-07-23T01:27:36.344Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"selectedCandidateCount\": 8,\n  \"measuredCandidateCount\": 8,\n  \"draftCount\": 3,\n  \"validatedDraftCount\": 3,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\prompt-graph\\\\run-result.json\",\n  \"draftRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\generated-graphs\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "convert-emulator",
+      "scriptPath": "tests/workflow/scripts/convert-generated-graph-to-emulator-patch.mjs",
+      "args": [
+        "--graph-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\generated-graphs",
+        "--output-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\convert-emulator\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\convert-emulator\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "convertedPatchCount": 3
+      },
+      "completedAt": "2026-07-23T01:27:36.463Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"convertedPatchCount\": 3,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\convert-emulator\\\\run-result.json\",\n  \"outputRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\emulator-patches\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "playwright-load",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-load-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\playwright-load\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\playwright-load\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "loadedPatchCount": 3
+      },
+      "completedAt": null,
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"loadedPatchCount\": 3,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\playwright-load\\\\run-result.json\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "audio-signal",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-audio-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\audio-signal\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\audio-signal\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "signalPresentCount": 3,
+        "classifiedSilenceCount": 1,
+        "captureCount": 4
+      },
+      "completedAt": "2026-07-23T01:27:41.854Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"signalPresentCount\": 3,\n  \"classifiedSilenceCount\": 1,\n  \"captureCount\": 4,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\audio-signal\\\\run-result.json\",\n  \"stimulusManifestPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\audio-signal\\\\stimulus-manifest.json\",\n  \"classificationLogPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\audio-signal\\\\classification-log.json\",\n  \"captureRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\audio-signal\\\\captures\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "delay-semantics",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-delay-semantics-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\delay-semantics\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\delay-semantics\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "delayWindowPresentCount": 3,
+        "bypassedDelayClassifiedCount": 1,
+        "captureCount": 4
+      },
+      "completedAt": "2026-07-23T01:27:44.162Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"delayWindowPresentCount\": 3,\n  \"bypassedDelayClassifiedCount\": 1,\n  \"captureCount\": 4,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\delay-semantics\\\\run-result.json\",\n  \"stimulusManifestPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\delay-semantics\\\\stimulus-manifest.json\",\n  \"classificationLogPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\delay-semantics\\\\classification-log.json\",\n  \"captureRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\delay-semantics\\\\captures\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "modulation-semantics",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-modulation-semantics-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\modulation-semantics\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\modulation-semantics\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "modulationShiftCount": 3,
+        "disconnectedControlClassifiedCount": 3,
+        "wrongTargetClassifiedCount": 3,
+        "captureCount": 9
+      },
+      "completedAt": "2026-07-23T01:27:46.824Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"modulationShiftCount\": 3,\n  \"disconnectedControlClassifiedCount\": 3,\n  \"wrongTargetClassifiedCount\": 3,\n  \"captureCount\": 9,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\modulation-semantics\\\\run-result.json\",\n  \"stimulusManifestPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\modulation-semantics\\\\stimulus-manifest.json\",\n  \"classificationLogPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\modulation-semantics\\\\classification-log.json\",\n  \"captureRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\modulation-semantics\\\\captures\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "lfo-semantics",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-lfo-semantics-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\lfo-semantics\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\lfo-semantics\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "lfoWaveformRouteCount": 3,
+        "disconnectedControlClassifiedCount": 3,
+        "mutedControlClassifiedCount": 3,
+        "wrongTargetClassifiedCount": 3,
+        "captureCount": 12,
+        "traceCount": 12
+      },
+      "completedAt": "2026-07-23T01:27:56.350Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"lfoWaveformRouteCount\": 3,\n  \"disconnectedControlClassifiedCount\": 3,\n  \"mutedControlClassifiedCount\": 3,\n  \"wrongTargetClassifiedCount\": 3,\n  \"captureCount\": 12,\n  \"traceCount\": 12,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\lfo-semantics\\\\run-result.json\",\n  \"stimulusManifestPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\lfo-semantics\\\\stimulus-manifest.json\",\n  \"classificationLogPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\lfo-semantics\\\\classification-log.json\",\n  \"captureRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\lfo-semantics\\\\captures\",\n  \"traceRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\lfo-semantics\\\\traces\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "expression-feedback",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-expression-feedback-semantics-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\expression-feedback\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\expression-feedback\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "expressionFeedbackTailCount": 3,
+        "disconnectedControlClassifiedCount": 3,
+        "lowExpressionControlClassifiedCount": 3,
+        "invertedControlClassifiedCount": 3,
+        "wrongTargetMixClassifiedCount": 3,
+        "captureCount": 15,
+        "traceCount": 15
+      },
+      "completedAt": "2026-07-23T01:28:04.082Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"expressionFeedbackTailCount\": 3,\n  \"disconnectedControlClassifiedCount\": 3,\n  \"lowExpressionControlClassifiedCount\": 3,\n  \"invertedControlClassifiedCount\": 3,\n  \"wrongTargetMixClassifiedCount\": 3,\n  \"captureCount\": 15,\n  \"traceCount\": 15,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\expression-feedback\\\\run-result.json\",\n  \"stimulusManifestPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\expression-feedback\\\\stimulus-manifest.json\",\n  \"classificationLogPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\expression-feedback\\\\classification-log.json\",\n  \"captureRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\expression-feedback\\\\captures\",\n  \"traceRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\expression-feedback\\\\traces\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "unmodified-timing",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-unmodified-modulated-timing-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\unmodified-timing\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\unmodified-timing\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "fixtureCount": 12,
+        "classifiedCount": 12,
+        "stableMeasuredModulationCount": 9,
+        "unstableModulationCount": 0,
+        "signalPresentOnlyCount": 0,
+        "blockedClassificationCount": 0,
+        "feedbackTailCount": 9,
+        "mutedAudioControlClassifiedCount": 3,
+        "captureCount": 12,
+        "lfoTraceCount": 12,
+        "expressionTraceCount": 12
+      },
+      "completedAt": "2026-07-23T01:28:27.773Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"fixtureCount\": 12,\n  \"classifiedCount\": 12,\n  \"stableMeasuredModulationCount\": 9,\n  \"unstableModulationCount\": 0,\n  \"signalPresentOnlyCount\": 0,\n  \"blockedClassificationCount\": 0,\n  \"feedbackTailCount\": 9,\n  \"mutedAudioControlClassifiedCount\": 3,\n  \"captureCount\": 12,\n  \"lfoTraceCount\": 12,\n  \"expressionTraceCount\": 12,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\unmodified-timing\\\\run-result.json\",\n  \"stimulusManifestPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\unmodified-timing\\\\stimulus-manifest.json\",\n  \"classificationLogPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\unmodified-timing\\\\classification-log.json\",\n  \"captureRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\unmodified-timing\\\\captures\",\n  \"traceRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\unmodified-timing\\\\traces\"\n}\n",
+      "stderrTail": ""
+    },
+    {
+      "id": "corrupted-route-negative-controls",
+      "scriptPath": "tests/workflow/playwright/run-zoia-playwright-generated-patch-corrupted-route-negative-controls-evidence.mjs",
+      "args": [
+        "--patch-root",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\emulator-patches",
+        "--result-path",
+        "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\corrupted-route-negative-controls\\run-result.json"
+      ],
+      "exitCode": 0,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-text-prompt-runtime-rollup\\run-2026-07-23T01-27-35-836Z\\corrupted-route-negative-controls\\run-result.json",
+      "status": "pass",
+      "summary": {
+        "blockerCount": 0,
+        "patchCount": 3,
+        "fixtureCount": 12,
+        "classifiedCount": 12,
+        "lfoRouteControlClassifiedCount": 3,
+        "expressionRouteDominanceCount": 3,
+        "feedbackTailLostCount": 3,
+        "audioInputRouteSignalLostCount": 3,
+        "unchangedStableClassificationCount": 0,
+        "blockedClassificationCount": 0,
+        "captureCount": 12,
+        "lfoTraceCount": 12,
+        "expressionTraceCount": 12
+      },
+      "completedAt": "2026-07-23T01:28:51.192Z",
+      "stdoutTail": "{\n  \"status\": \"pass\",\n  \"blockerCount\": 0,\n  \"patchCount\": 3,\n  \"fixtureCount\": 12,\n  \"classifiedCount\": 12,\n  \"lfoRouteControlClassifiedCount\": 3,\n  \"expressionRouteDominanceCount\": 3,\n  \"feedbackTailLostCount\": 3,\n  \"audioInputRouteSignalLostCount\": 3,\n  \"unchangedStableClassificationCount\": 0,\n  \"blockedClassificationCount\": 0,\n  \"captureCount\": 12,\n  \"lfoTraceCount\": 12,\n  \"expressionTraceCount\": 12,\n  \"resultPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\corrupted-route-negative-controls\\\\run-result.json\",\n  \"stimulusManifestPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\corrupted-route-negative-controls\\\\stimulus-manifest.json\",\n  \"classificationLogPath\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\corrupted-route-negative-controls\\\\classification-log.json\",\n  \"captureRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\corrupted-route-negative-controls\\\\captures\",\n  \"traceRoot\": \"G:\\\\Projects\\\\MusicAndMidi\\\\ZOIA\\\\tests\\\\workflow\\\\evidence\\\\generated-patch-text-prompt-runtime-rollup\\\\run-2026-07-23T01-27-35-836Z\\\\corrupted-route-negative-controls\\\\traces\"\n}\n",
+      "stderrTail": ""
+    }
+  ],
+  "claimBoundaries": {
+    "freshRunScopedEvidenceClaim": true,
+    "promptToRuntimeTestedPatchClaim": true,
+    "musicalQualityClaim": false,
+    "fullDspAccuracyClaim": false,
+    "hardwareParityClaim": false,
+    "completePatchSemanticsClaim": false,
+    "hardwareBinaryExportClaim": false
+  }
+}

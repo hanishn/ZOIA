@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-audio-route-bypass",
+  "requirements": [
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio effect candidate must route audio through the processor",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "mod-source-1",
+        "control-source-1"
+      ],
+      "connectionIds": [
+        "conn-audio-bypass",
+        "conn-audio-in-delay",
+        "conn-delay-out",
+        "conn-mod-template",
+        "conn-control-template"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio route should not bypass the generated delay processor; CV modulation and expression control are present"
+      }
+    }
+  ]
+}

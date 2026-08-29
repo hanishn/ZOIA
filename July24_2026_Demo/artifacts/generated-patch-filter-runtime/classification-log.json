@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "zoia.generated-patch-filter-semantics-classification-log.v1",
+  "generatedAt": "2026-08-29T15:24:19.257Z",
+  "classifications": [
+    {
+      "id": "01-107507",
+      "patchPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\generated-patches\\filter-test-emulator\\01-107507.patch.json",
+      "status": "pass",
+      "classification": "lowpass-filter-present",
+      "expectedLowpass": true,
+      "controlKind": "positive",
+      "rms": 0.29777856568050504,
+      "peak": 0.45535996556282043,
+      "lowMagnitude": 0.2105979857470009,
+      "highMagnitude": 0.0003450493128641405,
+      "highLowRatio": 0.0016384264628184096,
+      "capturePath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-filter-semantics\\captures\\01-107507.wav",
+      "assertionFailureCount": 0
+    },
+    {
+      "id": "01-107507-bypass-filter-control",
+      "patchPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-filter-semantics\\fixtures\\01-107507-bypass-filter-control.patch.json",
+      "status": "classified",
+      "classification": "bypass-filter-classified",
+      "expectedLowpass": false,
+      "controlKind": "bypass-filter",
+      "rms": 0.34999999981455404,
+      "peak": 0.6996403336524963,
+      "lowMagnitude": 0.17499999990742574,
+      "highMagnitude": 0.17499999990712065,
+      "highLowRatio": 0.9999999999982566,
+      "capturePath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-filter-semantics\\captures\\01-107507-bypass-filter-control.wav",
+      "assertionFailureCount": 0
+    },
+    {
+      "id": "01-107507-highpass-output-control",
+      "patchPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-filter-semantics\\fixtures\\01-107507-highpass-output-control.patch.json",
+      "status": "classified",
+      "classification": "wrong-output-highpass-classified",
+      "expectedLowpass": false,
+      "controlKind": "wrong-output-highpass",
+      "rms": 0.25455578299972825,
+      "peak": 0.47987377643585205,
+      "lowMagnitude": 0.040510745663444786,
+      "highMagnitude": 0.17531071202410264,
+      "highLowRatio": 4.327511359098377,
+      "capturePath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-filter-semantics\\captures\\01-107507-highpass-output-control.wav",
+      "assertionFailureCount": 0
+    }
+  ]
+}

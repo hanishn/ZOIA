@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-orphan-cv-source",
+  "requirements": [
+    {
+      "id": "req-orphan-cv-source",
+      "sourceText": "audio effect candidate with an orphan generated CV source",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "lfo-orphan-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-delay",
+        "conn-delay-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "orphan generated modules should fail before export"
+      }
+    }
+  ]
+}

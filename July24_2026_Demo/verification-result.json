@@ -1,0 +1,1972 @@
+{
+  "status": "pass",
+  "problemCount": 0,
+  "checkedEvidenceCount": 8,
+  "copiedArtifactCount": 31,
+  "artifactManifestCount": 31,
+  "copiedPatchCheckCount": 3,
+  "runtimeConsumedArtifactCheckCount": 11,
+  "audioStimulusManifestAgreementCheckCount": 10,
+  "audioCaptureMappingCheckCount": 12,
+  "audioManifestContentCoverageCheckCount": 20,
+  "audioClassificationAgreementCheckCount": 40,
+  "audioClassificationWavContentCheckCount": 12,
+  "lfoTraceWavContentCheckCount": 6,
+  "filterWavContentCheckCount": 15,
+  "seededNegativeControlCount": 71,
+  "seededNegativeControlPassingCount": 71,
+  "seededControlInventoryCount": 71,
+  "seededControlInventory": [
+    {
+      "id": "tampered-copied-json-evidence",
+      "expectedFailureSurface": "demo-evidence-copy-value-mismatch",
+      "riskCategory": "copied evidence value integrity"
+    },
+    {
+      "id": "copied-json-evidence-hash-drift",
+      "expectedFailureSurface": "demo-source-copy-sha256-mismatch",
+      "riskCategory": "single source/copy drift"
+    },
+    {
+      "id": "all-source-copy-sha256-drift-boundary",
+      "expectedFailureSurface": "demo-source-copy-sha256-mismatch",
+      "riskCategory": "all source/copy drift"
+    },
+    {
+      "id": "readme-release-standalone-overclaim",
+      "expectedFailureSurface": "demo-human-facing-overclaim",
+      "riskCategory": "overclaiming"
+    },
+    {
+      "id": "capability-chain-missing-runtime-artifact",
+      "expectedFailureSurface": "demo-capability-chain-artifact-missing",
+      "riskCategory": "capability chain completeness"
+    },
+    {
+      "id": "stale-source-evidence",
+      "expectedFailureSurface": "demo-source-evidence-stale",
+      "riskCategory": "single source freshness"
+    },
+    {
+      "id": "invalid-timestamp-source-evidence",
+      "expectedFailureSurface": "demo-source-evidence-invalid-timestamp",
+      "riskCategory": "source timestamp validity"
+    },
+    {
+      "id": "all-source-evidence-stale-boundary",
+      "expectedFailureSurface": "demo-source-evidence-stale",
+      "riskCategory": "all source freshness"
+    },
+    {
+      "id": "manifest-required-path-omission",
+      "expectedFailureSurface": "demo-manifest-required-path-missing",
+      "riskCategory": "manifest required path coverage"
+    },
+    {
+      "id": "manifest-copied-artifact-path-drift",
+      "expectedFailureSurface": "demo-manifest-required-path-missing",
+      "riskCategory": "manifest copied artifact path equality"
+    },
+    {
+      "id": "manifest-copied-artifact-duplicate-path",
+      "expectedFailureSurface": "demo-manifest-artifact-path-duplicate",
+      "riskCategory": "manifest copied artifact path uniqueness"
+    },
+    {
+      "id": "manifest-copied-artifact-unexpected-path",
+      "expectedFailureSurface": "demo-manifest-artifact-path-unexpected",
+      "riskCategory": "manifest copied artifact path allowlist"
+    },
+    {
+      "id": "manifest-copied-artifact-sha256-drift",
+      "expectedFailureSurface": "demo-manifest-artifact-sha256-mismatch",
+      "riskCategory": "manifest copied artifact hash equality"
+    },
+    {
+      "id": "readme-artifact-table-count-drift",
+      "expectedFailureSurface": "demo-readme-artifact-table-count-mismatch",
+      "riskCategory": "documentation artifact counts"
+    },
+    {
+      "id": "readme-source-dependency-list-omission",
+      "expectedFailureSurface": "demo-source-dependency-doc-missing",
+      "riskCategory": "documentation source dependency list"
+    },
+    {
+      "id": "status-stale-filter-evidence-path",
+      "expectedFailureSurface": "demo-status-stale-filter-evidence-present",
+      "riskCategory": "status evidence path freshness"
+    },
+    {
+      "id": "status-extra-accepted-evidence-path",
+      "expectedFailureSurface": "demo-status-accepted-evidence-extra",
+      "riskCategory": "status accepted-evidence allowlist"
+    },
+    {
+      "id": "readme-full-evidence-command-extra",
+      "expectedFailureSurface": "demo-readme-full-evidence-command-extra",
+      "riskCategory": "README full-evidence command allowlist"
+    },
+    {
+      "id": "readme-full-evidence-command-missing",
+      "expectedFailureSurface": "demo-readme-full-evidence-command-missing",
+      "riskCategory": "README full-evidence command required coverage"
+    },
+    {
+      "id": "package-full-evidence-script-missing",
+      "expectedFailureSurface": "demo-package-script-missing",
+      "riskCategory": "package full-evidence script availability"
+    },
+    {
+      "id": "wrapper-full-evidence-command-missing",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-command-missing",
+      "riskCategory": "wrapper full-evidence command coverage"
+    },
+    {
+      "id": "wrapper-full-evidence-command-extra",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-command-extra",
+      "riskCategory": "wrapper full-evidence command allowlist"
+    },
+    {
+      "id": "wrapper-full-evidence-verification-order",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-order-invalid",
+      "riskCategory": "wrapper full-evidence verification order"
+    },
+    {
+      "id": "wrapper-full-evidence-copy-sync-omission",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-copy-sync-missing",
+      "riskCategory": "wrapper full-evidence copy sync"
+    },
+    {
+      "id": "wrapper-full-evidence-copied-artifact-stale",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-copied-artifact-stale",
+      "riskCategory": "wrapper full-evidence copied artifact freshness"
+    },
+    {
+      "id": "wrapper-full-evidence-smoke-marker-omission",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-smoke-marker-missing",
+      "riskCategory": "wrapper full-evidence smoke marker"
+    },
+    {
+      "id": "wrapper-json-output-host-text",
+      "expectedFailureSurface": "demo-wrapper-output-non-json-host-text",
+      "riskCategory": "wrapper JSON output boundary"
+    },
+    {
+      "id": "wrapper-result-discovery-doc-omission",
+      "expectedFailureSurface": "demo-wrapper-result-discovery-doc-missing",
+      "riskCategory": "wrapper result discovery documentation"
+    },
+    {
+      "id": "readme-wrapper-json-output-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "riskCategory": "README wrapper JSON output documentation"
+    },
+    {
+      "id": "readme-source-freshness-horizon-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "riskCategory": "README source freshness horizon documentation"
+    },
+    {
+      "id": "readme-source-freshness-warning-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "riskCategory": "README source freshness warning documentation"
+    },
+    {
+      "id": "status-source-freshness-warning-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "riskCategory": "status source freshness warning documentation"
+    },
+    {
+      "id": "status-wrapper-copy-sync-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "riskCategory": "status wrapper copy-sync documentation"
+    },
+    {
+      "id": "status-wrapper-command-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "riskCategory": "status wrapper command documentation"
+    },
+    {
+      "id": "source-freshness-warning-recommendation-missing",
+      "expectedFailureSurface": "demo-source-evidence-refresh-recommendation-missing",
+      "riskCategory": "source freshness warning computation"
+    },
+    {
+      "id": "source-freshness-warning-threshold-boundary",
+      "expectedFailureSurface": "sourceEvidenceRefreshRecommended:true",
+      "riskCategory": "source freshness warning threshold boundary"
+    },
+    {
+      "id": "source-freshness-warning-doc-value-drift",
+      "expectedFailureSurface": "demo-source-evidence-warning-doc-value-mismatch",
+      "riskCategory": "source freshness warning document agreement"
+    },
+    {
+      "id": "source-freshness-summary-next-stale-mismatch",
+      "expectedFailureSurface": "demo-source-evidence-freshness-summary-mismatch",
+      "riskCategory": "source freshness summary consistency"
+    },
+    {
+      "id": "source-evidence-surface-manifest-count-drift",
+      "expectedFailureSurface": "demo-source-evidence-surface-count-mismatch",
+      "riskCategory": "source evidence surface count agreement"
+    },
+    {
+      "id": "source-evidence-surface-freshness-field-drift",
+      "expectedFailureSurface": "demo-source-evidence-surface-freshness-mismatch",
+      "riskCategory": "source evidence surface freshness agreement"
+    },
+    {
+      "id": "readme-relocated-source-evidence-instruction-omission",
+      "expectedFailureSurface": "demo-relocated-source-evidence-instruction-missing",
+      "riskCategory": "relocated source evidence instructions"
+    },
+    {
+      "id": "wrapper-relocated-source-evidence-override-omission",
+      "expectedFailureSurface": "demo-relocated-source-evidence-wrapper-missing",
+      "riskCategory": "relocated wrapper source evidence override"
+    },
+    {
+      "id": "demo-handoff-manifest-verifier-count-mismatch",
+      "expectedFailureSurface": "demo-handoff-count-mismatch",
+      "riskCategory": "handoff manifest/verifier count agreement"
+    },
+    {
+      "id": "runtime-audio-classification-degraded",
+      "expectedFailureSurface": "demo-runtime-audio-classification-degraded",
+      "riskCategory": "runtime/audio evidence"
+    },
+    {
+      "id": "runtime-audio-consumed-wav-invalid",
+      "expectedFailureSurface": "demo-runtime-wav-invalid",
+      "riskCategory": "consumed audio artifact bytes"
+    },
+    {
+      "id": "runtime-audio-consumed-wav-signal-too-low",
+      "expectedFailureSurface": "demo-runtime-wav-rms-too-low",
+      "riskCategory": "consumed audio artifact signal level"
+    },
+    {
+      "id": "runtime-audio-stimulus-manifest-amplitude-mismatch",
+      "expectedFailureSurface": "demo-audio-stimulus-amplitude-mismatch",
+      "riskCategory": "audio stimulus manifest agreement"
+    },
+    {
+      "id": "runtime-audio-capture-wav-path-mismatch",
+      "expectedFailureSurface": "demo-audio-capture-wav-path-missing",
+      "riskCategory": "audio capture artifact mapping"
+    },
+    {
+      "id": "runtime-audio-classification-log-label-drift",
+      "expectedFailureSurface": "demo-audio-classification-result-mismatch",
+      "riskCategory": "audio classification log agreement"
+    },
+    {
+      "id": "runtime-audio-classification-log-entry-omission",
+      "expectedFailureSurface": "demo-audio-classification-log-entry-missing",
+      "riskCategory": "audio classification log completeness"
+    },
+    {
+      "id": "runtime-audio-classification-log-duplicate-entry",
+      "expectedFailureSurface": "demo-audio-classification-log-entry-duplicate",
+      "riskCategory": "audio classification log uniqueness"
+    },
+    {
+      "id": "runtime-audio-classification-log-order-drift",
+      "expectedFailureSurface": "demo-audio-classification-log-order-mismatch",
+      "riskCategory": "audio classification log ordering"
+    },
+    {
+      "id": "runtime-audio-classification-wav-content-drift",
+      "expectedFailureSurface": "demo-audio-classification-wav-content-mismatch",
+      "riskCategory": "audio classification consumed WAV content"
+    },
+    {
+      "id": "runtime-lfo-trace-wav-content-drift",
+      "expectedFailureSurface": "demo-lfo-trace-wav-content-mismatch",
+      "riskCategory": "LFO trace consumed WAV content"
+    },
+    {
+      "id": "runtime-filter-wav-content-drift",
+      "expectedFailureSurface": "demo-filter-wav-content-mismatch",
+      "riskCategory": "filter consumed WAV content"
+    },
+    {
+      "id": "audio-manifest-uncovered-wav-artifact",
+      "expectedFailureSurface": "demo-audio-manifest-wav-content-uncovered",
+      "riskCategory": "audio manifest consumed-content coverage"
+    },
+    {
+      "id": "audio-manifest-covered-wav-artifact-missing",
+      "expectedFailureSurface": "demo-audio-manifest-wav-content-covered-path-missing",
+      "riskCategory": "audio manifest consumed-content coverage"
+    },
+    {
+      "id": "audio-capability-claim-verifier-field-missing",
+      "expectedFailureSurface": "demo-audio-capability-chain-verifier-field-missing",
+      "riskCategory": "audio capability claim chain"
+    },
+    {
+      "id": "audio-capability-claim-verifier-field-stale",
+      "expectedFailureSurface": "demo-audio-capability-chain-verifier-field-stale",
+      "riskCategory": "audio capability claim chain"
+    },
+    {
+      "id": "audio-consumed-field-artifact-count-mismatch",
+      "expectedFailureSurface": "demo-audio-consumed-field-artifact-count-mismatch",
+      "riskCategory": "audio consumed-content field count"
+    },
+    {
+      "id": "audio-artifact-generation-window-exceeded",
+      "expectedFailureSurface": "demo-audio-artifact-generation-window-exceeded",
+      "riskCategory": "audio artifact generation freshness"
+    },
+    {
+      "id": "readme-audio-generation-window-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "riskCategory": "audio artifact generation freshness documentation"
+    },
+    {
+      "id": "audio-generation-window-manifest-threshold-drift",
+      "expectedFailureSurface": "demo-audio-generation-window-threshold-mismatch",
+      "riskCategory": "audio artifact generation freshness documentation"
+    },
+    {
+      "id": "generated-patch-required-routing-missing",
+      "expectedFailureSurface": "demo-patch-required-routing-missing",
+      "riskCategory": "patch routing semantics"
+    },
+    {
+      "id": "generated-patch-runtime-semantic-mismatch",
+      "expectedFailureSurface": "demo-patch-runtime-source-id-mismatch",
+      "riskCategory": "patch/runtime semantic linkage"
+    },
+    {
+      "id": "copied-generated-patch-artifact-missing",
+      "expectedFailureSurface": "demo-file-missing",
+      "riskCategory": "copied patch artifact presence"
+    },
+    {
+      "id": "claimed-artifact-resolves-outside-demo-root",
+      "expectedFailureSurface": "demo-artifact-resolves-outside-demo-root",
+      "riskCategory": "relocated bundle boundary"
+    },
+    {
+      "id": "copied-json-evidence-artifact-missing",
+      "expectedFailureSurface": "demo-file-missing",
+      "riskCategory": "copied JSON evidence presence"
+    },
+    {
+      "id": "relocated-copied-json-artifact-omission",
+      "expectedFailureSurface": "demo-file-missing",
+      "riskCategory": "relocated copied artifact omission"
+    },
+    {
+      "id": "seeded-control-inventory-control-omission",
+      "expectedFailureSurface": "demo-seeded-control-inventory-missing-control",
+      "riskCategory": "seeded control regression inventory"
+    },
+    {
+      "id": "seeded-control-inventory-duplicate-risk",
+      "expectedFailureSurface": "demo-seeded-control-inventory-duplicate-risk",
+      "riskCategory": "seeded control inventory duplicate-risk guard"
+    }
+  ],
+  "seededControlRiskCategoryCounts": {
+    "all source freshness": 1,
+    "all source/copy drift": 1,
+    "audio artifact generation freshness": 1,
+    "audio artifact generation freshness documentation": 2,
+    "audio capability claim chain": 2,
+    "audio capture artifact mapping": 1,
+    "audio classification consumed WAV content": 1,
+    "audio classification log agreement": 1,
+    "audio classification log completeness": 1,
+    "audio classification log ordering": 1,
+    "audio classification log uniqueness": 1,
+    "audio consumed-content field count": 1,
+    "audio manifest consumed-content coverage": 2,
+    "audio stimulus manifest agreement": 1,
+    "capability chain completeness": 1,
+    "consumed audio artifact bytes": 1,
+    "consumed audio artifact signal level": 1,
+    "copied evidence value integrity": 1,
+    "copied JSON evidence presence": 1,
+    "copied patch artifact presence": 1,
+    "documentation artifact counts": 1,
+    "documentation source dependency list": 1,
+    "filter consumed WAV content": 1,
+    "handoff manifest/verifier count agreement": 1,
+    "LFO trace consumed WAV content": 1,
+    "manifest copied artifact hash equality": 1,
+    "manifest copied artifact path allowlist": 1,
+    "manifest copied artifact path equality": 1,
+    "manifest copied artifact path uniqueness": 1,
+    "manifest required path coverage": 1,
+    "overclaiming": 1,
+    "package full-evidence script availability": 1,
+    "patch routing semantics": 1,
+    "patch/runtime semantic linkage": 1,
+    "README full-evidence command allowlist": 1,
+    "README full-evidence command required coverage": 1,
+    "README source freshness horizon documentation": 1,
+    "README source freshness warning documentation": 1,
+    "README wrapper JSON output documentation": 1,
+    "relocated bundle boundary": 1,
+    "relocated copied artifact omission": 1,
+    "relocated source evidence instructions": 1,
+    "relocated wrapper source evidence override": 1,
+    "runtime/audio evidence": 1,
+    "seeded control inventory duplicate-risk guard": 1,
+    "seeded control regression inventory": 1,
+    "single source freshness": 1,
+    "single source/copy drift": 1,
+    "source evidence surface count agreement": 1,
+    "source evidence surface freshness agreement": 1,
+    "source freshness summary consistency": 1,
+    "source freshness warning computation": 1,
+    "source freshness warning document agreement": 1,
+    "source freshness warning threshold boundary": 1,
+    "source timestamp validity": 1,
+    "status accepted-evidence allowlist": 1,
+    "status evidence path freshness": 1,
+    "status source freshness warning documentation": 1,
+    "status wrapper command documentation": 1,
+    "status wrapper copy-sync documentation": 1,
+    "wrapper full-evidence command allowlist": 1,
+    "wrapper full-evidence command coverage": 1,
+    "wrapper full-evidence copied artifact freshness": 1,
+    "wrapper full-evidence copy sync": 1,
+    "wrapper full-evidence smoke marker": 1,
+    "wrapper full-evidence verification order": 1,
+    "wrapper JSON output boundary": 1,
+    "wrapper result discovery documentation": 1
+  },
+  "docSurfaceCheckCount": 79,
+  "consumedMarkdownInspectionMode": "source-markdown",
+  "consumedMarkdownInspectionReason": "July24_2026_Demo is a local command-line demo; README_DEMO.md and DEMO_STATUS.md are the consumed instruction/evidence/limitation surfaces.",
+  "consumedMarkdownSectionCheckCount": 11,
+  "demoWalkthroughCheckCount": 39,
+  "capabilityChainCheckCount": 40,
+  "audioCapabilityClaimChainCheckCount": 25,
+  "audioConsumedFieldArtifactCountCheckCount": 6,
+  "audioArtifactGenerationFreshnessCheckCount": 6,
+  "audioGenerationWindowSurfaceAgreementCheckCount": 6,
+  "audioGenerationWindowMaxDeltaMs": 600000,
+  "audioGenerationWindowMinutes": 10,
+  "demoHandoffCompletenessCheckCount": 23,
+  "relocatedBundleCheckStatus": "pass",
+  "relocatedBundleTemporaryPathRole": "temporary-relocated-demo-root",
+  "relocatedBundleCommandRole": "node relocated verify-demo.mjs",
+  "relocatedBundleWorkingDirectoryRole": "temporary-relocated-parent",
+  "relocatedBundleOutputSummaryPath": "July24_2026_Demo/verification-result.json",
+  "relocatedBundleProblemCount": 0,
+  "relocatedBundleExplicitSourceEvidenceCount": 8,
+  "manifestSchemaVersion": "zoia.july24-demo-manifest.v1",
+  "manifestRequiredPathCount": 31,
+  "manifestRequiredPathPresentCount": 31,
+  "manifestSha256RecordCount": 31,
+  "manifestArtifactHashCheckCount": 31,
+  "readmeArtifactTableCategoryCount": 7,
+  "readmeArtifactReferenceCount": 8,
+  "sourceDependencyDocCount": 8,
+  "statusAcceptedEvidenceDocCount": 11,
+  "documentedFullEvidenceCommandCount": 3,
+  "wrapperFullEvidenceCommandCount": 3,
+  "wrapperFullEvidenceOrderCheckCount": 1,
+  "wrapperFullEvidenceCopySyncCheckCount": 3,
+  "wrapperFullEvidenceCopyFreshnessCheckCount": 3,
+  "wrapperFullEvidenceSmokeMarkerCheckCount": 1,
+  "wrapperFullEvidenceSmokeMode": false,
+  "wrapperFullEvidenceSmokeCheckCount": 0,
+  "wrapperJsonOutputBoundaryCheckCount": 1,
+  "wrapperResultDiscoveryCheckCount": 4,
+  "relocatedSourceEvidenceInstructionCheckCount": 7,
+  "documentedWorkingDirectoryRole": "project-root",
+  "documentedVerificationCommand": ".\\July24_2026_Demo\\run-demo.ps1",
+  "outputSummaryPath": "July24_2026_Demo/verification-result.json",
+  "explicitSourceEvidenceCount": 8,
+  "sourceCopyHashCheckCount": 8,
+  "sourceEvidenceRefreshWarningCheckCount": 1,
+  "sourceEvidenceFreshnessSummaryCheckCount": 1,
+  "sourceEvidenceWarningDocumentAgreementCheckCount": 4,
+  "sourceEvidenceSurfaceAgreementCheckCount": 22,
+  "oldestSourceEvidenceId": "delay-audio",
+  "oldestSourceEvidenceAgeMs": 3436809,
+  "sourceEvidenceMinimumRemainingMs": 169363191,
+  "sourceEvidenceNextStaleAt": "2026-08-31T15:23:50.601Z",
+  "sourceEvidenceFreshnessLimitHours": 48,
+  "sourceEvidenceRefreshRecommended": false,
+  "sourceEvidenceWarningThresholdHours": 8,
+  "copiedClaimedArtifactCount": 31,
+  "sourceEvidenceDependencies": [
+    {
+      "id": "final-inventory",
+      "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+      "copy": "artifacts/generated-patch-final-evidence-inventory/run-result.json",
+      "timestamp": "2026-08-29T15:59:33.043Z",
+      "ageMs": 1294353,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "e1951aaee9ea3a6d23d31f5c2af1791ce5ec15935621cf81ea348938cdbae96f",
+      "copySha256": "e1951aaee9ea3a6d23d31f5c2af1791ce5ec15935621cf81ea348938cdbae96f"
+    },
+    {
+      "id": "final-inventory-negative-controls",
+      "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+      "copy": "artifacts/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+      "timestamp": "2026-08-29T15:59:48.624Z",
+      "ageMs": 1278774,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "335acecbca6dae5179f7df9c84a1f9b040f0816507a6f9079706a2d38a12ce97",
+      "copySha256": "335acecbca6dae5179f7df9c84a1f9b040f0816507a6f9079706a2d38a12ce97"
+    },
+    {
+      "id": "release-review-summary",
+      "source": "tests/workflow/evidence/release-review-summary/run-result.json",
+      "copy": "artifacts/release-review-summary/run-result.json",
+      "timestamp": "2026-08-29T15:59:27.261Z",
+      "ageMs": 1300143,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "6632d39a7a000df8d1282eebf764473e9049147a3263fee8f6cc0071541f80b1",
+      "copySha256": "6632d39a7a000df8d1282eebf764473e9049147a3263fee8f6cc0071541f80b1"
+    },
+    {
+      "id": "v04-readiness",
+      "source": "tests/workflow/evidence/v0.4-readiness/run-result.json",
+      "copy": "artifacts/v0.4-readiness/run-result.json",
+      "timestamp": "2026-08-29T15:59:18.353Z",
+      "ageMs": 1309053,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "a740e9bde101176750a85daae61eb637a1210047b6e790303af727815119eae1",
+      "copySha256": "a740e9bde101176750a85daae61eb637a1210047b6e790303af727815119eae1"
+    },
+    {
+      "id": "claim-boundary",
+      "source": "tests/workflow/evidence/generated-patch-claim-boundary/run-result.json",
+      "copy": "artifacts/generated-patch-claim-boundary/run-result.json",
+      "timestamp": "2026-08-29T15:59:22.851Z",
+      "ageMs": 1304557,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "55979a814186a73fffa5a94280f47e0908d54f8fe56f4544ab00cd29cb487306",
+      "copySha256": "55979a814186a73fffa5a94280f47e0908d54f8fe56f4544ab00cd29cb487306"
+    },
+    {
+      "id": "delay-audio",
+      "source": "tests/workflow/evidence/generated-patch-audio/run-result.json",
+      "copy": "artifacts/generated-patch-audio/run-result.json",
+      "timestamp": "2026-08-29T15:23:50.601Z",
+      "ageMs": 3436809,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "a409960728546ce9a31b5141e4dd755efad63c26832a0db2417831631c5ffdd9",
+      "copySha256": "a409960728546ce9a31b5141e4dd755efad63c26832a0db2417831631c5ffdd9"
+    },
+    {
+      "id": "delay-lfo-semantics",
+      "source": "tests/workflow/evidence/generated-patch-lfo-semantics/run-result.json",
+      "copy": "artifacts/generated-patch-lfo-semantics/run-result.json",
+      "timestamp": "2026-08-29T15:24:09.053Z",
+      "ageMs": 3418359,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "7c3bb062193b1d6bd1f5ef9c38f80f6026ee9356784225de75f6e6b2688a7e8c",
+      "copySha256": "7c3bb062193b1d6bd1f5ef9c38f80f6026ee9356784225de75f6e6b2688a7e8c"
+    },
+    {
+      "id": "filter-low-pass-runtime",
+      "source": "tests/workflow/evidence/generated-patch-filter-semantics/run-result.json",
+      "copy": "artifacts/generated-patch-filter-runtime/run-result.json",
+      "timestamp": "2026-08-29T15:24:19.260Z",
+      "ageMs": 3408155,
+      "maxAgeMs": 172800000,
+      "expectedFailureIfMissingOrStale": "source-evidence-missing/evidence-stale",
+      "expectedFailureIfCopyMissingOrDrifted": "demo-file-missing/demo-evidence-copy-value-mismatch",
+      "sourceSha256": "de3ee8ee243b120246762f31543cee6c5cf09540f68de669b4830e0c5d71d33a",
+      "copySha256": "de3ee8ee243b120246762f31543cee6c5cf09540f68de669b4830e0c5d71d33a"
+    }
+  ],
+  "manifestPath": "DEMO_MANIFEST.json",
+  "maxEvidenceAgeMs": 172800000,
+  "checked": [
+    {
+      "id": "final-inventory",
+      "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+      "copy": "artifacts/generated-patch-final-evidence-inventory/run-result.json",
+      "status": "pass"
+    },
+    {
+      "id": "final-inventory-negative-controls",
+      "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+      "copy": "artifacts/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+      "status": "pass"
+    },
+    {
+      "id": "release-review-summary",
+      "source": "tests/workflow/evidence/release-review-summary/run-result.json",
+      "copy": "artifacts/release-review-summary/run-result.json",
+      "status": "pass"
+    },
+    {
+      "id": "v04-readiness",
+      "source": "tests/workflow/evidence/v0.4-readiness/run-result.json",
+      "copy": "artifacts/v0.4-readiness/run-result.json",
+      "status": "pass"
+    },
+    {
+      "id": "claim-boundary",
+      "source": "tests/workflow/evidence/generated-patch-claim-boundary/run-result.json",
+      "copy": "artifacts/generated-patch-claim-boundary/run-result.json",
+      "status": "pass"
+    },
+    {
+      "id": "delay-audio",
+      "source": "tests/workflow/evidence/generated-patch-audio/run-result.json",
+      "copy": "artifacts/generated-patch-audio/run-result.json",
+      "status": "pass"
+    },
+    {
+      "id": "delay-lfo-semantics",
+      "source": "tests/workflow/evidence/generated-patch-lfo-semantics/run-result.json",
+      "copy": "artifacts/generated-patch-lfo-semantics/run-result.json",
+      "status": "pass"
+    },
+    {
+      "id": "filter-low-pass-runtime",
+      "source": "tests/workflow/evidence/generated-patch-filter-semantics/run-result.json",
+      "copy": "artifacts/generated-patch-filter-runtime/run-result.json",
+      "status": "pass"
+    }
+  ],
+  "seededNegativeControls": [
+    {
+      "id": "tampered-copied-json-evidence",
+      "expectedFailureSurface": "demo-evidence-copy-value-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-evidence-copy-value-mismatch",
+          "evidenceId": "final-inventory",
+          "path": "status",
+          "expected": "pass",
+          "observed": "tampered-demo-control"
+        }
+      ]
+    },
+    {
+      "id": "copied-json-evidence-hash-drift",
+      "expectedFailureSurface": "demo-source-copy-sha256-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "final-inventory",
+          "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+          "copy": "artifacts/generated-patch-final-evidence-inventory/run-result.json",
+          "sourceSha256": "e1951aaee9ea3a6d23d31f5c2af1791ce5ec15935621cf81ea348938cdbae96f",
+          "copySha256": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ]
+    },
+    {
+      "id": "all-source-copy-sha256-drift-boundary",
+      "expectedFailureSurface": "demo-source-copy-sha256-mismatch",
+      "status": "pass",
+      "expectedDriftedDependencyCount": 8,
+      "observedDriftedDependencyCount": 8,
+      "problems": [
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "final-inventory",
+          "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+          "copy": "artifacts/generated-patch-final-evidence-inventory/run-result.json",
+          "sourceSha256": "e1951aaee9ea3a6d23d31f5c2af1791ce5ec15935621cf81ea348938cdbae96f",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "final-inventory-negative-controls",
+          "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+          "copy": "artifacts/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+          "sourceSha256": "335acecbca6dae5179f7df9c84a1f9b040f0816507a6f9079706a2d38a12ce97",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "release-review-summary",
+          "source": "tests/workflow/evidence/release-review-summary/run-result.json",
+          "copy": "artifacts/release-review-summary/run-result.json",
+          "sourceSha256": "6632d39a7a000df8d1282eebf764473e9049147a3263fee8f6cc0071541f80b1",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "v04-readiness",
+          "source": "tests/workflow/evidence/v0.4-readiness/run-result.json",
+          "copy": "artifacts/v0.4-readiness/run-result.json",
+          "sourceSha256": "a740e9bde101176750a85daae61eb637a1210047b6e790303af727815119eae1",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "claim-boundary",
+          "source": "tests/workflow/evidence/generated-patch-claim-boundary/run-result.json",
+          "copy": "artifacts/generated-patch-claim-boundary/run-result.json",
+          "sourceSha256": "55979a814186a73fffa5a94280f47e0908d54f8fe56f4544ab00cd29cb487306",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "delay-audio",
+          "source": "tests/workflow/evidence/generated-patch-audio/run-result.json",
+          "copy": "artifacts/generated-patch-audio/run-result.json",
+          "sourceSha256": "a409960728546ce9a31b5141e4dd755efad63c26832a0db2417831631c5ffdd9",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "delay-lfo-semantics",
+          "source": "tests/workflow/evidence/generated-patch-lfo-semantics/run-result.json",
+          "copy": "artifacts/generated-patch-lfo-semantics/run-result.json",
+          "sourceSha256": "7c3bb062193b1d6bd1f5ef9c38f80f6026ee9356784225de75f6e6b2688a7e8c",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        {
+          "id": "demo-source-copy-sha256-mismatch",
+          "evidenceId": "filter-low-pass-runtime",
+          "source": "tests/workflow/evidence/generated-patch-filter-semantics/run-result.json",
+          "copy": "artifacts/generated-patch-filter-runtime/run-result.json",
+          "sourceSha256": "de3ee8ee243b120246762f31543cee6c5cf09540f68de669b4830e0c5d71d33a",
+          "copySha256": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ]
+    },
+    {
+      "id": "readme-release-standalone-overclaim",
+      "expectedFailureSurface": "demo-human-facing-overclaim",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-human-facing-overclaim",
+          "file": "README_DEMO.md",
+          "pattern": "/\\bstandalone[- ]bundle\\b/iu"
+        },
+        {
+          "id": "demo-human-facing-overclaim",
+          "file": "README_DEMO.md",
+          "pattern": "/\\bproduction[- ]ready\\b/iu"
+        }
+      ]
+    },
+    {
+      "id": "capability-chain-missing-runtime-artifact",
+      "expectedFailureSurface": "demo-capability-chain-artifact-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-capability-chain-status-link-missing",
+          "capabilityId": "generated-patch-json",
+          "phrase": "converted emulator patch JSON"
+        },
+        {
+          "id": "demo-capability-chain-status-link-missing",
+          "capabilityId": "delay-audio-runtime",
+          "phrase": "WAV audio captures"
+        },
+        {
+          "id": "demo-capability-chain-status-link-missing",
+          "capabilityId": "delay-audio-runtime",
+          "phrase": "signal-present classification"
+        },
+        {
+          "id": "demo-capability-chain-artifact-missing",
+          "capabilityId": "delay-audio-runtime",
+          "path": "artifacts/generated-patch-audio/classification-log.json"
+        },
+        {
+          "id": "demo-capability-chain-status-link-missing",
+          "capabilityId": "lfo-trace-runtime",
+          "phrase": "LFO/control trace evidence"
+        },
+        {
+          "id": "demo-capability-chain-status-link-missing",
+          "capabilityId": "filter-runtime",
+          "phrase": "Static low-pass generated filter path"
+        }
+      ]
+    },
+    {
+      "id": "stale-source-evidence",
+      "expectedFailureSurface": "demo-source-evidence-stale",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "evidence-stale",
+          "evidenceId": "final-inventory",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667569,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "final-inventory",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667569,
+          "maxAgeMs": 172800000
+        }
+      ]
+    },
+    {
+      "id": "invalid-timestamp-source-evidence",
+      "expectedFailureSurface": "demo-source-evidence-invalid-timestamp",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "evidence-timestamp-missing",
+          "evidenceId": "final-inventory",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json"
+        },
+        {
+          "id": "demo-source-evidence-invalid-timestamp",
+          "evidenceId": "final-inventory",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json"
+        }
+      ]
+    },
+    {
+      "id": "all-source-evidence-stale-boundary",
+      "expectedFailureSurface": "demo-source-evidence-stale",
+      "status": "pass",
+      "expectedStaleDependencyCount": 8,
+      "observedStaleDependencyCount": 8,
+      "problems": [
+        {
+          "id": "evidence-stale",
+          "evidenceId": "final-inventory",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667569,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "final-inventory",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667569,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "evidence-stale",
+          "evidenceId": "final-inventory-negative-controls",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667570,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "final-inventory-negative-controls",
+          "path": "tests/workflow/evidence/generated-patch-final-evidence-inventory-negative-controls/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667570,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "evidence-stale",
+          "evidenceId": "release-review-summary",
+          "path": "tests/workflow/evidence/release-review-summary/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667572,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "release-review-summary",
+          "path": "tests/workflow/evidence/release-review-summary/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667572,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "evidence-stale",
+          "evidenceId": "v04-readiness",
+          "path": "tests/workflow/evidence/v0.4-readiness/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667573,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "v04-readiness",
+          "path": "tests/workflow/evidence/v0.4-readiness/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667573,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "evidence-stale",
+          "evidenceId": "claim-boundary",
+          "path": "tests/workflow/evidence/generated-patch-claim-boundary/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667573,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "claim-boundary",
+          "path": "tests/workflow/evidence/generated-patch-claim-boundary/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667573,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "evidence-stale",
+          "evidenceId": "delay-audio",
+          "path": "tests/workflow/evidence/generated-patch-audio/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667574,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "delay-audio",
+          "path": "tests/workflow/evidence/generated-patch-audio/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667574,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "evidence-stale",
+          "evidenceId": "delay-lfo-semantics",
+          "path": "tests/workflow/evidence/generated-patch-lfo-semantics/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667575,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "delay-lfo-semantics",
+          "path": "tests/workflow/evidence/generated-patch-lfo-semantics/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667575,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "evidence-stale",
+          "evidenceId": "filter-low-pass-runtime",
+          "path": "tests/workflow/evidence/generated-patch-filter-semantics/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667575,
+          "maxAgeMs": 172800000
+        },
+        {
+          "id": "demo-source-evidence-stale",
+          "evidenceId": "filter-low-pass-runtime",
+          "path": "tests/workflow/evidence/generated-patch-filter-semantics/run-result.json",
+          "timestamp": "2000-01-01T00:00:00.000Z",
+          "ageMs": 841335667575,
+          "maxAgeMs": 172800000
+        }
+      ]
+    },
+    {
+      "id": "manifest-required-path-omission",
+      "expectedFailureSurface": "demo-manifest-required-path-missing",
+      "status": "pass",
+      "omittedPath": "README_DEMO.md",
+      "problems": [
+        {
+          "id": "demo-manifest-required-path-missing",
+          "path": "README_DEMO.md"
+        }
+      ]
+    },
+    {
+      "id": "manifest-copied-artifact-path-drift",
+      "expectedFailureSurface": "demo-manifest-required-path-missing",
+      "status": "pass",
+      "originalPath": "README_DEMO.md",
+      "driftedPath": "README_DEMO.md.stale",
+      "problems": [
+        {
+          "id": "demo-manifest-required-path-missing",
+          "path": "README_DEMO.md"
+        },
+        {
+          "id": "demo-manifest-artifact-path-unexpected",
+          "path": "README_DEMO.md.stale"
+        }
+      ]
+    },
+    {
+      "id": "manifest-copied-artifact-duplicate-path",
+      "expectedFailureSurface": "demo-manifest-artifact-path-duplicate",
+      "status": "pass",
+      "duplicatedPath": "README_DEMO.md",
+      "problems": [
+        {
+          "id": "demo-manifest-required-path-missing",
+          "path": "DEMO_STATUS.md"
+        },
+        {
+          "id": "demo-manifest-artifact-path-duplicate",
+          "path": "README_DEMO.md"
+        }
+      ]
+    },
+    {
+      "id": "manifest-copied-artifact-unexpected-path",
+      "expectedFailureSurface": "demo-manifest-artifact-path-unexpected",
+      "status": "pass",
+      "unexpectedPath": "artifacts/unexpected-demo-artifact.json",
+      "problems": [
+        {
+          "id": "demo-manifest-artifact-count-mismatch",
+          "expected": 31,
+          "observed": 32
+        },
+        {
+          "id": "demo-manifest-artifact-path-unexpected",
+          "path": "artifacts/unexpected-demo-artifact.json"
+        }
+      ]
+    },
+    {
+      "id": "manifest-copied-artifact-sha256-drift",
+      "expectedFailureSurface": "demo-manifest-artifact-sha256-mismatch",
+      "status": "pass",
+      "driftedPath": "README_DEMO.md",
+      "problems": [
+        {
+          "id": "demo-manifest-artifact-sha256-mismatch",
+          "path": "README_DEMO.md",
+          "expected": "d5bdc9c25f921820c527b7904427221e2d1da97d46bf2c3abb7a141004afcb33",
+          "observed": "05bdc9c25f921820c527b7904427221e2d1da97d46bf2c3abb7a141004afcb33"
+        }
+      ]
+    },
+    {
+      "id": "readme-artifact-table-count-drift",
+      "expectedFailureSurface": "demo-readme-artifact-table-count-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-readme-artifact-table-count-mismatch",
+          "category": "Delay audio evidence",
+          "expected": 7
+        }
+      ]
+    },
+    {
+      "id": "readme-source-dependency-list-omission",
+      "expectedFailureSurface": "demo-source-dependency-doc-missing",
+      "status": "pass",
+      "omittedSource": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json",
+      "problems": [
+        {
+          "id": "demo-source-dependency-doc-missing",
+          "source": "tests/workflow/evidence/generated-patch-final-evidence-inventory/run-result.json"
+        }
+      ]
+    },
+    {
+      "id": "status-stale-filter-evidence-path",
+      "expectedFailureSurface": "demo-status-stale-filter-evidence-present",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-status-accepted-evidence-extra",
+          "source": "tests/workflow/evidence/generated-patch-filter-runtime/filter-semantics/run-result.json"
+        },
+        {
+          "id": "demo-status-stale-filter-evidence-present",
+          "source": "tests/workflow/evidence/generated-patch-filter-runtime/filter-semantics/run-result.json"
+        }
+      ]
+    },
+    {
+      "id": "status-extra-accepted-evidence-path",
+      "expectedFailureSurface": "demo-status-accepted-evidence-extra",
+      "status": "pass",
+      "extraSource": "tests/workflow/evidence/generated-patch-unsupported-extra/run-result.json",
+      "problems": [
+        {
+          "id": "demo-status-accepted-evidence-extra",
+          "source": "tests/workflow/evidence/generated-patch-unsupported-extra/run-result.json"
+        }
+      ]
+    },
+    {
+      "id": "readme-full-evidence-command-extra",
+      "expectedFailureSurface": "demo-readme-full-evidence-command-extra",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-readme-full-evidence-command-extra",
+          "scriptName": "zoia:generate:patch:unsupported-demo-command"
+        }
+      ]
+    },
+    {
+      "id": "readme-full-evidence-command-missing",
+      "expectedFailureSurface": "demo-readme-full-evidence-command-missing",
+      "status": "pass",
+      "omittedScript": "zoia:generate:patch:text-prompt-runtime-rollup",
+      "problems": [
+        {
+          "id": "demo-readme-full-evidence-command-missing",
+          "scriptName": "zoia:generate:patch:text-prompt-runtime-rollup"
+        }
+      ]
+    },
+    {
+      "id": "package-full-evidence-script-missing",
+      "expectedFailureSurface": "demo-package-script-missing",
+      "status": "pass",
+      "omittedScript": "zoia:generate:patch:text-prompt-runtime-rollup",
+      "problems": [
+        {
+          "id": "demo-package-script-missing",
+          "scriptName": "zoia:generate:patch:text-prompt-runtime-rollup"
+        }
+      ]
+    },
+    {
+      "id": "wrapper-full-evidence-command-missing",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-command-missing",
+      "status": "pass",
+      "omittedScript": "zoia:generate:patch:text-prompt-runtime-rollup",
+      "problems": [
+        {
+          "id": "demo-wrapper-full-evidence-command-missing",
+          "scriptName": "zoia:generate:patch:text-prompt-runtime-rollup"
+        }
+      ]
+    },
+    {
+      "id": "wrapper-full-evidence-command-extra",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-command-extra",
+      "status": "pass",
+      "extraScript": "zoia:generate:patch:unsupported-wrapper-command",
+      "problems": [
+        {
+          "id": "demo-wrapper-full-evidence-command-extra",
+          "scriptName": "zoia:generate:patch:unsupported-wrapper-command"
+        }
+      ]
+    },
+    {
+      "id": "wrapper-full-evidence-copied-artifact-stale",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-copied-artifact-stale",
+      "status": "pass",
+      "staleSource": "tests\\workflow\\evidence\\generated-patch-final-evidence-inventory\\run-result.json",
+      "staleCopy": "artifacts\\generated-patch-final-evidence-inventory\\run-result.json",
+      "problems": [
+        {
+          "id": "demo-wrapper-full-evidence-copied-artifact-stale",
+          "source": "tests\\workflow\\evidence\\generated-patch-final-evidence-inventory\\run-result.json",
+          "copy": "artifacts\\generated-patch-final-evidence-inventory\\run-result.json",
+          "sourceMtimeMs": 1788020467599,
+          "copyMtimeMs": 1788020407599
+        }
+      ]
+    },
+    {
+      "id": "wrapper-result-discovery-doc-omission",
+      "expectedFailureSurface": "demo-wrapper-result-discovery-doc-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-wrapper-result-discovery-doc-missing",
+          "file": "README_DEMO.md",
+          "phrase": "after the command exits, read `July24_2026_Demo/verification-result.json`"
+        }
+      ]
+    },
+    {
+      "id": "wrapper-full-evidence-smoke-marker-omission",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-smoke-marker-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-wrapper-full-evidence-smoke-marker-missing",
+          "command": "$env:ZOIA_DEMO_RUN_FULL_EVIDENCE = \"1\""
+        }
+      ]
+    },
+    {
+      "id": "wrapper-full-evidence-verification-order",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-order-invalid",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-wrapper-full-evidence-order-invalid",
+          "scriptName": "zoia:generate:patch:text-prompt-runtime-rollup",
+          "verifierCommand": "node \"$DemoRoot\\verify-demo.mjs\""
+        },
+        {
+          "id": "demo-wrapper-full-evidence-order-invalid",
+          "scriptName": "zoia:generate:patch:final-evidence-inventory",
+          "verifierCommand": "node \"$DemoRoot\\verify-demo.mjs\""
+        },
+        {
+          "id": "demo-wrapper-full-evidence-order-invalid",
+          "scriptName": "zoia:generate:patch:final-evidence-inventory:negative-controls",
+          "verifierCommand": "node \"$DemoRoot\\verify-demo.mjs\""
+        }
+      ]
+    },
+    {
+      "id": "wrapper-full-evidence-copy-sync-omission",
+      "expectedFailureSurface": "demo-wrapper-full-evidence-copy-sync-missing",
+      "status": "pass",
+      "omittedSource": "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory\\run-result.json",
+      "omittedDestination": "$DemoRoot\\artifacts\\generated-patch-final-evidence-inventory\\run-result.json",
+      "problems": [
+        {
+          "id": "demo-wrapper-full-evidence-copy-sync-missing",
+          "source": "$ProjectRoot\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory\\run-result.json",
+          "destination": "$DemoRoot\\artifacts\\generated-patch-final-evidence-inventory\\run-result.json"
+        }
+      ]
+    },
+    {
+      "id": "readme-wrapper-json-output-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-doc-surface-phrase-missing",
+          "file": "README_DEMO.md",
+          "phrase": "In default verification mode, the wrapper emits verifier JSON on stdout"
+        }
+      ]
+    },
+    {
+      "id": "readme-source-freshness-horizon-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-doc-surface-phrase-missing",
+          "file": "README_DEMO.md",
+          "phrase": "sourceEvidenceNextStaleAt"
+        }
+      ]
+    },
+    {
+      "id": "readme-source-freshness-warning-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-doc-surface-phrase-missing",
+          "file": "README_DEMO.md",
+          "phrase": "sourceEvidenceRefreshRecommended"
+        }
+      ]
+    },
+    {
+      "id": "readme-audio-generation-window-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-doc-surface-phrase-missing",
+          "file": "README_DEMO.md",
+          "phrase": "10-minute audio generation window"
+        }
+      ]
+    },
+    {
+      "id": "status-source-freshness-warning-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-doc-surface-phrase-missing",
+          "file": "DEMO_STATUS.md",
+          "phrase": "sourceEvidenceRefreshRecommended"
+        }
+      ]
+    },
+    {
+      "id": "status-wrapper-copy-sync-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-doc-surface-phrase-missing",
+          "file": "DEMO_STATUS.md",
+          "phrase": "wrapperFullEvidenceCopySyncCheckCount"
+        }
+      ]
+    },
+    {
+      "id": "status-wrapper-command-doc-omission",
+      "expectedFailureSurface": "demo-doc-surface-phrase-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-doc-surface-phrase-missing",
+          "file": "DEMO_STATUS.md",
+          "phrase": ".\\July24_2026_Demo\\run-demo.ps1"
+        }
+      ]
+    },
+    {
+      "id": "source-freshness-warning-recommendation-missing",
+      "expectedFailureSurface": "demo-source-evidence-refresh-recommendation-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-source-evidence-refresh-recommendation-missing",
+          "sourceEvidenceMinimumRemainingMs": 28799000,
+          "sourceEvidenceWarningThresholdMs": 28800000
+        }
+      ]
+    },
+    {
+      "id": "source-freshness-warning-threshold-boundary",
+      "expectedFailureSurface": "sourceEvidenceRefreshRecommended:true",
+      "status": "pass",
+      "observedSummary": {
+        "oldestSourceEvidenceId": "seeded-warning-window-source",
+        "oldestSourceEvidenceAgeMs": 144001000,
+        "sourceEvidenceMinimumRemainingMs": 28799000,
+        "sourceEvidenceNextStaleAt": "2026-08-30T00:21:06.601Z",
+        "sourceEvidenceFreshnessLimitHours": 48,
+        "sourceEvidenceRefreshRecommended": true,
+        "sourceEvidenceWarningThresholdHours": 8
+      },
+      "problems": []
+    },
+    {
+      "id": "source-freshness-warning-doc-value-drift",
+      "expectedFailureSurface": "demo-source-evidence-warning-doc-value-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-source-evidence-warning-doc-value-mismatch",
+          "file": "README_DEMO.md",
+          "expectedPhrase": "8-hour refresh-warning window"
+        }
+      ]
+    },
+    {
+      "id": "source-freshness-summary-next-stale-mismatch",
+      "expectedFailureSurface": "demo-source-evidence-freshness-summary-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-source-evidence-freshness-summary-mismatch",
+          "field": "sourceEvidenceNextStaleAt",
+          "expected": "2026-08-31T15:23:50.601Z",
+          "observed": "2099-01-01T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "source-evidence-surface-manifest-count-drift",
+      "expectedFailureSurface": "demo-source-evidence-surface-count-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-source-evidence-surface-count-mismatch",
+          "file": "DEMO_MANIFEST.json",
+          "expected": 8,
+          "observed": 7
+        }
+      ]
+    },
+    {
+      "id": "source-evidence-surface-freshness-field-drift",
+      "expectedFailureSurface": "demo-source-evidence-surface-freshness-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-source-evidence-surface-freshness-mismatch",
+          "field": "sourceEvidenceNextStaleAt",
+          "expected": "2026-08-31T15:23:50.601Z",
+          "observed": "2099-01-01T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "wrapper-json-output-host-text",
+      "expectedFailureSurface": "demo-wrapper-output-non-json-host-text",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-wrapper-output-non-json-host-text",
+          "command": "Write-Host"
+        }
+      ]
+    },
+    {
+      "id": "readme-relocated-source-evidence-instruction-omission",
+      "expectedFailureSurface": "demo-relocated-source-evidence-instruction-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-relocated-source-evidence-instruction-missing",
+          "phrase": "ZOIA_DEMO_SOURCE_ROOT"
+        },
+        {
+          "id": "demo-relocated-source-evidence-instruction-missing",
+          "phrase": "-SourceEvidenceRoot"
+        },
+        {
+          "id": "demo-relocated-source-evidence-instruction-missing",
+          "phrase": "eight source evidence dependencies"
+        },
+        {
+          "id": "demo-relocated-source-evidence-instruction-missing",
+          "phrase": "copied demo artifacts are still resolved from the relocated demo folder"
+        }
+      ]
+    },
+    {
+      "id": "wrapper-relocated-source-evidence-override-omission",
+      "expectedFailureSurface": "demo-relocated-source-evidence-wrapper-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-relocated-source-evidence-wrapper-missing",
+          "phrase": "[string]$SourceEvidenceRoot"
+        },
+        {
+          "id": "demo-relocated-source-evidence-wrapper-missing",
+          "phrase": "$env:ZOIA_DEMO_SOURCE_ROOT = $ProjectRoot"
+        }
+      ]
+    },
+    {
+      "id": "demo-handoff-manifest-verifier-count-mismatch",
+      "expectedFailureSurface": "demo-handoff-count-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-handoff-count-mismatch",
+          "field": "artifactManifestCount",
+          "expected": 31,
+          "observed": 30
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-classification-degraded",
+      "expectedFailureSurface": "demo-runtime-audio-classification-degraded",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-runtime-audio-classification-degraded",
+          "evidenceId": "01-143816-v2",
+          "status": "classified",
+          "classification": "runtime-degraded-seed"
+        },
+        {
+          "id": "demo-runtime-audio-metrics-degraded",
+          "evidenceId": "01-143816-v2",
+          "rms": 0,
+          "peak": 0,
+          "postInputTailPeak": 0
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-consumed-wav-invalid",
+      "expectedFailureSurface": "demo-runtime-wav-invalid",
+      "status": "pass",
+      "invalidWavPath": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+      "problems": [
+        {
+          "id": "demo-runtime-wav-invalid",
+          "path": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+          "reason": "wav-header-invalid"
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-consumed-wav-signal-too-low",
+      "expectedFailureSurface": "demo-runtime-wav-rms-too-low",
+      "secondaryFailureSurface": "demo-runtime-wav-peak-too-low",
+      "status": "pass",
+      "silentWavPath": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+      "problems": [
+        {
+          "id": "demo-runtime-wav-rms-too-low",
+          "path": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+          "expectedAtLeast": 0.0005,
+          "observed": 0
+        },
+        {
+          "id": "demo-runtime-wav-peak-too-low",
+          "path": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+          "expectedAtLeast": 0.05,
+          "observed": 0
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-capture-wav-path-mismatch",
+      "expectedFailureSurface": "demo-audio-capture-wav-path-missing",
+      "status": "pass",
+      "missingId": "01-143816-v2",
+      "missingPath": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+      "problems": [
+        {
+          "id": "demo-audio-capture-wav-path-missing",
+          "evidenceId": "01-143816-v2",
+          "path": "artifacts/generated-patch-audio/captures/01-143816-v2.wav"
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-stimulus-manifest-amplitude-mismatch",
+      "expectedFailureSurface": "demo-audio-stimulus-amplitude-mismatch",
+      "secondaryFailureSurface": "demo-audio-stimulus-event-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-audio-stimulus-amplitude-mismatch",
+          "expected": 0.75,
+          "observed": 0.25
+        },
+        {
+          "id": "demo-audio-stimulus-event-mismatch",
+          "evidenceId": "01-143816-v2",
+          "expectedStimulus": "single-sample-impulse",
+          "expectedAmplitude": 0.25,
+          "observed": {
+            "moduleIndex": 0,
+            "outputBlock": 0,
+            "stimulus": "single-sample-impulse",
+            "amplitude": 0.75
+          }
+        },
+        {
+          "id": "demo-audio-stimulus-event-mismatch",
+          "evidenceId": "02-108214",
+          "expectedStimulus": "single-sample-impulse",
+          "expectedAmplitude": 0.25,
+          "observed": {
+            "moduleIndex": 0,
+            "outputBlock": 0,
+            "stimulus": "single-sample-impulse",
+            "amplitude": 0.75
+          }
+        },
+        {
+          "id": "demo-audio-stimulus-event-mismatch",
+          "evidenceId": "03-184325",
+          "expectedStimulus": "single-sample-impulse",
+          "expectedAmplitude": 0.25,
+          "observed": {
+            "moduleIndex": 0,
+            "outputBlock": 0,
+            "stimulus": "single-sample-impulse",
+            "amplitude": 0.75
+          }
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-classification-log-label-drift",
+      "expectedFailureSurface": "demo-audio-classification-result-mismatch",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-audio-classification-result-mismatch",
+          "evidenceId": "01-143816-v2",
+          "field": "classification",
+          "expected": "signal-present",
+          "observed": "classification-log-drift-seed"
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-classification-log-entry-omission",
+      "expectedFailureSurface": "demo-audio-classification-log-entry-missing",
+      "status": "pass",
+      "omittedId": "01-143816-v2",
+      "problems": [
+        {
+          "id": "demo-audio-classification-log-entry-missing",
+          "evidenceId": "01-143816-v2"
+        },
+        {
+          "id": "demo-audio-classification-log-order-mismatch",
+          "index": 0,
+          "expected": "01-143816-v2",
+          "observed": "02-108214"
+        },
+        {
+          "id": "demo-audio-classification-log-order-mismatch",
+          "index": 1,
+          "expected": "02-108214",
+          "observed": "03-184325"
+        },
+        {
+          "id": "demo-audio-classification-log-order-mismatch",
+          "index": 2,
+          "expected": "03-184325",
+          "observed": "silent-negative-control"
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-classification-log-duplicate-entry",
+      "expectedFailureSurface": "demo-audio-classification-log-entry-duplicate",
+      "status": "pass",
+      "duplicatedId": "01-143816-v2",
+      "problems": [
+        {
+          "id": "demo-audio-classification-log-order-mismatch",
+          "index": 4,
+          "expected": null,
+          "observed": "01-143816-v2"
+        },
+        {
+          "id": "demo-audio-classification-log-entry-duplicate",
+          "evidenceId": "01-143816-v2"
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-classification-log-order-drift",
+      "expectedFailureSurface": "demo-audio-classification-log-order-mismatch",
+      "status": "pass",
+      "swappedIds": [
+        "02-108214",
+        "01-143816-v2"
+      ],
+      "problems": [
+        {
+          "id": "demo-audio-classification-log-order-mismatch",
+          "index": 0,
+          "expected": "01-143816-v2",
+          "observed": "02-108214"
+        },
+        {
+          "id": "demo-audio-classification-log-order-mismatch",
+          "index": 1,
+          "expected": "02-108214",
+          "observed": "01-143816-v2"
+        }
+      ]
+    },
+    {
+      "id": "runtime-audio-classification-wav-content-drift",
+      "expectedFailureSurface": "demo-audio-classification-wav-content-mismatch",
+      "status": "pass",
+      "driftedId": "01-143816-v2",
+      "problems": [
+        {
+          "id": "demo-audio-classification-wav-content-mismatch",
+          "evidenceId": "01-143816-v2",
+          "path": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+          "field": "postInputTailPeak",
+          "expected": 0.08356381952762604,
+          "observed": 0
+        }
+      ]
+    },
+    {
+      "id": "runtime-lfo-trace-wav-content-drift",
+      "expectedFailureSurface": "demo-lfo-trace-wav-content-mismatch",
+      "status": "pass",
+      "driftedId": "01-143816-v2-positive-lfo-time-route",
+      "problems": [
+        {
+          "id": "demo-lfo-trace-wav-content-mismatch",
+          "evidenceId": "01-143816-v2-positive-lfo-time-route",
+          "path": "artifacts/generated-patch-lfo-semantics/traces/01-143816-v2-positive-lfo-time-route.lfo.wav",
+          "field": "lfoTraceRms",
+          "expected": 0.24990589441045222,
+          "observed": 0
+        }
+      ]
+    },
+    {
+      "id": "runtime-filter-wav-content-drift",
+      "expectedFailureSurface": "demo-filter-wav-content-mismatch",
+      "status": "pass",
+      "driftedId": "01-107507",
+      "problems": [
+        {
+          "id": "demo-filter-wav-content-mismatch",
+          "evidenceId": "01-107507",
+          "path": "artifacts/generated-patch-filter-runtime/captures/01-107507.wav",
+          "field": "highMagnitude",
+          "expected": 0.0003450493128641405,
+          "observed": 0.2105979857470009
+        },
+        {
+          "id": "demo-filter-wav-content-mismatch",
+          "evidenceId": "01-107507",
+          "path": "artifacts/generated-patch-filter-runtime/captures/01-107507.wav",
+          "field": "highLowRatio",
+          "expected": 0.0016384264628184096,
+          "observed": 1
+        }
+      ]
+    },
+    {
+      "id": "audio-manifest-uncovered-wav-artifact",
+      "expectedFailureSurface": "demo-audio-manifest-wav-content-uncovered",
+      "status": "pass",
+      "uncoveredPath": "artifacts/generated-patch-audio/captures/uncovered-seeded.wav",
+      "problems": [
+        {
+          "id": "demo-audio-manifest-wav-content-uncovered",
+          "path": "artifacts/generated-patch-audio/captures/uncovered-seeded.wav"
+        }
+      ]
+    },
+    {
+      "id": "audio-manifest-covered-wav-artifact-missing",
+      "expectedFailureSurface": "demo-audio-manifest-wav-content-covered-path-missing",
+      "status": "pass",
+      "missingCoveredPath": "artifacts/generated-patch-filter-runtime/captures/01-107507.wav",
+      "problems": [
+        {
+          "id": "demo-audio-manifest-wav-content-covered-path-missing",
+          "path": "artifacts/generated-patch-filter-runtime/captures/01-107507.wav",
+          "verifierField": "filterWavContentCheckCount"
+        }
+      ]
+    },
+    {
+      "id": "audio-capability-claim-verifier-field-missing",
+      "expectedFailureSurface": "demo-audio-capability-chain-verifier-field-missing",
+      "status": "pass",
+      "removedField": "filterWavContentCheckCount",
+      "problems": [
+        {
+          "id": "demo-audio-capability-chain-verifier-field-missing",
+          "capabilityId": "filter-runtime-wav-content",
+          "field": "filterWavContentCheckCount"
+        }
+      ]
+    },
+    {
+      "id": "audio-capability-claim-verifier-field-stale",
+      "expectedFailureSurface": "demo-audio-capability-chain-verifier-field-stale",
+      "status": "pass",
+      "staleField": "filterWavContentCheckCount",
+      "staleValue": 0,
+      "problems": [
+        {
+          "id": "demo-audio-capability-chain-verifier-field-stale",
+          "capabilityId": "filter-runtime-wav-content",
+          "field": "filterWavContentCheckCount",
+          "observed": 0
+        }
+      ]
+    },
+    {
+      "id": "audio-consumed-field-artifact-count-mismatch",
+      "expectedFailureSurface": "demo-audio-consumed-field-artifact-count-mismatch",
+      "status": "pass",
+      "mismatchedField": "lfoTraceWavContentCheckCount",
+      "staleValue": 4,
+      "problems": [
+        {
+          "id": "demo-audio-consumed-field-artifact-count-mismatch",
+          "capabilityId": "lfo-trace-wav-content",
+          "field": "lfoTraceWavContentCheckCount",
+          "expected": 6,
+          "observed": 4,
+          "expectedWavCount": 3,
+          "checksPerArtifact": 2
+        }
+      ]
+    },
+    {
+      "id": "audio-artifact-generation-window-exceeded",
+      "expectedFailureSurface": "demo-audio-artifact-generation-window-exceeded",
+      "status": "pass",
+      "stalePath": "artifacts/generated-patch-filter-runtime/captures/01-107507.wav",
+      "staleOffsetMs": 1200000,
+      "problems": [
+        {
+          "id": "demo-audio-artifact-generation-window-exceeded",
+          "groupId": "filter-runtime",
+          "maxDeltaMs": 600000,
+          "observedDeltaMs": 1200586,
+          "oldestPath": "artifacts/generated-patch-filter-runtime/captures/01-107507.wav",
+          "newestPath": "artifacts/generated-patch-filter-runtime/run-result.json"
+        }
+      ]
+    },
+    {
+      "id": "audio-generation-window-manifest-threshold-drift",
+      "expectedFailureSurface": "demo-audio-generation-window-threshold-mismatch",
+      "status": "pass",
+      "driftedField": "audioGenerationWindowMaxDeltaMs",
+      "driftedValue": 300000,
+      "problems": [
+        {
+          "id": "demo-audio-generation-window-threshold-mismatch",
+          "file": "DEMO_MANIFEST.json",
+          "field": "audioGenerationWindowMaxDeltaMs",
+          "expected": 600000,
+          "observed": 300000
+        }
+      ]
+    },
+    {
+      "id": "generated-patch-required-routing-missing",
+      "expectedFailureSurface": "demo-patch-required-routing-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-patch-routing-edge-count-mismatch",
+          "patchId": "01-143816-v2",
+          "expected": 4,
+          "observed": 3
+        },
+        {
+          "id": "demo-patch-required-routing-missing",
+          "patchId": "01-143816-v2",
+          "srcName": "delay-1",
+          "srcBlock": 4,
+          "dstName": "audio-out-1",
+          "dstBlock": 0
+        }
+      ]
+    },
+    {
+      "id": "generated-patch-runtime-semantic-mismatch",
+      "expectedFailureSurface": "demo-patch-runtime-source-id-mismatch",
+      "secondaryFailureSurface": "demo-patch-required-module-missing",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-patch-required-module-missing",
+          "patchId": "01-143816-v2",
+          "typeName": "Delay Line"
+        },
+        {
+          "id": "demo-patch-runtime-source-id-mismatch",
+          "patchId": "01-143816-v2",
+          "expected": "draft-from-selection-143816-v2-1",
+          "observed": "wrong-runtime-source-id-seed"
+        }
+      ]
+    },
+    {
+      "id": "copied-generated-patch-artifact-missing",
+      "expectedFailureSurface": "demo-file-missing",
+      "status": "pass",
+      "omittedPath": "artifacts/generated-patches/manual-test-emulator/01-143816-v2.patch.json",
+      "problems": [
+        {
+          "id": "demo-file-missing",
+          "path": "artifacts/generated-patches/manual-test-emulator/01-143816-v2.patch.json"
+        }
+      ]
+    },
+    {
+      "id": "claimed-artifact-resolves-outside-demo-root",
+      "expectedFailureSurface": "demo-artifact-resolves-outside-demo-root",
+      "status": "pass",
+      "problems": [
+        {
+          "id": "demo-artifact-resolves-outside-demo-root",
+          "path": "../tests/workflow/evidence/generated-patch-audio/run-result.json",
+          "resolvedPathRole": "outside-demo-root"
+        }
+      ]
+    },
+    {
+      "id": "copied-json-evidence-artifact-missing",
+      "expectedFailureSurface": "demo-file-missing",
+      "status": "pass",
+      "omittedPath": "artifacts/generated-patch-final-evidence-inventory/run-result.json",
+      "problems": [
+        {
+          "id": "demo-file-missing",
+          "path": "artifacts/generated-patch-final-evidence-inventory/run-result.json"
+        }
+      ]
+    },
+    {
+      "id": "relocated-copied-json-artifact-omission",
+      "expectedFailureSurface": "demo-file-missing",
+      "status": "pass",
+      "omittedPath": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+      "relocatedOmission": {
+        "status": "pass",
+        "omittedPath": "artifacts/generated-patch-audio/captures/01-143816-v2.wav",
+        "temporaryPathRole": "temporary-relocated-omission-demo-root",
+        "workingDirectoryRole": "temporary-relocated-omission-parent",
+        "check": "relocated required-file presence",
+        "problemCount": 1,
+        "hasExpectedProblem": true,
+        "problems": [
+          {
+            "id": "demo-file-missing",
+            "path": "artifacts/generated-patch-audio/captures/01-143816-v2.wav"
+          }
+        ]
+      }
+    },
+    {
+      "id": "seeded-control-inventory-control-omission",
+      "expectedFailureSurface": "demo-seeded-control-inventory-missing-control",
+      "status": "pass",
+      "omittedControlId": "tampered-copied-json-evidence",
+      "problems": [
+        {
+          "id": "demo-seeded-control-inventory-missing-control",
+          "controlId": "tampered-copied-json-evidence"
+        },
+        {
+          "id": "demo-seeded-control-inventory-missing-control",
+          "controlId": "seeded-control-inventory-control-omission"
+        },
+        {
+          "id": "demo-seeded-control-inventory-missing-control",
+          "controlId": "seeded-control-inventory-duplicate-risk"
+        }
+      ]
+    },
+    {
+      "id": "seeded-control-inventory-duplicate-risk",
+      "expectedFailureSurface": "demo-seeded-control-inventory-duplicate-risk",
+      "status": "pass",
+      "duplicateRiskControlId": "synthetic-duplicate-risk-control",
+      "problems": [
+        {
+          "id": "demo-seeded-control-inventory-missing-control",
+          "controlId": "seeded-control-inventory-duplicate-risk"
+        },
+        {
+          "id": "demo-seeded-control-inventory-duplicate-risk",
+          "controlId": "synthetic-duplicate-risk-control",
+          "riskCategory": "copied evidence value integrity",
+          "expectedFailureSurface": "demo-evidence-copy-value-mismatch"
+        }
+      ]
+    }
+  ],
+  "problems": [],
+  "claimBoundary": "This demo verifies local copied/source evidence for bounded ZOIA 0.4.0 generated-patch behavior. It is not release readiness or publication evidence."
+}

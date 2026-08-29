@@ -1,0 +1,398 @@
+{
+  "schemaVersion": "zoia.v04-readiness-result.v1",
+  "version": "0.4.0",
+  "revision": 3,
+  "status": "pass",
+  "startedAt": "2026-08-29T15:59:17.630Z",
+  "completedAt": "2026-08-29T15:59:18.353Z",
+  "evidenceRoot": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\v0.4-readiness",
+  "fileChecks": {
+    "featureCoverage": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\docs\\FEATURE_COVERAGE.md",
+      "exists": true
+    },
+    "validation": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\docs\\VALIDATION.md",
+      "exists": true
+    },
+    "patchSchema": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\schemas\\patch-verification-result.schema.json",
+      "exists": true
+    },
+    "ci": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\q109-ci-gate-integration\\run-result.json",
+      "exists": true
+    },
+    "stagedAudio": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\q104-staged-patch-audio-all-baseline\\run-result.json",
+      "exists": true
+    },
+    "testPatchStimulus": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\v0.4-test-patch-stimulus\\run-result.json",
+      "exists": true
+    },
+    "stagedTrace": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\v0.3-trace-baseline\\run-result.json",
+      "exists": true
+    },
+    "communityTrace": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\v0.3-trace-baseline\\community-run-result.json",
+      "exists": true
+    },
+    "communityAudio": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\q106-community-patch-audio-classification-baseline\\run-result.json",
+      "exists": true
+    },
+    "communityStimulus": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\q106-community-patch-audio-classification-v0.4-playability-full-r1\\run-result.json",
+      "exists": true
+    },
+    "communityModalityRollup": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\v0.4-community-modality-rollup\\run-result.json",
+      "exists": true
+    },
+    "generatedPatchReadiness": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-readiness\\run-result.json",
+      "exists": true
+    },
+    "readinessNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\v0.4-readiness-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewFreshnessNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-freshness-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewCleanConsumerSmokeNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-clean-consumer-smoke-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewDocumentedEvidenceNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-documented-evidence-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewSummaryQualityNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-summary-quality-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewOverclaimNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-overclaim-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewPackageBoundaryOverclaimNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-package-boundary-overclaim-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewPublicationProtectionNegativeControls": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-publication-protection-negative-controls\\run-result.json",
+      "exists": true
+    },
+    "cleanConsumerSmoke": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\v0.4-clean-consumer-smoke\\run-result.json",
+      "exists": true
+    },
+    "releaseReviewSummary": {
+      "path": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\release-review-summary\\run-result.json",
+      "exists": true
+    }
+  },
+  "summary": {
+    "blockerCount": 0,
+    "ciStatus": "pass",
+    "stagedAudio": {
+      "fixtureCount": 88,
+      "passCount": 63,
+      "classifiedCount": 25,
+      "failCount": 0,
+      "byClassification": {
+        "signal-present": 63,
+        "patch-requires-external-input-midi-cv": 24,
+        "empty-audit-fixture": 1
+      }
+    },
+    "stagedTrace": {
+      "patchCount": 88,
+      "passCount": 88,
+      "failCount": 0
+    },
+    "testPatchStimulus": {
+      "fixtureCount": 24,
+      "passCount": 24,
+      "classifiedCount": 0,
+      "failCount": 0,
+      "byClassification": {
+        "stimulus-signal-present": 24
+      }
+    },
+    "communityTrace": {
+      "patchCount": 1884,
+      "passCount": 1881,
+      "classifiedCount": 3,
+      "failCount": 0,
+      "traceableCount": 1881
+    },
+    "communityAudio": {
+      "fixtureCount": 1884,
+      "passCount": 1123,
+      "classifiedCount": 761,
+      "failCount": 0,
+      "byClassification": {
+        "signal-present": 1123,
+        "patch-requires-external-input-midi-cv": 291,
+        "patch-requires-control-interaction": 111,
+        "no-audio-output-module": 266,
+        "empty-or-blank-patch": 65,
+        "stimulus-policy-required": 24,
+        "q097-non-audio-unsupported-or-malformed-patch-data": 4
+      }
+    },
+    "communityStimulus": {
+      "fixtureCount": 1884,
+      "passCount": 1370,
+      "classifiedCount": 514,
+      "failCount": 0,
+      "byClassification": {
+        "signal-present": 1368,
+        "external-cv-midi-control-required": 77,
+        "no-audio-source-to-output-route": 78,
+        "no-audio-output-module": 266,
+        "empty-or-blank-patch": 65,
+        "midi-output-patch-no-master-audio-source": 6,
+        "sample-or-loop-content-required": 14,
+        "no-audio-routing-present": 3,
+        "low-level-waveform-present": 2,
+        "q097-non-audio-unsupported-or-malformed-patch-data": 4,
+        "patch-requires-control-interaction": 1
+      }
+    },
+    "communityModalityRollup": {
+      "sourceBacklogCount": 514,
+      "coveredCount": 514,
+      "measuredSignalCount": 219,
+      "staticClassifiedCount": 295,
+      "problemCount": 0,
+      "missingPairCount": 0,
+      "duplicatePairCount": 0,
+      "unexpectedPairCount": 0
+    },
+    "generatedPatchReadiness": {
+      "status": "pass",
+      "blockerCount": 0,
+      "selectionCandidateCount": 8,
+      "draftCount": 3,
+      "validatedDraftCount": 3,
+      "promptSmokeRequiredCorePromptCount": 3,
+      "promptSmokeConcreteCoreTypeCount": 3,
+      "promptSmokeUnresolvedAbstractionCount": 0,
+      "unresolvedAbstractionCount": 0,
+      "sourceGraphFamilyMismatchCount": 0,
+      "sourceGraphRoleMismatchCount": 0,
+      "traceGraphCoverageIncompleteCount": 0,
+      "runtimeAudioNegativeControls": {
+        "status": "pass",
+        "controlCount": 5,
+        "passingControlCount": 5,
+        "seededFailureCount": 5,
+        "expectedFailureFoundCount": 5,
+        "blockerCount": 0
+      },
+      "negativeGuardStatus": "fail"
+    },
+    "readinessNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "caseCount": 13,
+      "passingCaseCount": 13,
+      "commandExitCode": 1,
+      "blockedV04Status": "blocked",
+      "expectedBlockerFound": true,
+      "abstractionDisclosureCommandExitCode": 1,
+      "abstractionDisclosureBlockedV04Status": "blocked",
+      "expectedAbstractionDisclosureBlockerFound": true,
+      "runtimeAudioDependencyCommandExitCode": 1,
+      "runtimeAudioDependencyBlockedV04Status": "blocked",
+      "expectedRuntimeAudioDependencyBlockerFound": true,
+      "releaseReviewCommandExitCode": 1,
+      "releaseReviewBlockedV04Status": "blocked",
+      "expectedReleaseReviewBlockerFound": true,
+      "cleanConsumerSmokeCommandExitCode": 1,
+      "cleanConsumerSmokeBlockedV04Status": "blocked",
+      "expectedCleanConsumerSmokeBlockerFound": true,
+      "cleanConsumerSmokeMissingRegenerationBlockerCommandExitCode": 1,
+      "cleanConsumerSmokeMissingRegenerationBlockerBlockedV04Status": "blocked",
+      "expectedCleanConsumerSmokeMissingRegenerationBlockerFound": true,
+      "missingCleanConsumerSmokeCommandExitCode": 1,
+      "missingCleanConsumerSmokeBlockedV04Status": "blocked",
+      "expectedMissingCleanConsumerSmokeBlockerFound": true,
+      "cleanConsumerSmokeSourceTreeImportCommandExitCode": 1,
+      "cleanConsumerSmokeSourceTreeImportBlockedV04Status": "blocked",
+      "expectedCleanConsumerSmokeSourceTreeImportBlockerFound": true,
+      "cleanConsumerSmokePackageManifestCommandExitCode": 1,
+      "cleanConsumerSmokePackageManifestBlockedV04Status": "blocked",
+      "expectedCleanConsumerSmokePackageManifestBlockerFound": true,
+      "cleanConsumerSmokePackageBoundaryExportCommandExitCode": 1,
+      "cleanConsumerSmokePackageBoundaryExportBlockedV04Status": "blocked",
+      "expectedCleanConsumerSmokePackageBoundaryExportBlockerFound": true,
+      "cleanConsumerSmokeMissingInstalledV04CommandExitCode": 1,
+      "cleanConsumerSmokeMissingInstalledV04BlockedV04Status": "blocked",
+      "expectedCleanConsumerSmokeMissingInstalledV04BlockerFound": true,
+      "cleanConsumerSmokeMissingInstalledClaimBoundaryCommandExitCode": 1,
+      "cleanConsumerSmokeMissingInstalledClaimBoundaryBlockedV04Status": "blocked",
+      "expectedCleanConsumerSmokeMissingInstalledClaimBoundaryBlockerFound": true,
+      "releaseReviewPublicationProtectionCommandExitCode": 1,
+      "releaseReviewPublicationProtectionBlockedV04Status": "blocked",
+      "expectedReleaseReviewPublicationProtectionBlockerFound": true
+    },
+    "releaseReviewFreshnessNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "caseCount": 3,
+      "passingCaseCount": 3,
+      "candidateReviewStaleBlockerFound": true,
+      "v04ReleaseReviewBlockerFound": true,
+      "generatedValidationStaleBlockerFound": true,
+      "validationV04ReleaseReviewBlockerFound": true
+    },
+    "releaseReviewCleanConsumerSmokeNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "caseCount": 2,
+      "passingCaseCount": 2,
+      "missingCleanConsumerSmokeEvidenceBlockerFound": true,
+      "missingCleanConsumerSmokeQualityBlockerFound": true,
+      "staleCleanConsumerSmokeEvidenceBlockerFound": true
+    },
+    "releaseReviewDocumentedEvidenceNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "caseCount": 1,
+      "passingCaseCount": 1,
+      "documentedEvidenceMissingBlockerFound": true,
+      "v04ReleaseReviewBlockerFound": true
+    },
+    "releaseReviewSummaryQualityNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "caseCount": 22,
+      "passingCaseCount": 22,
+      "summaryQualityBlockerFound": true,
+      "v04ReleaseReviewBlockerFound": true,
+      "generatedContractEvidenceBlockerFound": true,
+      "contractV04ReleaseReviewBlockerFound": true,
+      "generatedDuplicateModulePortEvidenceBlockerFound": true,
+      "duplicateModulePortV04ReleaseReviewBlockerFound": true,
+      "generatedParamRangeEvidenceBlockerFound": true,
+      "paramRangeV04ReleaseReviewBlockerFound": true,
+      "generatedParamNormalizationEvidenceBlockerFound": true,
+      "paramNormalizationV04ReleaseReviewBlockerFound": true,
+      "generatedPortKindEvidenceBlockerFound": true,
+      "portKindV04ReleaseReviewBlockerFound": true,
+      "generatedConnectionGainNormalizationEvidenceBlockerFound": true,
+      "connectionGainV04ReleaseReviewBlockerFound": true,
+      "generatedConnectionGainRangeEvidenceBlockerFound": true,
+      "connectionGainRangeV04ReleaseReviewBlockerFound": true,
+      "generatedDuplicateConnectionEndpointEvidenceBlockerFound": true,
+      "duplicateConnectionV04ReleaseReviewBlockerFound": true,
+      "generatedSelfRouteEvidenceBlockerFound": true,
+      "selfRouteV04ReleaseReviewBlockerFound": true,
+      "generatedModulationRouteEvidenceBlockerFound": true,
+      "modulationRouteV04ReleaseReviewBlockerFound": true,
+      "generatedTraceGraphCoverageEvidenceBlockerFound": true,
+      "traceCoverageV04ReleaseReviewBlockerFound": true,
+      "generatedBlockedRequirementEvidenceBlockerFound": true,
+      "blockedRequirementV04ReleaseReviewBlockerFound": true,
+      "generatedTraceModalityCoverageEvidenceBlockerFound": true,
+      "traceModalityV04ReleaseReviewBlockerFound": true,
+      "generatedAudioRouteBypassEvidenceBlockerFound": true,
+      "audioRouteV04ReleaseReviewBlockerFound": true,
+      "generatedAudioCycleEvidenceBlockerFound": true,
+      "audioCycleV04ReleaseReviewBlockerFound": true,
+      "generatedGraphComplexityEvidenceBlockerFound": true,
+      "graphComplexityV04ReleaseReviewBlockerFound": true,
+      "generatedTraceVerificationMethodEvidenceBlockerFound": true,
+      "traceVerificationMethodV04ReleaseReviewBlockerFound": true,
+      "generatedAudioProcessorOrphanEvidenceBlockerFound": true,
+      "audioProcessorOrphanV04ReleaseReviewBlockerFound": true,
+      "generatedModuleOrphanEvidenceBlockerFound": true,
+      "moduleOrphanV04ReleaseReviewBlockerFound": true,
+      "generatedUndeclaredModalityEvidenceBlockerFound": true,
+      "undeclaredModalityV04ReleaseReviewBlockerFound": true,
+      "generatedAudioModalityEvidenceBlockerFound": true,
+      "audioModalityV04ReleaseReviewBlockerFound": true
+    },
+    "releaseReviewOverclaimNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "baselineBoundaryStatus": "pass",
+      "caseCount": 5,
+      "passingCaseCount": 5,
+      "seededFailureCount": 5,
+      "expectedFailureFoundCount": 5
+    },
+    "releaseReviewPackageBoundaryOverclaimNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "baselineBoundaryStatus": "pass",
+      "caseCount": 5,
+      "passingCaseCount": 5,
+      "seededFailureCount": 5,
+      "expectedFailureFoundCount": 5
+    },
+    "releaseReviewPublicationProtectionNegativeControls": {
+      "status": "pass",
+      "problemCount": 0,
+      "actualCommandCount": 38,
+      "protectedActualCommandCount": 0,
+      "scriptTextFindingCount": 0,
+      "seededControlCount": 6,
+      "passingSeededControlCount": 6,
+      "expectedFailureFoundCount": 6,
+      "protectedBoundaryPresent": true,
+      "sourceControlSideEffectsPerformed": false
+    },
+    "cleanConsumerBootstrap": false,
+    "releaseReviewSummarySkippedForCleanConsumerBootstrap": false,
+    "cleanConsumerSmokeSkippedForCleanConsumerBootstrap": false,
+    "cleanConsumerSmoke": {
+      "status": "pass",
+      "problemCount": 0,
+      "packageManifestRequiredPathCount": 6,
+      "packageManifestMissingPathCount": 0,
+      "packageManifestNegativeControlCount": 2,
+      "packageManifestPassingNegativeControlCount": 2,
+      "packageMetadataValid": true,
+      "packageScriptReferenceCount": 4,
+      "packageScriptMissingReferenceCount": 0,
+      "installedRequiredPathCount": 8,
+      "installedMissingPathCount": 0,
+      "copiedJsonEvidenceCount": 36,
+      "copiedEvidenceNegativeControlCount": 4,
+      "copiedEvidencePassingNegativeControlCount": 4,
+      "v04ReadinessStatus": "pass",
+      "v04ReadinessBlockerCount": 0,
+      "v04ReadinessCleanConsumerBootstrap": true,
+      "v04ReadinessReleaseReviewSummarySkippedForBootstrap": true,
+      "v04ReadinessCleanConsumerSmokeSkippedForBootstrap": true,
+      "claimBoundaryStatus": "pass",
+      "claimBoundaryProblemCount": 0,
+      "claimBoundaryCleanConsumerBootstrap": true,
+      "claimBoundaryCleanConsumerSmokeSkippedForBootstrap": true,
+      "sourceTreeImportsUsedByInstalledCommands": false,
+      "installedCommandAuditCount": 5,
+      "installedCommandSourceTreeFindingCount": 0,
+      "missingGeneratedEvidenceBlockedStatus": "blocked",
+      "staleReleaseReviewBlockedStatus": "blocked",
+      "missingInstalledReadinessScriptBlocked": true,
+      "missingInstalledCapabilityDocBlockedStatus": "fail"
+    },
+    "releaseReviewSummary": {
+      "status": "pass",
+      "evidenceCount": 26,
+      "sourceControlSideEffectsPerformed": false,
+      "protectedActionBlockerCount": 1,
+      "blockerCount": 0
+    }
+  },
+  "blockers": [],
+  "claimBoundary": "This readiness gate blocks 0.4 until every committed test patch and every available community patch has deterministic evidence for import, UI/rendering, signal-flow, audio/playability where applicable, or an explicit non-emulator/source/provenance classification."
+}

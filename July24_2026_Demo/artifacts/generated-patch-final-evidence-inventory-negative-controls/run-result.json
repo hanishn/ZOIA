@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "zoia.generated-patch-final-evidence-inventory-negative-controls-result.v1",
+  "version": "0.4.0",
+  "revision": 1,
+  "status": "pass",
+  "startedAt": "2026-08-29T15:59:38.640Z",
+  "completedAt": "2026-08-29T15:59:48.624Z",
+  "summary": {
+    "problemCount": 0,
+    "caseCount": 25,
+    "passingCaseCount": 25,
+    "expectedFailureFoundCount": 25
+  },
+  "classifications": [
+    {
+      "id": "doc-release-ready-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "release-ready-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\doc-release-ready-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "doc-broad-text-to-zoia-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "broad-text-to-zoia-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\doc-broad-text-to-zoia-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "doc-audible-cutoff-sweep-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "audible-sweep-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\doc-audible-cutoff-sweep-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "readme-arbitrary-prompt-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "arbitrary-prompt-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\readme-arbitrary-prompt-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "changelog-npm-publication-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "npm-publication-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\changelog-npm-publication-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "github-readiness-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "github-readiness-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\github-readiness-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "validation-full-dsp-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "full-dsp-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\validation-full-dsp-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "feature-coverage-complete-semantics-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "complete-semantics-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\feature-coverage-complete-semantics-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "release-review-hardware-export-overclaim",
+      "status": "pass",
+      "expectedProblemId": "release-review-boundary-validation-failed",
+      "expectedSurface": "hardware-export-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\release-review-hardware-export-overclaim\\inventory-result.json"
+    },
+    {
+      "id": "readme-arbitrary-text-prompts-paraphrase",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "arbitrary-text-prompts-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\readme-arbitrary-text-prompts-paraphrase\\inventory-result.json"
+    },
+    {
+      "id": "changelog-publishable-package-paraphrase",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "publishable-package-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\changelog-publishable-package-paraphrase\\inventory-result.json"
+    },
+    {
+      "id": "validation-hardware-equivalent-output-paraphrase",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "hardware-equivalent-output-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\validation-hardware-equivalent-output-paraphrase\\inventory-result.json"
+    },
+    {
+      "id": "release-review-production-ready-release-paraphrase",
+      "status": "pass",
+      "expectedProblemId": "release-review-boundary-validation-failed",
+      "expectedSurface": "production-ready-release-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\release-review-production-ready-release-paraphrase\\inventory-result.json"
+    },
+    {
+      "id": "clean-smoke-package-manifest-unscanned-doc",
+      "status": "pass",
+      "expectedProblemId": "package-boundary-doc-not-in-inventory-scanner",
+      "expectedSurface": "docs/UNSCANNED_PACKAGE_BOUNDARY_DOC.md",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\clean-smoke-package-manifest-unscanned-doc\\inventory-result.json"
+    },
+    {
+      "id": "clean-smoke-installed-unscanned-doc",
+      "status": "pass",
+      "expectedProblemId": "package-boundary-doc-not-in-inventory-scanner",
+      "expectedSurface": "docs/UNSCANNED_INSTALLED_DOC.md",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\clean-smoke-installed-unscanned-doc\\inventory-result.json"
+    },
+    {
+      "id": "stale-release-review-dependency",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-dependency-stale",
+      "expectedSurface": "releaseReview",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\stale-release-review-dependency\\inventory-result.json"
+    },
+    {
+      "id": "stale-claim-boundary-dependency",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-dependency-stale",
+      "expectedSurface": "generatedPatchClaimBoundary",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\stale-claim-boundary-dependency\\inventory-result.json"
+    },
+    {
+      "id": "stale-clean-smoke-dependency",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-dependency-stale",
+      "expectedSurface": "cleanConsumerSmoke",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\stale-clean-smoke-dependency\\inventory-result.json"
+    },
+    {
+      "id": "release-review-uncategorized-evidence",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-consumed-evidence-uncategorized",
+      "expectedSurface": "uncategorized-generated-patch-runtime",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\release-review-uncategorized-evidence\\inventory-result.json"
+    },
+    {
+      "id": "v04-uncategorized-evidence",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-consumed-evidence-uncategorized",
+      "expectedSurface": "uncategorized-v04-runtime",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\v04-uncategorized-evidence\\inventory-result.json"
+    },
+    {
+      "id": "claim-boundary-uncategorized-evidence",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-consumed-evidence-uncategorized",
+      "expectedSurface": "uncategorized-claim-boundary-runtime",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\claim-boundary-uncategorized-evidence\\inventory-result.json"
+    },
+    {
+      "id": "release-review-documented-uncategorized-evidence",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-documented-evidence-uncategorized",
+      "expectedSurface": "uncategorized-documented-review-evidence",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\release-review-documented-uncategorized-evidence\\inventory-result.json"
+    },
+    {
+      "id": "release-review-uncategorized-validation-command",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-validation-command-uncategorized",
+      "expectedSurface": "zoia:unknown:drift",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\release-review-uncategorized-validation-command\\inventory-result.json"
+    },
+    {
+      "id": "package-json-uncategorized-review-surface-script",
+      "status": "pass",
+      "expectedProblemId": "final-inventory-package-script-uncategorized",
+      "expectedSurface": "zoia:generate:patch:uncategorized-review-surface",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\package-json-uncategorized-review-surface-script\\inventory-result.json"
+    },
+    {
+      "id": "demo-status-release-ready-overclaim",
+      "status": "pass",
+      "expectedProblemId": "doc-boundary-validation-failed",
+      "expectedSurface": "release-ready-positive",
+      "commandExitCode": 1,
+      "inventoryStatus": "fail",
+      "expectedFailureFound": true,
+      "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures\\demo-status-release-ready-overclaim\\inventory-result.json"
+    }
+  ],
+  "problems": [],
+  "artifacts": {
+    "resultPath": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\run-result.json",
+    "fixtureRoot": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\generated-patch-final-evidence-inventory-negative-controls\\fixtures"
+  },
+  "claimBoundary": "This gate seeds overbroad final-inventory doc and release-review text in isolated fixtures and proves the inventory boundary scanner fails on those fixtures. It does not modify canonical docs or release-review evidence."
+}

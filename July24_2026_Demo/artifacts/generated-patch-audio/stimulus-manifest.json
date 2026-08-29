@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "zoia.generated-patch-audio-stimulus-manifest.v1",
+  "generatedAt": "2026-08-29T15:23:50.598Z",
+  "patchRoot": "G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\generated-patches\\manual-test-emulator",
+  "renderSettings": {
+    "sampleRate": 44100,
+    "durationSeconds": 1.25,
+    "frameCount": 55125,
+    "channelCount": 1
+  },
+  "stimulus": {
+    "kind": "single-sample-impulse",
+    "amplitude": 0.75,
+    "routedTo": "all Audio Input audio_out blocks"
+  },
+  "thresholds": {
+    "minRms": 0.0005,
+    "minPeak": 0.05,
+    "minPostInputTailPeak": 0.01,
+    "maxSilenceRms": 0.000001,
+    "maxSilencePeak": 0.000001,
+    "delayWindowRadiusSeconds": 0.025,
+    "postInputTailStartSeconds": 0.05
+  },
+  "negativeControls": {
+    "silentPatchIncluded": true,
+    "expectedClassification": "expected-silence-classified"
+  }
+}

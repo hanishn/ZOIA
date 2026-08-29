@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-unsupported-module",
+  "name": "Invalid Unsupported Module",
+  "description": "Negative control for unsupported generated module semantics.",
+  "expectedModalities": [
+    "audio",
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "unsupported-core-1",
+      "type": "Imaginary Resonator",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "tone": 0.5
+      },
+      "inputs": [
+        "audio"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 7,
+      "params": {},
+      "inputs": [
+        "audio"
+      ],
+      "outputs": []
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-core",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "unsupported-core-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-core-out",
+      "from": {
+        "moduleId": "unsupported-core-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    }
+  ]
+}

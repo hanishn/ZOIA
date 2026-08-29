@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-trace-modality-coverage",
+  "requirements": [
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio candidate must have input to output route",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "mod-source-1",
+        "control-source-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-template-out",
+        "conn-mod-template",
+        "conn-control-template"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio route and all generated graph objects are referenced"
+      }
+    }
+  ]
+}

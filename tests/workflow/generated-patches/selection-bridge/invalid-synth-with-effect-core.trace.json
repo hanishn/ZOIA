@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-synth-with-effect-core",
+  "requirements": [
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio synth route",
+      "status": "satisfied",
+      "moduleIds": ["audio-in-1", "delay-1", "audio-out-1"],
+      "connectionIds": ["conn-audio-in-delay", "conn-delay-out"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio input routes through delay to audio output"
+      }
+    }
+  ]
+}

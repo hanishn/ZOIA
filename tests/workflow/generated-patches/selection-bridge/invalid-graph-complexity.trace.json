@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-graph-complexity",
+  "requirements": [
+    {
+      "id": "req-graph-complexity",
+      "sourceText": "audio effect candidate with too many generated pre-export modules",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "lfo-1",
+        "lfo-2",
+        "lfo-3",
+        "lfo-4",
+        "lfo-5",
+        "lfo-6",
+        "lfo-7",
+        "lfo-8",
+        "lfo-9",
+        "lfo-10"
+      ],
+      "connectionIds": [
+        "conn-audio-in-delay",
+        "conn-delay-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "oversized generated graphs should fail before export"
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zoia.patch-template-selection-result.v1",
+  "title": "ZOIA patch template selection result",
+  "type": "object",
+  "required": ["schemaVersion", "status", "generatedAt", "intent", "summary", "candidates", "claimBoundaries"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "zoia.patch-template-selection-result.v1"
+    },
+    "status": {
+      "enum": ["pass", "fail"]
+    },
+    "generatedAt": {
+      "type": "string"
+    },
+    "intent": {
+      "type": "object"
+    },
+    "summary": {
+      "type": "object"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "validation": {
+      "type": "object"
+    },
+    "claimBoundaries": {
+      "type": "object",
+      "required": ["selectedExistingTemplateOnly", "novelPatchClaim", "exportedPatchClaim", "verifiedCandidateClaim"],
+      "properties": {
+        "selectedExistingTemplateOnly": {
+          "type": "boolean"
+        },
+        "novelPatchClaim": {
+          "type": "boolean"
+        },
+        "exportedPatchClaim": {
+          "type": "boolean"
+        },
+        "verifiedCandidateClaim": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

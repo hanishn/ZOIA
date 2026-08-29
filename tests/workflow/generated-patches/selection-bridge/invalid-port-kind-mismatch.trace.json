@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-port-kind-mismatch",
+  "requirements": [
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio candidate must not route audio into CV-only control inputs",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "mod-source-1",
+        "control-source-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-template-out",
+        "conn-audio-to-feedback-cv",
+        "conn-mod-template",
+        "conn-control-template"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "incompatible generated connection signal kinds should fail before export"
+      }
+    }
+  ]
+}

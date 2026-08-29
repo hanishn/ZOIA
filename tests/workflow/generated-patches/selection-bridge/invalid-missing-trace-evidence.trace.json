@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "generated-selection-bridge-missing-trace-evidence",
+  "requirements": [
+    {
+      "id": "req-template-provenance",
+      "sourceText": "verified template evidence must exist",
+      "status": "satisfied",
+      "moduleIds": ["template-core-1"],
+      "connectionIds": ["conn-audio-in-template", "conn-template-out"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "candidate references missing measured template evidence at tests/workflow/evidence/negative-control-missing-trace-evidence/result.json"
+      }
+    },
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio candidate must have input to output route",
+      "status": "satisfied",
+      "moduleIds": ["audio-in-1", "template-core-1", "audio-out-1"],
+      "connectionIds": ["conn-audio-in-template", "conn-template-out"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio route from Audio Input through template core to Audio Output"
+      }
+    }
+  ]
+}

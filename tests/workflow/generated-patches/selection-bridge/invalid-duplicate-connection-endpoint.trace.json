@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-duplicate-connection-endpoint",
+  "requirements": [
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio candidate must have one generated connection for each endpoint pair",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "mod-source-1",
+        "control-source-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-audio-in-template-duplicate",
+        "conn-template-out",
+        "conn-mod-template",
+        "conn-control-template"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "duplicate generated connection endpoint pairs should fail before export"
+      }
+    }
+  ]
+}

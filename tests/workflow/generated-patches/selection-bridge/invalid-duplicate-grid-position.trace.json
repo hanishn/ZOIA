@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "generated-selection-bridge-invalid-duplicate-grid-position",
+  "requirements": [
+    {
+      "id": "req-audio-delay",
+      "sourceText": "Use a delay line between audio input and audio output.",
+      "status": "satisfied",
+      "moduleIds": ["audio-in-1", "delay-1", "audio-out-1"],
+      "connectionIds": ["conn-audio-in-delay", "conn-delay-out"],
+      "verification": {
+        "expectedEvidence": "Schema-valid structure still must fail if generated modules occupy the same ZOIA page/grid position."
+      }
+    }
+  ]
+}

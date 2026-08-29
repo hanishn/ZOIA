@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "generated-selection-bridge-malformed",
+  "requirements": [
+    {
+      "id": "req-audio-output",
+      "sourceText": "audio delay",
+      "status": "satisfied",
+      "moduleIds": ["audio-in-1", "delay-1", "missing-delay"],
+      "connectionIds": ["conn-bad-target"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio should reach an output"
+      }
+    }
+  ]
+}

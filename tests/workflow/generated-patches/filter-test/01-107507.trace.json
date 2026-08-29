@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "draft-from-selection-107507-1",
+  "requirements": [
+    {
+      "id": "req-template-provenance",
+      "sourceText": "verified template 107507",
+      "status": "satisfied",
+      "moduleIds": [
+        "filter-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-template-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "candidate references measured template evidence at G:\\Projects\\MusicAndMidi\\ZOIA\\tests\\workflow\\evidence\\q106-community-patch-audio-classification-v0.4-playability-full-r1\\patch-library\\107507\\result.json"
+      }
+    },
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio candidate must have input to output route",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "filter-1",
+        "audio-out-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-template-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio route from Audio Input through filter to Audio Output"
+      }
+    },
+    {
+      "id": "req-modulation",
+      "sourceText": "slow modulation",
+      "status": "satisfied",
+      "moduleIds": [
+        "mod-source-1",
+        "filter-1"
+      ],
+      "connectionIds": [
+        "conn-mod-template"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "CV modulation source routes to filter"
+      }
+    }
+  ]
+}
