@@ -274,7 +274,7 @@ Run the draft-generation and validation gates:
 
 ```text
 npm run zoia:generate:patch:draft-from-selection -- --limit 3
-npm run zoia:generate:patch:validate -- --fixture-root tests/workflow/generated-patches/from-selection --no-negative-fixtures
+npm run zoia:generate:patch:validate -- --fixture-root tests/workflow/evidence/generated-patches/from-selection --no-negative-fixtures
 npm run zoia:generate:patch:trace-evidence:negative-controls
 npm run zoia:generate:patch:provenance
 ```
