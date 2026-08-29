@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "generated-selection-bridge-invalid-midi-modality",
+  "requirements": [
+    {
+      "id": "req-audio-delay",
+      "sourceText": "ambient delay",
+      "status": "satisfied",
+      "moduleIds": ["audio-in-1", "delay-1", "audio-out-1"],
+      "connectionIds": ["conn-audio-in-delay", "conn-delay-out"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio input routes through delay to audio output"
+      }
+    },
+    {
+      "id": "req-slow-modulation",
+      "sourceText": "slow modulation",
+      "status": "satisfied",
+      "moduleIds": ["lfo-1", "delay-1"],
+      "connectionIds": ["conn-lfo-time"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "LFO controls delay time"
+      }
+    },
+    {
+      "id": "req-expression-feedback",
+      "sourceText": "expression pedal feedback control",
+      "status": "satisfied",
+      "moduleIds": ["expression-1", "delay-1"],
+      "connectionIds": ["conn-expression-feedback"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "expression pedal controls delay feedback"
+      }
+    },
+    {
+      "id": "req-midi-declared",
+      "sourceText": "midi control",
+      "status": "satisfied",
+      "moduleIds": ["expression-1"],
+      "connectionIds": ["conn-expression-feedback"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "MIDI modality is declared without supported generated MIDI module semantics"
+      }
+    }
+  ]
+}

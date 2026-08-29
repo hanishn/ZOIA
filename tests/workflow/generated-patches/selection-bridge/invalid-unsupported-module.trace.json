@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-unsupported-module",
+  "requirements": [
+    {
+      "id": "req-unsupported-module",
+      "sourceText": "unsupported module semantics must be rejected",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "unsupported-core-1",
+        "audio-out-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-core",
+        "conn-core-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "unsupported generated module type should fail before export"
+      }
+    }
+  ]
+}

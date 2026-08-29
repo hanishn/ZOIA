@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-audio-feedback-cycle",
+  "requirements": [
+    {
+      "id": "req-audio-feedback-cycle",
+      "sourceText": "audio effect candidate with generated feedback loop",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "reverb-1",
+        "audio-out-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-delay",
+        "conn-delay-reverb",
+        "conn-reverb-delay",
+        "conn-reverb-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio feedback cycles should fail before export"
+      }
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "generated-selection-bridge-invalid-midi-modality",
+  "name": "Invalid MIDI Modality",
+  "description": "Negative fixture that declares MIDI modality without a supported generated MIDI module contract.",
+  "expectedModalities": ["audio", "cv", "control", "effect", "midi"],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.42,
+        "feedback": 0.56,
+        "mix": 0.48
+      },
+      "inputs": ["audio", "feedback_cv", "time_cv"],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "lfo-1",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 2,
+      "params": {
+        "rate": 0.18,
+        "depth": 0.35
+      },
+      "inputs": [],
+      "outputs": ["cv"]
+    },
+    {
+      "id": "expression-1",
+      "type": "Expression Pedal",
+      "domain": "control",
+      "page": 0,
+      "grid": 3,
+      "params": {},
+      "inputs": [],
+      "outputs": ["cv"]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 4,
+      "params": {},
+      "inputs": ["audio"],
+      "outputs": []
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-delay",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-delay-out",
+      "from": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-lfo-time",
+      "from": {
+        "moduleId": "lfo-1",
+        "port": "cv"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "time_cv"
+      },
+      "gain": 0.35
+    },
+    {
+      "id": "conn-expression-feedback",
+      "from": {
+        "moduleId": "expression-1",
+        "port": "cv"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "feedback_cv"
+      },
+      "gain": 0.45
+    }
+  ]
+}

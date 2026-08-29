@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "zoia.patch-template-selection-result.v1",
+  "status": "pass",
+  "generatedAt": "2026-07-18T00:00:00.000Z",
+  "intent": {
+    "schemaVersion": "zoia.patch-generation-intent.v1",
+    "description": "ambient delay with expression control",
+    "tokens": ["ambient", "delay", "expression", "control"],
+    "requestedModalities": ["audio", "cv", "control", "effect"],
+    "requiredFeatures": ["ambient", "delay", "expression", "control"]
+  },
+  "summary": {
+    "candidateCount": 1,
+    "verifiedCandidateCount": 1,
+    "measuredCandidateCount": 1,
+    "staticStructuralCandidateCount": 0
+  },
+  "candidates": [
+    {
+      "pairId": "negative-missing-evidence",
+      "title": "Malformed Selection Candidate",
+      "pageUrl": "https://example.invalid/malformed-selection-candidate",
+      "author": "test fixture",
+      "filename": "malformed.bin",
+      "score": 20,
+      "matchedTokens": ["ambient", "delay"],
+      "matchedModalities": ["audio", "effect"],
+      "coverageState": "verified-measured",
+      "verificationKind": "measured-signal",
+      "q106Classification": "signal-present",
+      "rollupClassification": null,
+      "bestMasterRms": 0.5,
+      "bestMasterPeak": 0.9,
+      "useBoundary": "Negative fixture. Missing evidence object must prevent draft generation."
+    }
+  ],
+  "validation": {
+    "rejectedUnverifiedCandidateCount": 0,
+    "missingEvidenceCandidateIds": []
+  },
+  "claimBoundaries": {
+    "selectedExistingTemplateOnly": true,
+    "novelPatchClaim": false,
+    "exportedPatchClaim": false,
+    "verifiedCandidateClaim": true
+  }
+}

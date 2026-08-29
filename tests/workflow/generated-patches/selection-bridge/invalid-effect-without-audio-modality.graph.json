@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-effect-without-audio-modality",
+  "name": "Invalid Effect Without Audio Modality",
+  "description": "Negative control for generated effect graphs that omit the audio modality.",
+  "expectedModalities": [
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.48,
+        "feedback": 0.56,
+        "mix": 0.48
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    }
+  ],
+  "connections": []
+}

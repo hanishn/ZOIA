@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-effect-without-audio-modality",
+  "requirements": [
+    {
+      "id": "req-effect-audio-modality",
+      "sourceText": "generated effect candidates must declare audio so audio route validation runs before export",
+      "status": "satisfied",
+      "moduleIds": [
+        "delay-1"
+      ],
+      "connectionIds": [],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "effect or synth modality without audio modality should fail before export"
+      }
+    }
+  ]
+}

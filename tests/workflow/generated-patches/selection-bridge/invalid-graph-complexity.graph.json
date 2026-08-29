@@ -1,0 +1,232 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-graph-complexity",
+  "name": "Invalid Graph Complexity",
+  "description": "Negative control for oversized generated pre-export graphs.",
+  "expectedModalities": [
+    "audio",
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.42,
+        "feedback": 0.35,
+        "mix": 0.5
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 2,
+      "params": {},
+      "inputs": [
+        "audio"
+      ],
+      "outputs": []
+    },
+    {
+      "id": "lfo-1",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 3,
+      "params": {
+        "rate": 0.12,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-2",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 4,
+      "params": {
+        "rate": 0.18,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-3",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 5,
+      "params": {
+        "rate": 0.24,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-4",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 6,
+      "params": {
+        "rate": 0.3,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-5",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 7,
+      "params": {
+        "rate": 0.36,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-6",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 8,
+      "params": {
+        "rate": 0.42,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-7",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 9,
+      "params": {
+        "rate": 0.48,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-8",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 10,
+      "params": {
+        "rate": 0.54,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-9",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 11,
+      "params": {
+        "rate": 0.6,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "lfo-10",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 12,
+      "params": {
+        "rate": 0.66,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-delay",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-delay-out",
+      "from": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    }
+  ]
+}

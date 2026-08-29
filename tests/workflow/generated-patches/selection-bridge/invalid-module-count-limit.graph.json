@@ -1,0 +1,402 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-module-count-limit",
+  "name": "Invalid Module Count Limit",
+  "description": "Negative control for oversized generated pre-export graphs.",
+  "expectedModalities": [
+    "audio",
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.32,
+        "feedback": 0.42,
+        "mix": 0.5
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "reverb-1",
+      "type": "Reverb Lite",
+      "domain": "audio",
+      "page": 0,
+      "grid": 2,
+      "params": {
+        "decay": 0.44,
+        "tone": 0.48,
+        "mix": 0.42
+      },
+      "inputs": [
+        "audio",
+        "mix_cv",
+        "decay_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-2",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 3,
+      "params": {
+        "time": 0.36,
+        "feedback": 0.38,
+        "mix": 0.45
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "reverb-2",
+      "type": "Reverb Lite",
+      "domain": "audio",
+      "page": 0,
+      "grid": 4,
+      "params": {
+        "decay": 0.5,
+        "tone": 0.46,
+        "mix": 0.4
+      },
+      "inputs": [
+        "audio",
+        "mix_cv",
+        "decay_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-3",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 5,
+      "params": {
+        "time": 0.4,
+        "feedback": 0.35,
+        "mix": 0.43
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "reverb-3",
+      "type": "Reverb Lite",
+      "domain": "audio",
+      "page": 0,
+      "grid": 6,
+      "params": {
+        "decay": 0.48,
+        "tone": 0.45,
+        "mix": 0.41
+      },
+      "inputs": [
+        "audio",
+        "mix_cv",
+        "decay_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-4",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 7,
+      "params": {
+        "time": 0.38,
+        "feedback": 0.34,
+        "mix": 0.4
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "reverb-4",
+      "type": "Reverb Lite",
+      "domain": "audio",
+      "page": 0,
+      "grid": 8,
+      "params": {
+        "decay": 0.46,
+        "tone": 0.44,
+        "mix": 0.39
+      },
+      "inputs": [
+        "audio",
+        "mix_cv",
+        "decay_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-5",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 9,
+      "params": {
+        "time": 0.36,
+        "feedback": 0.33,
+        "mix": 0.38
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "reverb-5",
+      "type": "Reverb Lite",
+      "domain": "audio",
+      "page": 0,
+      "grid": 10,
+      "params": {
+        "decay": 0.42,
+        "tone": 0.43,
+        "mix": 0.37
+      },
+      "inputs": [
+        "audio",
+        "mix_cv",
+        "decay_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-6",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 11,
+      "params": {
+        "time": 0.34,
+        "feedback": 0.32,
+        "mix": 0.36
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 12,
+      "params": {},
+      "inputs": [
+        "audio"
+      ],
+      "outputs": []
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-delay-1",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-delay-1-reverb-1",
+      "from": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "reverb-1",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-reverb-1-delay-2",
+      "from": {
+        "moduleId": "reverb-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-2",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-delay-2-reverb-2",
+      "from": {
+        "moduleId": "delay-2",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "reverb-2",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-reverb-2-delay-3",
+      "from": {
+        "moduleId": "reverb-2",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-3",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-delay-3-reverb-3",
+      "from": {
+        "moduleId": "delay-3",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "reverb-3",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-reverb-3-delay-4",
+      "from": {
+        "moduleId": "reverb-3",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-4",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-delay-4-reverb-4",
+      "from": {
+        "moduleId": "delay-4",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "reverb-4",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-reverb-4-delay-5",
+      "from": {
+        "moduleId": "reverb-4",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-5",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-delay-5-reverb-5",
+      "from": {
+        "moduleId": "delay-5",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "reverb-5",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-reverb-5-delay-6",
+      "from": {
+        "moduleId": "reverb-5",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-6",
+        "port": "audio"
+      },
+      "gain": 0.9
+    },
+    {
+      "id": "conn-delay-6-audio-out",
+      "from": {
+        "moduleId": "delay-6",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    }
+  ]
+}

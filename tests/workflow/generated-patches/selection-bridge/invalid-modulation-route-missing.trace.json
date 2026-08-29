@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-modulation-route-missing",
+  "requirements": [
+    {
+      "id": "req-audio-route",
+      "sourceText": "audio candidate must have input to output route",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "mod-source-1",
+        "control-source-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-template-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "declared cv modulation and control sources must be routed before export"
+      }
+    }
+  ]
+}

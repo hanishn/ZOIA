@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-unsupported-param",
+  "name": "Invalid Unsupported Param",
+  "description": "Negative control for unsupported generated module parameters.",
+  "expectedModalities": [
+    "audio",
+    "cv",
+    "control",
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.48,
+        "feedback": 0.56,
+        "mix": 0.48,
+        "unreviewedMode": 0.5
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 7,
+      "params": {},
+      "inputs": [
+        "audio"
+      ],
+      "outputs": []
+    },
+    {
+      "id": "mod-source-1",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 2,
+      "params": {
+        "rate": 0.16,
+        "depth": 0.35
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    },
+    {
+      "id": "control-source-1",
+      "type": "Expression Pedal",
+      "domain": "control",
+      "page": 0,
+      "grid": 3,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-template",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-template-out",
+      "from": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-mod-template",
+      "from": {
+        "moduleId": "mod-source-1",
+        "port": "cv"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "time_cv"
+      },
+      "gain": 0.35
+    },
+    {
+      "id": "conn-control-template",
+      "from": {
+        "moduleId": "control-source-1",
+        "port": "cv"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "feedback_cv"
+      },
+      "gain": 0.45
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-synth-with-effect-core",
+  "name": "Invalid Synth With Effect Core",
+  "description": "Negative control: a generated candidate declares synth but only contains an effect core.",
+  "expectedModalities": ["audio", "synth"],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.42,
+        "feedback": 0.56,
+        "mix": 0.48
+      },
+      "inputs": ["audio", "feedback_cv", "time_cv"],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 2,
+      "params": {},
+      "inputs": ["audio"],
+      "outputs": []
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-delay",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-delay-out",
+      "from": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    }
+  ]
+}

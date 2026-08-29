@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-orphan-cv-source",
+  "name": "Invalid Orphan CV Source",
+  "description": "Negative control for generated non-audio modules that are traced but not connected.",
+  "expectedModalities": [
+    "audio",
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.42,
+        "feedback": 0.36,
+        "mix": 0.5
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 2,
+      "params": {},
+      "inputs": [
+        "audio"
+      ],
+      "outputs": []
+    },
+    {
+      "id": "lfo-orphan-1",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 3,
+      "params": {
+        "rate": 0.2,
+        "depth": 0.5
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-delay",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-delay-out",
+      "from": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    }
+  ]
+}

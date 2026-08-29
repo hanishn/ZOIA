@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "invalid-orphan-audio-processor",
+  "name": "Invalid Orphan Audio Processor",
+  "description": "Negative control for generated audio processors that are not connected on an input-to-output route.",
+  "expectedModalities": [
+    "audio",
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "time": 0.44,
+        "feedback": 0.38,
+        "mix": 0.52
+      },
+      "inputs": [
+        "audio",
+        "feedback_cv",
+        "time_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "reverb-1",
+      "type": "Reverb Lite",
+      "domain": "audio",
+      "page": 0,
+      "grid": 2,
+      "params": {
+        "decay": 0.48,
+        "tone": 0.5,
+        "mix": 0.42
+      },
+      "inputs": [
+        "audio",
+        "mix_cv",
+        "decay_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 3,
+      "params": {},
+      "inputs": [
+        "audio"
+      ],
+      "outputs": []
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-delay",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-delay-out",
+      "from": {
+        "moduleId": "delay-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    }
+  ]
+}

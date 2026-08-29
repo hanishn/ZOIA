@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "zoia.emulator-patch-from-generated-graph.v1",
+  "sourceGraphSchemaVersion": "zoia.generated-patch-graph.v1",
+  "sourcePatchId": "draft-from-selection-107507-1",
+  "name": "Draft 107507",
+  "moduleCount": 4,
+  "modules": [
+    {
+      "idx": 0,
+      "typeIdx": 1,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 0,
+      "name": "audio-in-1",
+      "typeName": "Audio Input",
+      "blocks": [
+        {
+          "n": "Output",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 1,
+      "category": "Interface",
+      "params": [],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 1,
+      "sourceGeneratedModuleId": "audio-in-1"
+    },
+    {
+      "idx": 1,
+      "typeIdx": 0,
+      "page": 0,
+      "colorId": 4,
+      "gridPos": 1,
+      "name": "filter-1",
+      "typeName": "SV Filter",
+      "blocks": [
+        {
+          "n": "Audio In",
+          "t": "audio_in"
+        },
+        {
+          "n": "Frequency",
+          "t": "cv_in"
+        },
+        {
+          "n": "Resonance",
+          "t": "cv_in"
+        },
+        {
+          "n": "Output",
+          "t": "audio_out"
+        }
+      ],
+      "blockCount": 4,
+      "category": "Audio",
+      "params": [
+        0,
+        20971,
+        29491,
+        0
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 4,
+      "sourceGeneratedModuleId": "filter-1"
+    },
+    {
+      "idx": 2,
+      "typeIdx": 2,
+      "page": 0,
+      "colorId": 5,
+      "gridPos": 7,
+      "name": "audio-out-1",
+      "typeName": "Audio Output",
+      "blocks": [
+        {
+          "n": "Input",
+          "t": "audio_in"
+        },
+        {
+          "n": "Gain",
+          "t": "cv_in"
+        }
+      ],
+      "blockCount": 2,
+      "category": "Interface",
+      "params": [
+        0,
+        65535
+      ],
+      "options": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 2,
+      "sourceGeneratedModuleId": "audio-out-1"
+    },
+    {
+      "idx": 3,
+      "typeIdx": 5,
+      "page": 0,
+      "colorId": 1,
+      "gridPos": 9,
+      "name": "mod-source-1",
+      "typeName": "LFO",
+      "blocks": [
+        {
+          "n": "Rate",
+          "t": "cv_in"
+        },
+        {
+          "n": "Depth",
+          "t": "cv_in"
+        },
+        {
+          "n": "Output",
+          "t": "cv_out"
+        }
+      ],
+      "blockCount": 3,
+      "category": "CV",
+      "params": [
+        10486,
+        22937,
+        0
+      ],
+      "options": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "paramCount": 3,
+      "sourceGeneratedModuleId": "mod-source-1"
+    }
+  ],
+  "connections": [
+    {
+      "srcMod": 0,
+      "srcBlock": 0,
+      "dstMod": 1,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 1,
+      "srcBlock": 3,
+      "dstMod": 2,
+      "dstBlock": 0,
+      "strength": 10000
+    },
+    {
+      "srcMod": 3,
+      "srcBlock": 2,
+      "dstMod": 1,
+      "dstBlock": 1,
+      "strength": 3500
+    }
+  ],
+  "pages": [
+    "Generated"
+  ],
+  "labels": [
+    "generated",
+    "text-prompt"
+  ],
+  "description": "Pre-export graph draft from verified template 107507: Comb sweep."
+}

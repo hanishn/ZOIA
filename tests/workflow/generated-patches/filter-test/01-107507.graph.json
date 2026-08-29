@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "draft-from-selection-107507-1",
+  "name": "Draft 107507",
+  "description": "Pre-export graph draft from verified template 107507: Comb sweep.",
+  "expectedModalities": [
+    "audio",
+    "cv",
+    "effect"
+  ],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "filter-1",
+      "type": "State Variable Filter",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "cutoff": 0.32,
+        "resonance": 0.45,
+        "mix": 0.5
+      },
+      "inputs": [
+        "audio",
+        "cutoff_cv",
+        "resonance_cv"
+      ],
+      "outputs": [
+        "audio"
+      ]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 7,
+      "params": {},
+      "inputs": [
+        "audio"
+      ],
+      "outputs": []
+    },
+    {
+      "id": "mod-source-1",
+      "type": "LFO",
+      "domain": "cv",
+      "page": 0,
+      "grid": 2,
+      "params": {
+        "rate": 0.16,
+        "depth": 0.35
+      },
+      "inputs": [],
+      "outputs": [
+        "cv"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-template",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "filter-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-template-out",
+      "from": {
+        "moduleId": "filter-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "audio-out-1",
+        "port": "audio"
+      },
+      "gain": 1
+    },
+    {
+      "id": "conn-mod-template",
+      "from": {
+        "moduleId": "mod-source-1",
+        "port": "cv"
+      },
+      "to": {
+        "moduleId": "filter-1",
+        "port": "cutoff_cv"
+      },
+      "gain": 0.35
+    }
+  ]
+}

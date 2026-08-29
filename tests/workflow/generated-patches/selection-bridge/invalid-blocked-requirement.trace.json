@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-blocked-requirement",
+  "requirements": [
+    {
+      "id": "req-audio-modulated-control-route",
+      "sourceText": "audio delay with cv modulation and control",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "mod-source-1",
+        "control-source-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-template-out",
+        "conn-mod-template",
+        "conn-control-template"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "audio route includes delay with cv modulation and expression control"
+      }
+    },
+    {
+      "id": "req-unresolved-human-description",
+      "sourceText": "human description requirement must not remain blocked in a generated candidate",
+      "status": "blocked",
+      "moduleIds": [],
+      "connectionIds": [],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "blocked generated requirements should fail before export"
+      }
+    }
+  ]
+}

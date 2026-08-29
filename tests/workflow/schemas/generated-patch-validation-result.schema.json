@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zoia.generated-patch-validation-result.v1",
+  "title": "ZOIA generated patch validation result",
+  "type": "object",
+  "required": ["schemaVersion", "status", "generatedAt", "summary", "results", "claimBoundaries"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "zoia.generated-patch-validation-result.v1"
+    },
+    "status": {
+      "enum": ["pass", "fail"]
+    },
+    "generatedAt": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "object"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "claimBoundaries": {
+      "type": "object"
+    }
+  }
+}

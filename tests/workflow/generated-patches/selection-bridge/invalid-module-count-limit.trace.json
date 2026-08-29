@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-module-count-limit",
+  "requirements": [
+    {
+      "id": "req-oversized-audio-effect",
+      "sourceText": "audio effect candidate with too many generated modules",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "reverb-1",
+        "delay-2",
+        "reverb-2",
+        "delay-3",
+        "reverb-3",
+        "delay-4",
+        "reverb-4",
+        "delay-5",
+        "reverb-5",
+        "delay-6",
+        "audio-out-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-delay-1",
+        "conn-delay-1-reverb-1",
+        "conn-reverb-1-delay-2",
+        "conn-delay-2-reverb-2",
+        "conn-reverb-2-delay-3",
+        "conn-delay-3-reverb-3",
+        "conn-reverb-3-delay-4",
+        "conn-delay-4-reverb-4",
+        "conn-reverb-4-delay-5",
+        "conn-delay-5-reverb-5",
+        "conn-reverb-5-delay-6",
+        "conn-delay-6-audio-out"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "oversized generated module counts should fail before export"
+      }
+    }
+  ]
+}

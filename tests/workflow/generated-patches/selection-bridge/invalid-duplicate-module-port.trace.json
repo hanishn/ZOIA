@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-duplicate-module-port",
+  "requirements": [
+    {
+      "id": "req-duplicate-port-rejected",
+      "sourceText": "audio cv control candidate with duplicate generated module port names must be rejected before export",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1",
+        "mod-source-1",
+        "control-source-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-template",
+        "conn-template-out",
+        "conn-mod-template",
+        "conn-control-template"
+      ],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "duplicate generated module ports should fail before export"
+      }
+    }
+  ]
+}

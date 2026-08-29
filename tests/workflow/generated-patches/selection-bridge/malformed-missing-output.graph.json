@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "generated-selection-bridge-malformed",
+  "name": "Malformed Missing Output",
+  "description": "Negative fixture: expected audio patch with no audio output module and an invalid connection target.",
+  "expectedModalities": ["audio"],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "delay-1",
+      "type": "Delay Line",
+      "domain": "audio",
+      "page": 0,
+      "grid": 1,
+      "params": {
+        "feedback": 1.2
+      },
+      "inputs": ["audio"],
+      "outputs": ["audio"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-bad-target",
+      "from": {
+        "moduleId": "audio-in-1",
+        "port": "audio"
+      },
+      "to": {
+        "moduleId": "missing-delay",
+        "port": "audio"
+      },
+      "gain": 1
+    }
+  ]
+}

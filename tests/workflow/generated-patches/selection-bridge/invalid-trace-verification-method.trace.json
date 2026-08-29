@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "invalid-trace-verification-method",
+  "requirements": [
+    {
+      "id": "req-trace-verification-method",
+      "sourceText": "audio effect candidate with unsupported generated trace verification method",
+      "status": "satisfied",
+      "moduleIds": [
+        "audio-in-1",
+        "delay-1",
+        "audio-out-1"
+      ],
+      "connectionIds": [
+        "conn-audio-in-delay",
+        "conn-delay-out"
+      ],
+      "verification": {
+        "method": "runtime-audio-claim",
+        "expectedEvidence": "unsupported verification methods should fail before export"
+      }
+    }
+  ]
+}
