@@ -267,6 +267,7 @@ const VALIDATION_COMMANDS = Object.freeze([
   "npm run zoia:release:review-summary:doc-evidence-negative-controls",
   "npm run zoia:release:review-summary:quality-negative-controls",
   "npm run zoia:release:review-summary:overclaim-negative-controls",
+  "npm run zoia:test:playwright:generated-patch-reverb-semantics",
   "npm run zoia:release:review-summary:package-boundary-overclaim-negative-controls",
   "npm run zoia:release:review-summary:publication-protection-negative-controls",
   "npm run zoia:verify:v04:clean-consumer-smoke",
@@ -286,6 +287,7 @@ const REQUIRED_REVIEWER_COMMANDS = Object.freeze([
     "npm run zoia:release:review-summary:doc-evidence-negative-controls",
     "npm run zoia:release:review-summary:quality-negative-controls",
     "npm run zoia:release:review-summary:overclaim-negative-controls",
+    "npm run zoia:test:playwright:generated-patch-reverb-semantics",
     "npm run zoia:release:review-summary:package-boundary-overclaim-negative-controls",
     "npm run zoia:release:review-summary:publication-protection-negative-controls",
     "npm run zoia:verify:v04:clean-consumer-smoke",
@@ -300,8 +302,8 @@ const REQUIRED_REVIEWER_COMMANDS = Object.freeze([
 
 const CLAIM_BOUNDARIES = Object.freeze([
   "Generated-patch work currently selects existing verified templates, emits intermediate graph and requirement-trace drafts, and validates those drafts before export.",
-  "The current generated-patch path has bounded runtime/audio evidence for delay-family and static low-pass filter paths only; it does not claim binary .bin export or full novel patch synthesis.",
-  "Human-facing release-review summaries must not imply release readiness, broad text-to-ZOIA support, audible cutoff sweep success, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.",
+  "The current generated-patch path has bounded runtime/audio evidence for delay-family, low-pass filter, and Reverb Lite paths only; it does not claim binary .bin export or full novel patch synthesis.",
+  "Human-facing release-review summaries must not imply release readiness, broad text-to-ZOIA support, broad audible cutoff sweep support, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.",
   "Human-facing package-boundary summaries must not imply npm publication readiness, GitHub readiness, copied evidence bundle publication, release readiness, package artifact publication, or broader publication readiness.",
   "Release-review and v0.4 workflows must not invoke Git, GitHub, tag, release, or npm publication commands without exact human-only passcode evidence.",
   "Community coverage evidence covers the local cached community corpus currently indexed by the workflow; it is not a rights, licensing, or future-corpus claim.",
@@ -389,7 +391,8 @@ const CAPABILITY_RULES = Object.freeze([
       /^tests\/workflow\/scripts\/run-generated-patch-filter-repeatability-rollup\.mjs$/,
       /^tests\/workflow\/scripts\/run-generated-patch-filter-repeatability-negative-controls\.mjs$/,
       /^tests\/workflow\/generated-patches\/filter-test\//,
-      /^tests\/workflow\/generated-patches\/filter-test-emulator\//
+      /^tests\/workflow\/generated-patches\/filter-test-emulator\//,
+      /^tests\/workflow\/generated-patches\/reverb-test\//
     ]
   },
   {

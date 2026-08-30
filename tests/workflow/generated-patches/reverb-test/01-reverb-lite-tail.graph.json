@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "generated-reverb-lite-tail",
+  "name": "Generated Reverb Lite Tail",
+  "description": "Generated graph fixture: audio input through Reverb Lite to audio output with wet mix.",
+  "expectedModalities": ["audio", "effect"],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "reverb-1",
+      "type": "Reverb Lite",
+      "domain": "audio",
+      "page": 0,
+      "grid": 3,
+      "params": {
+        "decay": 0.8,
+        "tone": 0.5,
+        "mix": 1
+      },
+      "inputs": ["audio", "decay_cv", "mix_cv"],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 10,
+      "params": {},
+      "inputs": ["audio"],
+      "outputs": []
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-reverb",
+      "from": { "moduleId": "audio-in-1", "port": "audio" },
+      "to": { "moduleId": "reverb-1", "port": "audio" },
+      "gain": 1
+    },
+    {
+      "id": "conn-reverb-output",
+      "from": { "moduleId": "reverb-1", "port": "audio" },
+      "to": { "moduleId": "audio-out-1", "port": "audio" },
+      "gain": 1
+    }
+  ]
+}

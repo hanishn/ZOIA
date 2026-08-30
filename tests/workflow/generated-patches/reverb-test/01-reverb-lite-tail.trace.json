@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "generated-reverb-lite-tail",
+  "requirements": [
+    {
+      "id": "req-reverb-audio-route",
+      "sourceText": "reverb effect with audio output",
+      "status": "satisfied",
+      "moduleIds": ["audio-in-1", "reverb-1", "audio-out-1"],
+      "connectionIds": ["conn-audio-reverb", "conn-reverb-output"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "Reverb Lite routes audio and produces a measurable wet tail"
+      }
+    }
+  ]
+}

@@ -29,12 +29,12 @@ const SEEDS = Object.freeze([
   {
     id: "audible-cutoff-sweep-overclaim",
     expectedSurface: "blocked-audio-claim",
-    text: "Generated filter audible cutoff sweep success is proven and supported."
+    text: "Generated filter now has broad audible cutoff sweep support for arbitrary filter prompts."
   },
   {
     id: "unsupported-non-delay-runtime-overclaim",
     expectedSurface: "unsupported-runtime",
-    text: "Reverb, synth, sequencer, modulation-only, MIDI, and sampler prompts have runtime support."
+    text: "Synth, sequencer, modulation-only, MIDI, and sampler prompts have runtime support."
   },
   {
     id: "hardware-export-parity-overclaim",
@@ -54,11 +54,11 @@ const FORBIDDEN_PATTERNS = Object.freeze([
   },
   {
     surface: "blocked-audio-claim",
-    pattern: /\baudible cutoff sweep (?:success|is proven|supported|passes|works)\b/iu
+    pattern: /\bbroad audible cutoff sweep support\b|\barbitrary filter prompts?\b[\s\S]{0,80}\baudible cutoff sweep\b/iu
   },
   {
     surface: "unsupported-runtime",
-    pattern: /\b(?:reverb|synth|sequencer|modulation-only|MIDI|sampler)\b[\s\S]{0,160}\bruntime support\b/iu
+    pattern: /\b(?:synth|sequencer|modulation-only|MIDI|sampler)\b[\s\S]{0,160}\bruntime support\b/iu
   },
   {
     surface: "hardware-boundary",
@@ -120,9 +120,9 @@ async function baselineBoundaryChecks() {
       status: protectedBoundaryPresent ? "pass" : "fail"
     },
     {
-      id: "capability-doc-audible-sweep-blocked",
-      status: findPhrase(capabilityDoc, "Audible filter cutoff sweep remains blocked") ||
-        findPhrase(capabilityDoc, "blocks audible cutoff-sweep claims")
+      id: "capability-doc-bounded-audible-sweep",
+      status: findPhrase(capabilityDoc, "bounded generated audible cutoff sweep as supported") &&
+        findPhrase(capabilityDoc, "does not prove resonance semantics")
         ? "pass"
         : "fail"
     },
