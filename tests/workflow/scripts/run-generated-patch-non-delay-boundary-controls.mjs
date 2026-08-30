@@ -19,7 +19,11 @@ const FILTER_RUNTIME_EVIDENCE = Object.freeze({
   load: "tests/workflow/evidence/generated-patch-filter-runtime/playwright-load/run-result.json",
   filterSemantics: "tests/workflow/evidence/generated-patch-filter-runtime/filter-semantics/run-result.json",
   modulationTrace: "tests/workflow/evidence/generated-patch-filter-modulation-semantics/run-result.json",
-  audibleSweepBlocker: "tests/workflow/evidence/generated-patch-filter-audible-sweep-blocker/run-result.json"
+  audibleSweep: "tests/workflow/evidence/generated-patch-filter-audible-sweep/run-result.json"
+});
+const REVERB_RUNTIME_EVIDENCE = Object.freeze({
+  validation: "tests/workflow/evidence/generated-patch-reverb-validation/run-result.json",
+  semantics: "tests/workflow/evidence/generated-patch-reverb-semantics/run-result.json"
 });
 
 const PROMPT_CLASSES = Object.freeze([
@@ -32,12 +36,12 @@ const PROMPT_CLASSES = Object.freeze([
     evidenceKind: "existing-filter-runtime"
   },
   {
-    id: "reverb-runtime-unsupported",
+    id: "reverb-lite-runtime-supported",
     promptClass: "reverb",
     description: "ambient reverb with slow modulation and expression mix",
-    boundary: "graph-supported-runtime-unsupported",
-    inScopeForV040: false,
-    expectedUnsupportedModule: "Reverb Lite"
+    boundary: "runtime-reverb-lite-supported",
+    inScopeForV040: true,
+    evidenceKind: "existing-reverb-runtime"
   },
   {
     id: "synth-runtime-unsupported",
@@ -153,14 +157,14 @@ async function existingFilterCase(caseDef) {
   const load = await readJson(resolve(PROJECT_ROOT, FILTER_RUNTIME_EVIDENCE.load));
   const filterSemantics = await readJson(resolve(PROJECT_ROOT, FILTER_RUNTIME_EVIDENCE.filterSemantics));
   const modulationTrace = await readJson(resolve(PROJECT_ROOT, FILTER_RUNTIME_EVIDENCE.modulationTrace));
-  const audibleSweepBlocker = await readJson(resolve(PROJECT_ROOT, FILTER_RUNTIME_EVIDENCE.audibleSweepBlocker));
+  const audibleSweep = await readJson(resolve(PROJECT_ROOT, FILTER_RUNTIME_EVIDENCE.audibleSweep));
   const failures = [];
   assertCondition(failures, promptGraph.status === PASS_STATUS && promptGraph.summary?.validatedDraftCount === 1, "filter-runtime", "filter prompt graph evidence is not validated", promptGraph.summary);
   assertCondition(failures, conversion.status === PASS_STATUS && conversion.summary?.convertedPatchCount === 1, "filter-runtime", "filter conversion evidence is not passing", conversion.summary);
   assertCondition(failures, load.status === PASS_STATUS && load.summary?.loadedPatchCount === 1, "filter-runtime", "filter load evidence is not passing", load.summary);
   assertCondition(failures, filterSemantics.status === PASS_STATUS && filterSemantics.summary?.lowpassClassifiedCount === 1, "filter-runtime", "filter low-pass semantics evidence is not passing", filterSemantics.summary);
   assertCondition(failures, modulationTrace.status === PASS_STATUS && modulationTrace.summary?.lfoCutoffRouteClassifiedCount === 1, "filter-runtime", "filter modulation route trace evidence is not passing", modulationTrace.summary);
-  assertCondition(failures, audibleSweepBlocker.status === PASS_STATUS && audibleSweepBlocker.summary?.classification === "audible-cutoff-sweep-blocked-by-current-cv-scaling", "filter-boundary", "filter audible sweep blocker is not present", audibleSweepBlocker.summary);
+  assertCondition(failures, audibleSweep.status === PASS_STATUS && audibleSweep.summary?.classification === "audible-cutoff-sweep-supported", "filter-runtime", "filter audible sweep evidence is not passing", audibleSweep.summary);
   return {
     ...caseDef,
     status: failures.length === 0 ? PASS_STATUS : FAIL_STATUS,
@@ -171,10 +175,30 @@ async function existingFilterCase(caseDef) {
       load: load.summary,
       filterSemantics: filterSemantics.summary,
       modulationTrace: modulationTrace.summary,
-      audibleSweepBlocker: audibleSweepBlocker.summary
+      audibleSweep: audibleSweep.summary
     },
     failures,
-    claimBoundary: "Filter is in scope only for one generated low-pass runtime path plus LFO route/trace evidence; audible cutoff sweep remains blocked."
+    claimBoundary: "Filter is in scope only for one generated low-pass runtime path plus LFO route/trace evidence and bounded audible cutoff-sweep evidence."
+  };
+}
+
+async function existingReverbCase(caseDef) {
+  const validation = await readJson(resolve(PROJECT_ROOT, REVERB_RUNTIME_EVIDENCE.validation));
+  const semantics = await readJson(resolve(PROJECT_ROOT, REVERB_RUNTIME_EVIDENCE.semantics));
+  const failures = [];
+  assertCondition(failures, validation.status === PASS_STATUS && validation.summary?.passingCandidateCount === 1, "reverb-runtime", "reverb generated graph validation is not passing", validation.summary);
+  assertCondition(failures, semantics.status === PASS_STATUS && semantics.summary?.positiveTailCount === 1, "reverb-runtime", "reverb runtime tail evidence is not passing", semantics.summary);
+  assertCondition(failures, semantics.summary?.negativeTailAbsentCount === 1, "reverb-runtime", "reverb bypass negative control is not passing", semantics.summary);
+  return {
+    ...caseDef,
+    status: failures.length === 0 ? PASS_STATUS : FAIL_STATUS,
+    evidencePaths: REVERB_RUNTIME_EVIDENCE,
+    summaries: {
+      validation: validation.summary,
+      semantics: semantics.summary
+    },
+    failures,
+    claimBoundary: "Reverb is in scope only for one generated Reverb Lite conversion path with measured wet-tail evidence and a bypass negative control."
   };
 }
 
@@ -332,7 +356,7 @@ async function main() {
       delayFamilyRuntimeClaimPreserved: true,
       filterLowpassRuntimeClaim: true,
       filterAudibleSweepSuccessClaim: false,
-      reverbRuntimeClaim: false,
+      reverbRuntimeClaim: true,
       synthRuntimeClaim: false,
       sequencerRuntimeClaim: false,
       modulationOnlyRuntimeClaim: false,
@@ -347,6 +371,8 @@ async function main() {
   for (const caseDef of PROMPT_CLASSES) {
     if (caseDef.evidenceKind === "existing-filter-runtime") {
       cases.push(await existingFilterCase(caseDef));
+    } else if (caseDef.evidenceKind === "existing-reverb-runtime") {
+      cases.push(await existingReverbCase(caseDef));
     } else if (caseDef.boundary === "graph-supported-runtime-unsupported") {
       cases.push(await graphRuntimeUnsupportedCase(caseDef, runRoot, startedAt));
     } else if (caseDef.boundary === "validation-blocked") {

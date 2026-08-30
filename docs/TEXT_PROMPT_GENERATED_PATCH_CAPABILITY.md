@@ -113,7 +113,7 @@ A local user can provide a text description for a ZOIA-style patch and receive g
 26. Generated-patch readiness integration that blocks if runtime-audio negative-control evidence is degraded.
 27. v0.4 readiness integration that blocks if generated-patch readiness omits or degrades runtime-audio negative-control evidence.
 28. Release-review summary integration that categorizes generated-patch runtime/audio evidence, accepts wildcard consumed evidence references, blocks stale child evidence, and feeds the v0.4 readiness gate.
-29. Release-review overclaim negative controls that reject human-facing summary text implying release readiness, broad text-to-ZOIA support, audible cutoff sweep success, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.
+29. Release-review overclaim negative controls that reject human-facing summary text implying release readiness, broad text-to-ZOIA support, broad audible cutoff sweep support, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.
 30. Clean consumer smoke evidence that installs the local package artifact into a clean consumer directory, runs installed-package readiness gates against copied JSON evidence, and explicitly blocks release-review regeneration outside a git worktree.
 31. Release-review freshness negative controls that prove stale clean consumer smoke evidence blocks release-review summary and v0.4 readiness.
 32. Release-review clean consumer smoke negative controls that prove missing and stale clean-smoke evidence block directly through release-review summary with protected claim-boundary text still present.
@@ -863,14 +863,15 @@ This proves the delay prompt path can be regenerated and runtime-tested through 
 Route scope:
 
 ```text
-multiple text prompts classified into delay-family runtime-supported, graph-supported runtime-unsupported, and unmatched unsupported cases
+multiple text prompts classified into delay-family runtime-supported, Reverb Lite runtime-supported, graph-supported runtime-unsupported, and unmatched unsupported cases
 ```
 
 Acceptance criteria:
 
 - A single prompt-breadth rollup command creates a new run-scoped evidence root.
 - The delay-family variant prompt runs through fresh graph generation, conversion, emulator load, audio signal, delay semantics, modulation semantics, LFO semantics, expression feedback, unmodified timing, and corrupted-route negative controls.
-- The non-delay synth and reverb prompts may produce validated generated graph evidence, but must block before emulator-loadable/runtime-tested delay evidence if they use unsupported generated modules.
+- The Reverb Lite prompt must regenerate validation, conversion, wet-tail audio evidence, and a bypass negative control inside the prompt-breadth run.
+- The non-delay synth prompt may produce validated generated graph evidence, but must block before emulator-loadable/runtime-tested delay or reverb evidence while it uses unsupported generated modules.
 - MIDI and sampler prompt families must block at validation until supported generated graph contracts exist.
 - The unmatched prompt must block at selection and must not leave generated graph draft files.
 - The gate fails if child evidence is stale, if a non-delay prompt is mislabeled as validated delay runtime evidence, if a validation-blocked prompt passes, if the unmatched prompt passes, or if the delay-family case lacks consumed WAV/audio or control trace evidence.
@@ -884,8 +885,8 @@ tests\workflow\evidence\generated-patch-prompt-breadth-rollup\classification-log
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\delay-family-variant\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\synth-supported-graph-runtime-unsupported\prompt-graph\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\synth-supported-graph-runtime-unsupported\convert-emulator\run-result.json
-tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\reverb-supported-graph-runtime-unsupported\prompt-graph\run-result.json
-tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\reverb-supported-graph-runtime-unsupported\convert-emulator\run-result.json
+tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-29T22-10-49-001Z\reverb-lite-runtime-supported\validation\run-result.json
+tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-29T22-10-49-001Z\reverb-lite-runtime-supported\runtime\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\midi-validation-blocked\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\sampler-validation-blocked\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\unsupported-unmatched-prompt\run-result.json
@@ -899,10 +900,11 @@ blockerCount: 0
 caseCount: 6
 passingCaseCount: 6
 delayRuntimeSupportedCount: 1
-graphSupportedRuntimeUnsupportedCount: 2
+reverbRuntimeSupportedCount: 1
+graphSupportedRuntimeUnsupportedCount: 1
 validationBlockedUnsupportedPromptCount: 2
 blockedUnsupportedPromptCount: 1
-runRoot: tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z
+runRoot: tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-29T22-10-49-001Z
 ```
 
 Current classifications:
@@ -910,7 +912,7 @@ Current classifications:
 ```text
 delay-family-variant: delay-runtime-supported; child stepCount 10; passedStepCount 10; includes audio-signal, unmodified-timing, and corrupted-route negative-control evidence
 synth-supported-graph-runtime-unsupported: graph-supported-runtime-unsupported; graph validatedDraftCount 1; conversion blockerCount 3; convertedPatchCount 0; unsupported-generated-module Synth Voice
-reverb-supported-graph-runtime-unsupported: graph-supported-runtime-unsupported; graph validatedDraftCount 1; conversion blockerCount 5; convertedPatchCount 0; unsupported-generated-module Reverb Lite
+reverb-lite-runtime-supported: reverb-runtime-supported; positiveTailCount 1; negativeTailAbsentCount 1
 midi-validation-blocked: validation-blocked-unsupported-prompt; draftCount 1; validatedDraftCount 0; description-validation-not-ready recorded
 sampler-validation-blocked: validation-blocked-unsupported-prompt; draftCount 1; validatedDraftCount 0; description-validation-not-ready recorded
 unsupported-unmatched-prompt: blocked-unsupported-prompt; selectedCandidateCount 0; expected selection blocker recorded; draftFileCount 0
@@ -919,7 +921,7 @@ unsupported-unmatched-prompt: blocked-unsupported-prompt; selectedCandidateCount
 Current claim boundary:
 
 ```text
-This proves the current prompt-driven runtime claim is bounded to delay-family prompts with consumed runtime/audio evidence. It proves synth and reverb prompts are not silently mislabeled as delay runtime evidence, MIDI and sampler prompt families block at validation, and an unmatched prompt blocks at selection. It does not prove arbitrary prompt coverage, non-delay runtime/audio semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, or hardware binary export.
+This proves the current prompt-driven runtime claim is bounded to delay-family prompts and one Reverb Lite fixture with consumed runtime/audio evidence. It proves synth prompts are not silently mislabeled as delay or reverb runtime evidence, MIDI and sampler prompt families block at validation, and an unmatched prompt blocks at selection. It does not prove arbitrary prompt coverage, broad non-delay runtime/audio semantics, broad reverb semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, or hardware binary export.
 ```
 
 ### Claim 14: Prompt Corpus Classes Have Explicit Runtime Or Blocker Boundaries
@@ -1252,10 +1254,10 @@ Current classifications:
 Current claim boundary:
 
 ```text
-This proves the generated filter patch includes a measurable generated LFO waveform routed to the generated filter cutoff/frequency target, and that disconnected or wrong-target controls do not satisfy the cutoff-route claim. It does not prove audible cutoff sweep depth, resonance semantics, all SV Filter output modes, arbitrary filter prompts, modulation-only runtime semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves the generated filter patch includes a measurable generated LFO waveform routed to the generated filter cutoff/frequency target, and that disconnected or wrong-target controls do not satisfy the cutoff-route claim. It does not prove broad audible cutoff sweep support depth, resonance semantics, all SV Filter output modes, arbitrary filter prompts, modulation-only runtime semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
-### Claim 20: Generated Filter Audible Cutoff Sweep Is Deterministically Blocked
+### Claim 20: Generated Filter Audible Cutoff Sweep Has Bounded Runtime Evidence
 
 Route scope:
 
@@ -1267,19 +1269,19 @@ Acceptance criteria:
 
 - The Playwright gate must render disconnected, generated, and exaggerated cutoff-route fixtures in the browser runtime.
 - Each fixture must write a WAV capture under the evidence root.
-- The generated LFO-to-cutoff fixture must have output difference from the disconnected fixture below the audible-sweep blocker threshold.
+- The generated LFO-to-cutoff fixture must have output difference from the disconnected fixture above the measurable-sweep threshold.
 - The exaggerated seeded cutoff-route fixture must have output difference from the disconnected fixture above the measurable-sweep threshold.
-- The gate must classify the current generated audible cutoff sweep as blocked, not successful.
+- The gate must classify the bounded generated audible cutoff sweep as supported.
 
 Required evidence paths:
 
 ```text
-tests\workflow\evidence\generated-patch-filter-audible-sweep-blocker\run-result.json
-tests\workflow\evidence\generated-patch-filter-audible-sweep-blocker\stimulus-manifest.json
-tests\workflow\evidence\generated-patch-filter-audible-sweep-blocker\classification-log.json
-tests\workflow\evidence\generated-patch-filter-audible-sweep-blocker\captures\01-107507-disconnected-cutoff-route.wav
-tests\workflow\evidence\generated-patch-filter-audible-sweep-blocker\captures\01-107507-generated-cutoff-route.wav
-tests\workflow\evidence\generated-patch-filter-audible-sweep-blocker\captures\01-107507-exaggerated-cutoff-route.wav
+tests\workflow\evidence\generated-patch-filter-audible-sweep\run-result.json
+tests\workflow\evidence\generated-patch-filter-audible-sweep\stimulus-manifest.json
+tests\workflow\evidence\generated-patch-filter-audible-sweep\classification-log.json
+tests\workflow\evidence\generated-patch-filter-audible-sweep\captures\01-107507-disconnected-cutoff-route.wav
+tests\workflow\evidence\generated-patch-filter-audible-sweep\captures\01-107507-generated-cutoff-route.wav
+tests\workflow\evidence\generated-patch-filter-audible-sweep\captures\01-107507-exaggerated-cutoff-route.wav
 ```
 
 Current result:
@@ -1289,15 +1291,15 @@ status: pass
 blockerCount: 0
 fixtureCount: 3
 captureCount: 3
-generatedDiffRms: 0.0005722353133105269
-exaggeratedDiffRms: 0.3596596323947025
-classification: audible-cutoff-sweep-blocked-by-current-cv-scaling
+generatedDiffRms: 0.30199421202434645
+exaggeratedDiffRms: 0.37023452120977113
+classification: audible-cutoff-sweep-supported
 ```
 
 Current claim boundary:
 
 ```text
-This proves the current generated filter LFO-to-cutoff route does not produce a measurable audible cutoff sweep under the gate threshold, while an exaggerated seeded route does produce a measurable output difference. It blocks audible cutoff-sweep claims. It does not disprove route/trace evidence, and it does not prove resonance semantics, all SV Filter output modes, arbitrary filter prompts, modulation-only runtime semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves one bounded generated filter LFO-to-cutoff route produces a measured audible sweep under deterministic browser audio stimulus, while disconnected and exaggerated seeded controls preserve the gate boundary. It does not prove resonance semantics, all SV Filter output modes, arbitrary filter prompts, modulation-only runtime semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 21: Reachable Non-Delay Prompt Classes Have Explicit Runtime Or Blocker Boundaries
@@ -1311,8 +1313,8 @@ non-delay prompt class inventory for filter, reverb, synth, sequencer, modulatio
 Acceptance criteria:
 
 - The rollup must write a prompt manifest before running cases.
-- Filter must remain the only in-scope non-delay runtime class and must reference existing consumed browser/audio/control evidence.
-- Reverb and synth may produce validated generated graph evidence but must block at conversion/runtime boundary.
+- Filter and Reverb Lite must remain the only in-scope non-delay runtime classes and must reference consumed browser/audio/control evidence.
+- Synth may produce validated generated graph evidence but must block at conversion/runtime boundary.
 - Sequencer, modulation-only, MIDI, and sampler must block at validation before conversion or runtime evidence.
 - Unmatched unsupported prompt must block at selection and produce no graph drafts.
 - Every out-of-scope class must have seeded mislabel controls proving it cannot be counted as delay-family runtime support or filter runtime support.
@@ -1323,8 +1325,8 @@ Required evidence paths:
 tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-result.json
 tests\workflow\evidence\generated-patch-non-delay-boundary-controls\prompt-manifest.json
 tests\workflow\evidence\generated-patch-non-delay-boundary-controls\classification-log.json
-tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-07-23T03-33-47-363Z\reverb-runtime-unsupported\prompt-graph\run-result.json
-tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-07-23T03-33-47-363Z\reverb-runtime-unsupported\convert-emulator\run-result.json
+tests\workflow\evidence\generated-patch-reverb-validation\run-result.json
+tests\workflow\evidence\generated-patch-reverb-semantics\run-result.json
 tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-07-23T03-33-47-363Z\synth-runtime-unsupported\prompt-graph\run-result.json
 tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-07-23T03-33-47-363Z\synth-runtime-unsupported\convert-emulator\run-result.json
 ```
@@ -1336,20 +1338,20 @@ status: pass
 blockerCount: 0
 classCount: 8
 passingClassCount: 8
-inScopeRuntimeClassCount: 1
-graphSupportedRuntimeUnsupportedCount: 2
+inScopeRuntimeClassCount: 2
+graphSupportedRuntimeUnsupportedCount: 1
 validationBlockedCount: 4
 selectionBlockedCount: 1
-seededMislabelControlCount: 14
-seededMislabelFailureDetectedCount: 14
-runRoot: tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-07-23T03-33-47-363Z
+seededMislabelControlCount: 12
+seededMislabelFailureDetectedCount: 12
+runRoot: tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-08-29T22-09-08-656Z
 ```
 
 Current classifications:
 
 ```text
 filter-lowpass-runtime-supported: runtime-lowpass-supported; inScopeForV040 true
-reverb-runtime-unsupported: graph-supported-runtime-unsupported; unsupported module Reverb Lite
+reverb-lite-runtime-supported: runtime-reverb-lite-supported; inScopeForV040 true
 synth-runtime-unsupported: graph-supported-runtime-unsupported; unsupported module Synth Voice
 sequencer-validation-blocked: validation-blocked
 modulation-only-validation-blocked: validation-blocked
@@ -1361,7 +1363,7 @@ unsupported-selection-blocked: selection-blocked
 Current claim boundary:
 
 ```text
-This proves reachable non-delay prompt classes are inventoried and mapped to explicit runtime or blocker boundaries. Filter is the only in-scope non-delay runtime class, and only within the previously documented low-pass and route/trace boundaries. Reverb and synth remain graph-supported but runtime-unsupported. Sequencer, modulation-only, MIDI, and sampler remain validation blockers. Unsupported unmatched prompts remain selection blockers. This does not prove arbitrary prompt coverage, reverb runtime semantics, synth runtime semantics, sequencer runtime semantics, modulation-only runtime semantics, MIDI or sampler behavior, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves reachable non-delay prompt classes are inventoried and mapped to explicit runtime or blocker boundaries. Filter and Reverb Lite are the in-scope non-delay runtime classes, within the documented low-pass, route/trace, bounded audible-sweep, and wet-tail boundaries. Synth remains graph-supported but runtime-unsupported. Sequencer, modulation-only, MIDI, and sampler remain validation blockers. Unsupported unmatched prompts remain selection blockers. This does not prove arbitrary prompt coverage, broad reverb semantics, synth runtime semantics, sequencer runtime semantics, modulation-only runtime semantics, MIDI or sampler behavior, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 22: Filter Low-Pass Runtime Support Repeats Across Prompt Variants
@@ -1425,7 +1427,7 @@ filter-dark-resonant-sweep: filter-lowpass-runtime-supported; validatedDraftCoun
 Current claim boundary:
 
 ```text
-This proves the low-pass filter runtime path repeats across four fresh generated filter prompt variants with browser load, WAV capture, spectral low-pass assertions, LFO/cutoff trace evidence, and local bypass/high-pass/disconnected/wrong-target controls. It does not prove audible cutoff sweep, resonance semantics, all SV Filter output modes, arbitrary filter prompts, reverb runtime support, synth runtime support, modulation-only runtime support, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves the low-pass filter runtime path repeats across four fresh generated filter prompt variants with browser load, WAV capture, spectral low-pass assertions, LFO/cutoff trace evidence, and local bypass/high-pass/disconnected/wrong-target controls. It does not prove broad audible cutoff sweep support, resonance semantics, all SV Filter output modes, arbitrary filter prompts, reverb runtime support, synth runtime support, modulation-only runtime support, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 23: Filter Repeatability Gate Fails On Seeded Trace Evidence Controls
@@ -1475,35 +1477,35 @@ Current claim boundary:
 This proves the filter repeatability gate is sensitive to seeded stale LFO/cutoff trace evidence and missing trace evidence. It does not prove additional filter prompt variants, audible cutoff sweep, resonance semantics, arbitrary filter prompts, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
-### Claim 24: CV-To-Filter-Frequency Scaling Is Deferred For This Hardening Pass
+### Claim 24: CV-To-Filter-Frequency Scaling Preserves Static Filter Evidence
 
 Route scope:
 
 ```text
-local code-evidence decision for v0.4.0 filter runtime support after an attempted CV-to-filter-frequency scaling change
+local code-evidence decision for filter runtime support after accepting bounded CV-to-filter-frequency scaling
 ```
 
 Acceptance criteria:
 
-- The current audible cutoff-sweep blocker evidence must remain the active boundary for generated filter cutoff modulation.
-- Any attempted scaling change must not be accepted if it regresses the existing static low-pass filter runtime gate.
-- After reverting the attempted scaling change, the static filter runtime gate must pass again with WAV captures, low-pass classification, bypass control, and high-pass wrong-output control.
-- The capability boundary must continue to claim low-pass runtime support and LFO/cutoff route trace evidence only. It must not claim audible cutoff-sweep success.
+- The audible cutoff-sweep evidence must pass with generated-route and exaggerated-route measurable differences.
+- The static filter runtime gate must pass after the scaling change with WAV captures, low-pass classification, bypass control, and high-pass wrong-output control.
+- The filter modulation route trace gate must pass after the scaling change.
+- The capability boundary must remain limited to the bounded generated filter fixture.
 
 Required evidence:
 
 ```text
-tests\workflow\evidence\generated-patch-filter-audible-sweep-after-scaling\run-result.json
-tests\workflow\evidence\generated-patch-filter-runtime\filter-semantics-after-scaling\run-result.json
-tests\workflow\evidence\generated-patch-filter-runtime\filter-semantics-after-scaling-attempt-reverted-fixed\run-result.json
+tests\workflow\evidence\generated-patch-filter-audible-sweep\run-result.json
+tests\workflow\evidence\generated-patch-filter-runtime\filter-semantics-cv-scaling\run-result.json
+tests\workflow\evidence\generated-patch-filter-modulation-semantics-cv-scaling\run-result.json
 ```
 
 Current result:
 
 ```text
-audible-sweep-after-scaling status: fail
-filter-semantics-after-scaling status: fail
-filter-semantics-after-scaling-attempt-reverted-fixed status: pass
+audible-sweep status: pass
+filter-semantics-cv-scaling status: pass
+filter-modulation-semantics-cv-scaling status: pass
 lowpassClassifiedCount: 1
 bypassControlClassifiedCount: 1
 highpassControlClassifiedCount: 1
@@ -1513,7 +1515,7 @@ captureCount: 3
 Current claim boundary:
 
 ```text
-This records CV-to-filter-frequency scaling as deferred for local ZOIA 0.4.0 hardening because the attempted scaling path did not produce valid audible sweep evidence and regressed the existing consumed static filter evidence. It preserves the prior low-pass runtime and LFO/cutoff route-trace claims. It does not prove audible cutoff sweep, resonance semantics, all SV Filter output modes, arbitrary filter prompts, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This records CV-to-filter-frequency scaling as accepted for one bounded generated low-pass filter fixture because audible sweep, static low-pass, and LFO/cutoff route-trace gates pass together. It does not prove resonance semantics, all SV Filter output modes, arbitrary filter prompts, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 25: Runtime Audio Classification Rejects Seeded False Passes
@@ -1746,8 +1748,8 @@ release-review overclaim classifier, seeded summary fixtures, release-review sum
 Acceptance criteria:
 
 - The overclaim gate must consume release-review summary text and generated-patch capability documents.
-- The gate must verify documented claim boundaries, deferred audible cutoff sweep language, negative-control evidence, and protected source-control/publication boundary presence.
-- Seeded summaries must fail on the expected overclaim surfaces for `ready_for_review` or release-ready wording, broad text-to-ZOIA support, audible cutoff sweep success, unsupported non-delay runtime support, and hardware export/parity/full DSP/complete-semantics claims.
+- The gate must verify documented claim boundaries, bounded audible cutoff sweep language, negative-control evidence, and protected source-control/publication boundary presence.
+- Seeded summaries must fail on the expected overclaim surfaces for `ready_for_review` or release-ready wording, broad text-to-ZOIA support, broad audible cutoff sweep support, unsupported non-delay runtime support, and hardware export/parity/full DSP/complete-semantics claims.
 - Release-review summary must require the overclaim negative-control result.
 - v0.4 readiness must require the overclaim negative-control result.
 - Generated-patch claim-boundary verification must require the overclaim negative-control result.
@@ -1791,7 +1793,7 @@ hardware-export-parity-overclaim: expectedSurface hardware-boundary; expectedFai
 Current claim boundary:
 
 ```text
-This proves human-facing release-review overclaim text is rejected for the seeded surfaces and that release-review, v0.4 readiness, and claim-boundary verification consume the overclaim gate. It does not mark the release ready, authorize source-control actions, prove broad text-to-ZOIA support, prove audible cutoff sweep success, prove unsupported runtime support, prove hardware export/parity, or expand complete patch semantics.
+This proves human-facing release-review overclaim text is rejected for the seeded surfaces and that release-review, v0.4 readiness, and claim-boundary verification consume the overclaim gate. It does not mark the release ready, authorize source-control actions, prove broad text-to-ZOIA support, prove broad audible cutoff sweep support, prove unsupported runtime support, prove hardware export/parity, or expand complete patch semantics.
 ```
 
 ### Claim 30: Clean Consumer Smoke Runs Installed Local Package Gates Against A Copied Evidence Bundle
@@ -2276,7 +2278,7 @@ Acceptance criteria:
 - The negative-control gate must seed uncategorized consumed evidence paths through release-review, v0.4 readiness, and generated-patch claim-boundary fixtures and prove the inventory blocks those fixtures.
 - The negative-control gate must seed an uncategorized release-review documented evidence reference and prove the inventory blocks that fixture.
 - The negative-control gate must seed an uncategorized release-review validation command and prove the inventory blocks that fixture.
-- Seeded negative controls must cover release-ready wording, production readiness paraphrases, broad text-to-ZOIA support wording, arbitrary prompt support wording, unbounded text-prompt paraphrases, audible cutoff sweep success wording, npm publication readiness wording, package publication paraphrases, GitHub readiness wording, hardware export wording, hardware equivalence paraphrases, full DSP accuracy wording, and complete patch semantics wording.
+- Seeded negative controls must cover release-ready wording, production readiness paraphrases, broad text-to-ZOIA support wording, arbitrary prompt support wording, unbounded text-prompt paraphrases, broad audible cutoff sweep support wording, npm publication readiness wording, package publication paraphrases, GitHub readiness wording, hardware export wording, hardware equivalence paraphrases, full DSP accuracy wording, and complete patch semantics wording.
 
 Required evidence:
 
@@ -2351,7 +2353,7 @@ demo-status-release-ready-overclaim: expectedSurface release-ready-positive; exp
 Current claim boundary:
 
 ```text
-This proves the current local 0.4.0 generated-patch evidence inventory maps accepted claims to evidence paths, gates, negative controls, and excluded claims, rejects seeded overbroad doc or release-review text across exact and paraphrased excluded-claim wording, scans the July 24 demo README and status docs, blocks demo-doc release-readiness overclaims, blocks package-boundary Markdown docs that are not represented in the scanner, blocks stale release-review, claim-boundary, or clean-smoke dependencies before final inventory can pass, blocks uncategorized evidence consumed by release-review, v0.4 readiness, or generated-patch claim-boundary, blocks uncategorized release-review documented evidence references, blocks release-review validation commands that do not resolve to package scripts, and blocks package-facing generated-patch/release/v0.4 scripts that are not categorized as claim gates, release-review validation commands, or explicit support scripts. It does not prove release readiness, npm publication readiness, GitHub readiness, broad text-to-ZOIA support, arbitrary prompt support, audible cutoff sweep success, hardware parity/export, full DSP accuracy, complete patch semantics, or remote publication behavior.
+This proves the current local 0.4.0 generated-patch evidence inventory maps accepted claims to evidence paths, gates, negative controls, and excluded claims, rejects seeded overbroad doc or release-review text across exact and paraphrased excluded-claim wording, scans the July 24 demo README and status docs, blocks demo-doc release-readiness overclaims, blocks package-boundary Markdown docs that are not represented in the scanner, blocks stale release-review, claim-boundary, or clean-smoke dependencies before final inventory can pass, blocks uncategorized evidence consumed by release-review, v0.4 readiness, or generated-patch claim-boundary, blocks uncategorized release-review documented evidence references, blocks release-review validation commands that do not resolve to package scripts, and blocks package-facing generated-patch/release/v0.4 scripts that are not categorized as claim gates, release-review validation commands, or explicit support scripts. It does not prove release readiness, npm publication readiness, GitHub readiness, broad text-to-ZOIA support, arbitrary prompt support, broad audible cutoff sweep support, hardware parity/export, full DSP accuracy, complete patch semantics, or remote publication behavior.
 ```
 
 ## Risks And Failure Modes
@@ -2362,17 +2364,16 @@ This proves the current local 0.4.0 generated-patch evidence inventory maps acce
 - Playwright load checks can pass without proving audio behavior.
 - Evidence can become stale if a later run reads old result files.
 - Generated `Synth Voice` may still require expansion into lower-level emulator modules before runtime audio is meaningful.
-- Reverb generated params may not map one-to-one to emulator `Reverb Lite` blocks.
+- Reverb generated params map only `decay` and `mix` into the current emulator `Reverb Lite` fixture; `tone` semantics and decay CV remain unproven.
 - Prompt breadth can be overstated if graph-supported non-delay prompts are counted as delay runtime/audio evidence.
 - The accepted local evidence does not prove broad text-to-ZOIA support.
 - Delay-family repeatability is still bounded to two tested prompt variants even with seeded controls for stale evidence, missing runtime evidence, and unsupported-prompt mislabeling.
 - Modulation-only, MIDI, sampler, and uncontracted non-delay prompt classes remain deterministic blockers, not runtime/audio-supported classes.
-- Filter runtime support is limited to one generated filter prompt and low-pass spectral classification; cutoff modulation and resonance semantics remain unproven.
-- Filter modulation route support proves generated LFO trace and target wiring, but not audible cutoff sweep magnitude.
-- Current generated filter cutoff modulation is blocked for audible sweep claims by measured low output difference under current CV scaling.
+- Filter runtime support is limited to one generated filter prompt, low-pass spectral classification, and bounded audible cutoff-sweep evidence.
+- Filter modulation route support proves generated LFO trace and target wiring for the bounded cutoff sweep.
 - Non-delay class inventory is bounded to currently recognized prompt families and must be updated if generator recognition changes.
-- Filter repeatability is bounded to four prompt variants, low-pass spectral behavior, and LFO/cutoff trace evidence; resonance, audible cutoff sweep, and wider filter prompt coverage remain unproven.
-- CV-to-filter-frequency scaling remains deferred because the first implementation attempt regressed existing static filter audio evidence. Future scaling work must rerun the static filter gate before any stronger filter modulation claim is accepted.
+- Filter repeatability is bounded to four prompt variants, low-pass spectral behavior, and LFO/cutoff trace evidence; resonance and wider filter prompt coverage remain unproven.
+- CV-to-filter-frequency scaling is accepted only for the bounded generated low-pass filter fixture and must continue to preserve the static filter gate.
 - Runtime audio evidence can overclaim if silent required-audio results, missing captures, stale captures, unsupported runtime modules, or classified-only records are counted as signal-present success.
 - Higher-level readiness can overclaim if it does not consume lower-level runtime-audio negative-control evidence.
 - Release-line readiness can overclaim if it trusts generated-patch readiness status without checking the generated-patch runtime-audio dependency summary.
@@ -2403,4 +2404,3 @@ Before claiming prompt-driven generated patches are runtime-tested, the feature 
 - Converter/runtime negative-control evidence.
 - A capability-to-test matrix linking every claim to repeatable tests.
 - A false-pass review identifying the next highest-risk hardening item after each validation pass.
-

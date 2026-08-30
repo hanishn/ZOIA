@@ -173,7 +173,7 @@ async function main() {
         observed: { blockers: staleResult.blockers || [] }
       });
     }
-    if (staleCleanSmokeEvidence?.exists !== true || staleCleanSmokeEvidence?.status !== "pass") {
+    if (staleCleanSmokeEvidence?.exists !== true || staleCleanSmokeEvidence?.completedAt !== "2000-01-01T00:00:00.000Z") {
       problems.push({
         id: "stale-clean-smoke-evidence-marker-invalid",
         message: "Release-review summary did not record stale clean consumer smoke as consumed evidence.",
@@ -201,7 +201,7 @@ async function main() {
       caseCount: 2,
       passingCaseCount: [
         missingEvidenceBlocker && missingQualityBlocker && missingCleanSmokeEvidence?.exists === false && hasProtectedBoundary(missingResult),
-        staleEvidenceBlocker && staleCleanSmokeEvidence?.exists === true && staleCleanSmokeEvidence?.status === "pass" && hasProtectedBoundary(staleResult)
+        staleEvidenceBlocker && staleCleanSmokeEvidence?.exists === true && staleCleanSmokeEvidence?.completedAt === "2000-01-01T00:00:00.000Z" && hasProtectedBoundary(staleResult)
       ].filter(Boolean).length,
       missingReleaseReviewCommandExitCode: missingCommand.status,
       missingReleaseReviewStatus: missingResult?.status || null,
@@ -212,7 +212,7 @@ async function main() {
       staleReleaseReviewCommandExitCode: staleCommand.status,
       staleReleaseReviewStatus: staleResult?.status || null,
       staleCleanConsumerSmokeEvidenceBlockerFound: Boolean(staleEvidenceBlocker),
-      staleCleanConsumerSmokeEvidenceMarkerFound: staleCleanSmokeEvidence?.exists === true && staleCleanSmokeEvidence?.status === "pass",
+      staleCleanConsumerSmokeEvidenceMarkerFound: staleCleanSmokeEvidence?.exists === true && staleCleanSmokeEvidence?.completedAt === "2000-01-01T00:00:00.000Z",
       staleProtectedBoundaryFound: hasProtectedBoundary(staleResult)
     },
     cases: [

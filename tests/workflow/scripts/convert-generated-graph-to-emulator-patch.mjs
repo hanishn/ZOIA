@@ -67,6 +67,22 @@ const MODULE_CONTRACTS = {
     inputs: { audio: 0, cutoff_cv: 1, resonance_cv: 2 },
     outputs: { audio: 3 }
   },
+  "Reverb Lite": {
+    typeIdx: 82,
+    typeName: "Reverb Lite",
+    category: "Effect",
+    colorId: 4,
+    blocks: [
+      { n: "Audio In", t: "audio_in" },
+      { n: "Decay", t: "cv_in" },
+      { n: "Mix", t: "cv_in" },
+      { n: "Audio Out", t: "audio_out" }
+    ],
+    options: [0, 0, 0, 0, 0, 0, 0, 0],
+    paramOrder: ["audio", "decay", "mix", "audio_out"],
+    inputs: { audio: 0, decay_cv: 1, mix_cv: 2 },
+    outputs: { audio: 3 }
+  },
   "LFO": {
     typeIdx: 5,
     typeName: "LFO",

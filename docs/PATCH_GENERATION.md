@@ -300,7 +300,7 @@ The current claim is:
 - Stale generated validation evidence must block release-review summary and v0.4 readiness through isolated negative-control evidence.
 - Documented generated evidence paths must exist before the release-review summary passes.
 - Reviewer-summary quality failures must block release-review summary and v0.4 readiness through isolated negative-control evidence.
-- Human-facing release-review summaries must not imply release readiness, broad text-to-ZOIA support, audible cutoff sweep success, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.
+- Human-facing release-review summaries must not imply release readiness, broad text-to-ZOIA support, broad audible cutoff sweep support, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.
 - Human-facing package-boundary summaries must not imply npm publication readiness, GitHub readiness, copied evidence bundle publication, release readiness, package artifact publication, or broader publication readiness.
 - Release-review and v0.4 workflows must not invoke Git, GitHub, tag, release, or npm publication commands without exact human-only passcode evidence.
 
@@ -310,7 +310,7 @@ The current claim is not:
 - Exported binary patch generation.
 - hardware-realizable module graphs while template-core abstractions remain unresolved.
 - Audio-correctness proof for arbitrary descriptions.
-- Release readiness, broad text-to-ZOIA support, audible cutoff sweep success, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.
+- Release readiness, broad text-to-ZOIA support, broad audible cutoff sweep support, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.
 
 ## Full Generation Path
 

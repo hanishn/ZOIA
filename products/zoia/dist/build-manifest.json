@@ -1,6 +1,6 @@
 {
   "schemaVersion": "zoia.exhibit-build-manifest.v2",
-  "generatedAt": "2026-07-23T04:00:09.504Z",
+  "generatedAt": "2026-08-29T21:30:22.768Z",
   "sourceManifest": "products/zoia/src/data/exhibit-manifest.json",
   "prebuiltHtml": "products/zoia/dist/zoia-emulator.html",
   "compatibilityHtml": "products/zoia/index.html",
@@ -43,7 +43,7 @@
     {
       "role": "script",
       "path": "products/zoia/src/scripts/modules/sim-engine.js",
-      "sha256": "8f7deb394a113d5d5f2c8be5041781b5e7a902eebc0134d1727bf01a361bed1b"
+      "sha256": "6c0e49ed88de5a55e299d39a818ce5c38f09937f749ef06bd9583a4d4f9d1f60"
     },
     {
       "role": "script",
@@ -143,7 +143,7 @@
       "byteCount": 2883584
     }
   ],
-  "prebuiltSha256": "060f48a79aa3e6ba91ae48b82307c18b1380be9ec8f2b6a2824150e6b5f59639",
-  "compatibilitySha256": "060f48a79aa3e6ba91ae48b82307c18b1380be9ec8f2b6a2824150e6b5f59639",
+  "prebuiltSha256": "ace19ad29291edfd848fd9f37361521db7814b1880b159da126c2e500c962a49",
+  "compatibilitySha256": "ace19ad29291edfd848fd9f37361521db7814b1880b159da126c2e500c962a49",
   "status": "pass"
 }

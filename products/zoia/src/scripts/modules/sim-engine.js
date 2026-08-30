@@ -2171,7 +2171,11 @@ ZOIA.sim.build = function() {
     }
 
     var connGain = ctx.createGain();
-    connGain.gain.value = strength;
+    var effectiveStrength = strength;
+    if (dstIn instanceof AudioParam && dstNode.type === 'sv_filter' && c.dstBlock === dstNode.freqIdx && srcNode.type === 'lfo') {
+      effectiveStrength = Math.min(Math.abs(strength), 1) * 1200;
+    }
+    connGain.gain.value = effectiveStrength;
 
     try {
       // If destination is an AudioParam, connect source -> gain -> param
@@ -2188,7 +2192,7 @@ ZOIA.sim.build = function() {
       var _wsm = modules[c.srcMod]; var _wdm = modules[c.dstMod];
       var _wsbn = _wsm && _wsm.blocks && _wsm.blocks[c.srcBlock] ? _wsm.blocks[c.srcBlock].n : '?';
       var _wdbn = _wdm && _wdm.blocks && _wdm.blocks[c.dstBlock] ? _wdm.blocks[c.dstBlock].n : '?';
-      ZOIA.log('SIM:   WIRED "' + (_wsm ? _wsm.name : '?') + '"[' + c.srcBlock + ':' + _wsbn + ']->"' + (_wdm ? _wdm.name : '?') + '"[' + c.dstBlock + ':' + _wdbn + '] str=' + strength + (dstIn instanceof AudioParam ? ' (param)' : ''));
+      ZOIA.log('SIM:   WIRED "' + (_wsm ? _wsm.name : '?') + '"[' + c.srcBlock + ':' + _wsbn + ']->"' + (_wdm ? _wdm.name : '?') + '"[' + c.dstBlock + ':' + _wdbn + '] str=' + strength + (effectiveStrength !== strength ? ' effective=' + effectiveStrength : '') + (dstIn instanceof AudioParam ? ' (param)' : ''));
     } catch (e) {
       var _esm = modules[c.srcMod]; var _edm = modules[c.dstMod];
       ZOIA.log('SIM:   ERROR conn[' + j + '] "' + (_esm ? _esm.name : '?') + '"[' + c.srcBlock + ']->"' + (_edm ? _edm.name : '?') + '"[' + c.dstBlock + ']: ' + e.message);
