@@ -871,7 +871,7 @@ Acceptance criteria:
 - A single prompt-breadth rollup command creates a new run-scoped evidence root.
 - The delay-family variant prompt runs through fresh graph generation, conversion, emulator load, audio signal, delay semantics, modulation semantics, LFO semantics, expression feedback, unmodified timing, and corrupted-route negative controls.
 - The Reverb Lite prompt must regenerate validation, conversion, wet-tail audio evidence, and a bypass negative control inside the prompt-breadth run.
-- The non-delay synth prompt may produce validated generated graph evidence, but must block before emulator-loadable/runtime-tested delay or reverb evidence while it uses unsupported generated modules.
+- The non-delay synth prompt must reach bounded Synth Voice runtime evidence, including oscillator-backed conversion, pitch-route wiring, measured signal, and a muted-output negative control.
 - MIDI and sampler prompt families must block at validation until supported generated graph contracts exist.
 - The unmatched prompt must block at selection and must not leave generated graph draft files.
 - The gate fails if child evidence is stale, if a non-delay prompt is mislabeled as validated delay runtime evidence, if a validation-blocked prompt passes, if the unmatched prompt passes, or if the delay-family case lacks consumed WAV/audio or control trace evidence.
@@ -883,10 +883,10 @@ tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\prompt-manifest.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\classification-log.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\delay-family-variant\run-result.json
-tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\synth-supported-graph-runtime-unsupported\prompt-graph\run-result.json
-tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\synth-supported-graph-runtime-unsupported\convert-emulator\run-result.json
-tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-29T22-10-49-001Z\reverb-lite-runtime-supported\validation\run-result.json
-tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-29T22-10-49-001Z\reverb-lite-runtime-supported\runtime\run-result.json
+tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-30T01-45-12-801Z\synth-voice-runtime-supported\validation\run-result.json
+tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-30T01-45-12-801Z\synth-voice-runtime-supported\runtime\run-result.json
+tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-30T01-45-12-801Z\reverb-lite-runtime-supported\validation\run-result.json
+tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-30T01-45-12-801Z\reverb-lite-runtime-supported\runtime\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\midi-validation-blocked\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\sampler-validation-blocked\run-result.json
 tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-07-23T01-42-16-643Z\unsupported-unmatched-prompt\run-result.json
@@ -901,17 +901,18 @@ caseCount: 6
 passingCaseCount: 6
 delayRuntimeSupportedCount: 1
 reverbRuntimeSupportedCount: 1
-graphSupportedRuntimeUnsupportedCount: 1
+synthRuntimeSupportedCount: 1
+graphSupportedRuntimeUnsupportedCount: 0
 validationBlockedUnsupportedPromptCount: 2
 blockedUnsupportedPromptCount: 1
-runRoot: tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-29T22-10-49-001Z
+runRoot: tests\workflow\evidence\generated-patch-prompt-breadth-rollup\run-2026-08-30T01-45-12-801Z
 ```
 
 Current classifications:
 
 ```text
 delay-family-variant: delay-runtime-supported; child stepCount 10; passedStepCount 10; includes audio-signal, unmodified-timing, and corrupted-route negative-control evidence
-synth-supported-graph-runtime-unsupported: graph-supported-runtime-unsupported; graph validatedDraftCount 1; conversion blockerCount 3; convertedPatchCount 0; unsupported-generated-module Synth Voice
+synth-voice-runtime-supported: synth-runtime-supported; synthSignalPresentCount 1; mutedSignalAbsentCount 1
 reverb-lite-runtime-supported: reverb-runtime-supported; positiveTailCount 1; negativeTailAbsentCount 1
 midi-validation-blocked: validation-blocked-unsupported-prompt; draftCount 1; validatedDraftCount 0; description-validation-not-ready recorded
 sampler-validation-blocked: validation-blocked-unsupported-prompt; draftCount 1; validatedDraftCount 0; description-validation-not-ready recorded
@@ -921,7 +922,7 @@ unsupported-unmatched-prompt: blocked-unsupported-prompt; selectedCandidateCount
 Current claim boundary:
 
 ```text
-This proves the current prompt-driven runtime claim is bounded to delay-family prompts and one Reverb Lite fixture with consumed runtime/audio evidence. It proves synth prompts are not silently mislabeled as delay or reverb runtime evidence, MIDI and sampler prompt families block at validation, and an unmatched prompt blocks at selection. It does not prove arbitrary prompt coverage, broad non-delay runtime/audio semantics, broad reverb semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, or hardware binary export.
+This proves the current prompt-driven runtime claim is bounded to delay-family prompts, one Reverb Lite fixture, and one Synth Voice fixture with consumed runtime/audio evidence. It proves synth prompts are not silently mislabeled as delay or reverb runtime evidence, MIDI and sampler prompt families block at validation, and an unmatched prompt blocks at selection. It does not prove arbitrary prompt coverage, broad non-delay runtime/audio semantics, broad reverb semantics, broad synth semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, or hardware binary export.
 ```
 
 ### Claim 14: Prompt Corpus Classes Have Explicit Runtime Or Blocker Boundaries
@@ -1313,8 +1314,7 @@ non-delay prompt class inventory for filter, reverb, synth, sequencer, modulatio
 Acceptance criteria:
 
 - The rollup must write a prompt manifest before running cases.
-- Filter and Reverb Lite must remain the only in-scope non-delay runtime classes and must reference consumed browser/audio/control evidence.
-- Synth may produce validated generated graph evidence but must block at conversion/runtime boundary.
+- Filter, Reverb Lite, and Synth Voice must remain the only in-scope non-delay runtime classes and must reference consumed browser/audio/control evidence.
 - Sequencer, modulation-only, MIDI, and sampler must block at validation before conversion or runtime evidence.
 - Unmatched unsupported prompt must block at selection and produce no graph drafts.
 - Every out-of-scope class must have seeded mislabel controls proving it cannot be counted as delay-family runtime support or filter runtime support.
@@ -1327,8 +1327,8 @@ tests\workflow\evidence\generated-patch-non-delay-boundary-controls\prompt-manif
 tests\workflow\evidence\generated-patch-non-delay-boundary-controls\classification-log.json
 tests\workflow\evidence\generated-patch-reverb-validation\run-result.json
 tests\workflow\evidence\generated-patch-reverb-semantics\run-result.json
-tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-07-23T03-33-47-363Z\synth-runtime-unsupported\prompt-graph\run-result.json
-tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-07-23T03-33-47-363Z\synth-runtime-unsupported\convert-emulator\run-result.json
+tests\workflow\evidence\generated-patch-synth-validation\run-result.json
+tests\workflow\evidence\generated-patch-synth-semantics\run-result.json
 ```
 
 Current result:
@@ -1338,13 +1338,13 @@ status: pass
 blockerCount: 0
 classCount: 8
 passingClassCount: 8
-inScopeRuntimeClassCount: 2
-graphSupportedRuntimeUnsupportedCount: 1
+inScopeRuntimeClassCount: 3
+graphSupportedRuntimeUnsupportedCount: 0
 validationBlockedCount: 4
 selectionBlockedCount: 1
-seededMislabelControlCount: 12
-seededMislabelFailureDetectedCount: 12
-runRoot: tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-08-29T22-09-08-656Z
+seededMislabelControlCount: 10
+seededMislabelFailureDetectedCount: 10
+runRoot: tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-08-30T01-45-14-411Z
 ```
 
 Current classifications:
@@ -1352,7 +1352,7 @@ Current classifications:
 ```text
 filter-lowpass-runtime-supported: runtime-lowpass-supported; inScopeForV040 true
 reverb-lite-runtime-supported: runtime-reverb-lite-supported; inScopeForV040 true
-synth-runtime-unsupported: graph-supported-runtime-unsupported; unsupported module Synth Voice
+synth-voice-runtime-supported: runtime-synth-voice-supported; inScopeForV040 true
 sequencer-validation-blocked: validation-blocked
 modulation-only-validation-blocked: validation-blocked
 midi-validation-blocked: validation-blocked
@@ -1363,7 +1363,7 @@ unsupported-selection-blocked: selection-blocked
 Current claim boundary:
 
 ```text
-This proves reachable non-delay prompt classes are inventoried and mapped to explicit runtime or blocker boundaries. Filter and Reverb Lite are the in-scope non-delay runtime classes, within the documented low-pass, route/trace, bounded audible-sweep, and wet-tail boundaries. Synth remains graph-supported but runtime-unsupported. Sequencer, modulation-only, MIDI, and sampler remain validation blockers. Unsupported unmatched prompts remain selection blockers. This does not prove arbitrary prompt coverage, broad reverb semantics, synth runtime semantics, sequencer runtime semantics, modulation-only runtime semantics, MIDI or sampler behavior, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves reachable non-delay prompt classes are inventoried and mapped to explicit runtime or blocker boundaries. Filter, Reverb Lite, and Synth Voice are the in-scope non-delay runtime classes, within the documented low-pass, route/trace, bounded audible-sweep, wet-tail, and oscillator-backed signal boundaries. Sequencer, modulation-only, MIDI, and sampler remain validation blockers. Unsupported unmatched prompts remain selection blockers. This does not prove arbitrary prompt coverage, broad reverb semantics, broad synth semantics, sequencer timing semantics, modulation-only runtime semantics, MIDI or sampler behavior, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 22: Filter Low-Pass Runtime Support Repeats Across Prompt Variants
@@ -1427,7 +1427,7 @@ filter-dark-resonant-sweep: filter-lowpass-runtime-supported; validatedDraftCoun
 Current claim boundary:
 
 ```text
-This proves the low-pass filter runtime path repeats across four fresh generated filter prompt variants with browser load, WAV capture, spectral low-pass assertions, LFO/cutoff trace evidence, and local bypass/high-pass/disconnected/wrong-target controls. It does not prove broad audible cutoff sweep support, resonance semantics, all SV Filter output modes, arbitrary filter prompts, reverb runtime support, synth runtime support, modulation-only runtime support, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves the low-pass filter runtime path repeats across four fresh generated filter prompt variants with browser load, WAV capture, spectral low-pass assertions, LFO/cutoff trace evidence, and local bypass/high-pass/disconnected/wrong-target controls. It does not prove broad audible cutoff sweep support, resonance semantics, all SV Filter output modes, arbitrary filter prompts, broad reverb semantics, broad synth semantics, modulation-only runtime support, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 23: Filter Repeatability Gate Fails On Seeded Trace Evidence Controls
@@ -2363,7 +2363,7 @@ This proves the current local 0.4.0 generated-patch evidence inventory maps acce
 - A converter can silently drop unsupported semantic ports unless rejection is enforced.
 - Playwright load checks can pass without proving audio behavior.
 - Evidence can become stale if a later run reads old result files.
-- Generated `Synth Voice` may still require expansion into lower-level emulator modules before runtime audio is meaningful.
+- Generated `Synth Voice` currently maps to a bounded oscillator-backed runtime fixture; gate envelope and wider synth semantics remain unproven.
 - Reverb generated params map only `decay` and `mix` into the current emulator `Reverb Lite` fixture; `tone` semantics and decay CV remain unproven.
 - Prompt breadth can be overstated if graph-supported non-delay prompts are counted as delay runtime/audio evidence.
 - The accepted local evidence does not prove broad text-to-ZOIA support.

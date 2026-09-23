@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "zoia.generated-patch-graph.v1",
+  "patchId": "generated-synth-voice-oscillator",
+  "name": "Generated Synth Voice Oscillator",
+  "description": "Generated graph fixture: Synth Voice produces audio output with CV Sequencer routed to pitch CV.",
+  "expectedModalities": ["audio", "synth", "cv", "sequencer"],
+  "modules": [
+    {
+      "id": "audio-in-1",
+      "type": "Audio Input",
+      "domain": "audio",
+      "page": 0,
+      "grid": 0,
+      "params": {},
+      "inputs": [],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "synth-voice-1",
+      "type": "Synth Voice",
+      "domain": "audio",
+      "page": 0,
+      "grid": 3,
+      "params": {
+        "waveform": 0.42,
+        "envelope": 0.58,
+        "mix": 0.7
+      },
+      "inputs": ["audio", "pitch_cv", "gate_cv"],
+      "outputs": ["audio"]
+    },
+    {
+      "id": "sequencer-1",
+      "type": "CV Sequencer",
+      "domain": "cv",
+      "page": 0,
+      "grid": 8,
+      "params": {
+        "steps": 0.8,
+        "movement": 0.68
+      },
+      "inputs": [],
+      "outputs": ["cv"]
+    },
+    {
+      "id": "audio-out-1",
+      "type": "Audio Output",
+      "domain": "audio",
+      "page": 0,
+      "grid": 12,
+      "params": {},
+      "inputs": ["audio"],
+      "outputs": []
+    }
+  ],
+  "connections": [
+    {
+      "id": "conn-audio-in-synth",
+      "from": { "moduleId": "audio-in-1", "port": "audio" },
+      "to": { "moduleId": "synth-voice-1", "port": "audio" },
+      "gain": 1
+    },
+    {
+      "id": "conn-sequencer-synth-pitch",
+      "from": { "moduleId": "sequencer-1", "port": "cv" },
+      "to": { "moduleId": "synth-voice-1", "port": "pitch_cv" },
+      "gain": 0.62
+    },
+    {
+      "id": "conn-synth-output",
+      "from": { "moduleId": "synth-voice-1", "port": "audio" },
+      "to": { "moduleId": "audio-out-1", "port": "audio" },
+      "gain": 1
+    }
+  ]
+}

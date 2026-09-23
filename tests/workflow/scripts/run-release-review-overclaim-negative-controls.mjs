@@ -34,7 +34,7 @@ const SEEDS = Object.freeze([
   {
     id: "unsupported-non-delay-runtime-overclaim",
     expectedSurface: "unsupported-runtime",
-    text: "Synth, sequencer, modulation-only, MIDI, and sampler prompts have runtime support."
+    text: "Sequencer, modulation-only, MIDI, and sampler prompts have runtime support."
   },
   {
     id: "hardware-export-parity-overclaim",
@@ -58,7 +58,7 @@ const FORBIDDEN_PATTERNS = Object.freeze([
   },
   {
     surface: "unsupported-runtime",
-    pattern: /\b(?:synth|sequencer|modulation-only|MIDI|sampler)\b[\s\S]{0,160}\bruntime support\b/iu
+    pattern: /\b(?:sequencer|modulation-only|MIDI|sampler)\b[\s\S]{0,160}\bruntime support\b/iu
   },
   {
     surface: "hardware-boundary",
