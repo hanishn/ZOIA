@@ -19,13 +19,12 @@ const REVERB_RUNTIME_EVIDENCE = Object.freeze({
   validation: "tests/workflow/evidence/generated-patch-reverb-validation/run-result.json",
   semantics: "tests/workflow/evidence/generated-patch-reverb-semantics/run-result.json"
 });
-const NON_DELAY_GRAPH_CONTROLS = Object.freeze([
-  {
-    id: "synth-supported-graph-runtime-unsupported",
-    description: "synth drone with slow oscillator movement",
-    expectedUnsupportedModule: "Synth Voice"
-  }
-]);
+const SYNTH_VARIANT_DESCRIPTION = "synth drone with slow oscillator movement";
+const SYNTH_RUNTIME_EVIDENCE = Object.freeze({
+  validation: "tests/workflow/evidence/generated-patch-synth-validation/run-result.json",
+  semantics: "tests/workflow/evidence/generated-patch-synth-semantics/run-result.json"
+});
+const NON_DELAY_GRAPH_CONTROLS = Object.freeze([]);
 const VALIDATION_BLOCKED_CONTROLS = Object.freeze([
   {
     id: "midi-validation-blocked",
@@ -190,6 +189,48 @@ async function runReverbVariant(runRoot, startedAt) {
   };
 }
 
+async function runSynthVariant(runRoot, startedAt) {
+  const caseRoot = resolve(runRoot, "synth-voice-runtime-supported");
+  const validationPath = resolve(caseRoot, "validation", "run-result.json");
+  const semanticsPath = resolve(caseRoot, "runtime", "run-result.json");
+  const validationCommand = runNode("tests/workflow/scripts/validate-generated-patch-candidates.mjs", [
+    "--fixture-root",
+    "tests/workflow/generated-patches/synth-test",
+    "--no-negative-fixtures",
+    "--result-path",
+    validationPath
+  ]);
+  const semanticsCommand = runNode("tests/workflow/playwright/run-zoia-playwright-generated-patch-synth-semantics-evidence.mjs", [
+    "--graph-root",
+    "tests/workflow/generated-patches/synth-test",
+    "--result-path",
+    semanticsPath
+  ]);
+  const validation = existsSync(validationPath) ? await readJson(validationPath) : null;
+  const semantics = existsSync(semanticsPath) ? await readJson(semanticsPath) : null;
+  const failures = [];
+  assertCondition(failures, validationCommand.exitCode === 0, "command", "synth validation command exited non-zero", validationCommand);
+  assertCondition(failures, semanticsCommand.exitCode === 0, "command", "synth runtime command exited non-zero", semanticsCommand);
+  assertCondition(failures, validation?.status === PASS_STATUS && validation?.summary?.passingCandidateCount === 1, "validation", "synth generated graph validation did not pass", validation?.summary || null);
+  assertCondition(failures, semantics?.status === PASS_STATUS && semantics?.summary?.synthSignalPresentCount === 1, "runtime-audio", "synth runtime signal evidence did not pass", semantics?.summary || null);
+  assertCondition(failures, semantics?.summary?.mutedSignalAbsentCount === 1, "negative-control", "synth muted-output negative control did not pass", semantics?.summary || null);
+  assertCondition(failures, completedAfterStart(semantics, startedAt), "freshness", "synth runtime evidence is stale", { startedAt, completedAt: semantics?.completedAt || null });
+  return {
+    id: "synth-voice-runtime-supported",
+    description: SYNTH_VARIANT_DESCRIPTION,
+    expectedClassification: "synth-runtime-supported",
+    status: failures.length === 0 ? PASS_STATUS : FAIL_STATUS,
+    commands: { validation: validationCommand, semantics: semanticsCommand },
+    evidencePaths: { validation: validationPath, semantics: semanticsPath },
+    summaries: {
+      validation: validation?.summary || null,
+      semantics: semantics?.summary || null
+    },
+    failures,
+    claimBoundary: "Synth prompt support is bounded to the committed Synth Voice generated graph fixture, oscillator-backed converter mapping, measured signal evidence, pitch-route wiring, and muted-output negative control."
+  };
+}
+
 async function runNonDelayControl(runRoot, startedAt, control) {
   const caseRoot = resolve(runRoot, control.id);
   const graphRoot = resolve(caseRoot, "generated-graphs");
@@ -335,6 +376,7 @@ async function main() {
     prompts: [
       { id: "delay-family-variant", description: DELAY_VARIANT_DESCRIPTION, expectedClassification: "delay-runtime-supported", runtimeAudioRequired: true },
       { id: "reverb-lite-runtime-supported", description: REVERB_VARIANT_DESCRIPTION, expectedClassification: "reverb-runtime-supported", runtimeAudioRequired: true },
+      { id: "synth-voice-runtime-supported", description: SYNTH_VARIANT_DESCRIPTION, expectedClassification: "synth-runtime-supported", runtimeAudioRequired: true },
       ...NON_DELAY_GRAPH_CONTROLS.map((control) => ({ id: control.id, description: control.description, expectedClassification: "graph-supported-runtime-unsupported", runtimeAudioRequired: false })),
       ...VALIDATION_BLOCKED_CONTROLS.map((control) => ({ id: control.id, description: control.description, expectedClassification: "validation-blocked-unsupported-prompt", runtimeAudioRequired: false })),
       { id: "unsupported-unmatched-prompt", description: UNSUPPORTED_DESCRIPTION, expectedClassification: "blocked-unsupported-prompt", runtimeAudioRequired: false }
@@ -342,6 +384,7 @@ async function main() {
     claimBoundary: {
       delayFamilyRuntimeClaim: true,
       reverbLiteRuntimeClaim: true,
+      synthVoiceRuntimeClaim: true,
       nonDelayRuntimeClaim: true,
       arbitraryPromptClaim: false,
       musicalQualityClaim: false,
@@ -356,12 +399,13 @@ async function main() {
   const cases = [
     await runDelayVariant(runRoot, startedAt),
     await runReverbVariant(runRoot, startedAt),
+    await runSynthVariant(runRoot, startedAt),
     ...(await Promise.all(NON_DELAY_GRAPH_CONTROLS.map((control) => runNonDelayControl(runRoot, startedAt, control)))),
     ...(await Promise.all(VALIDATION_BLOCKED_CONTROLS.map((control) => runValidationBlockedControl(runRoot, startedAt, control)))),
     await runUnsupportedControl(runRoot, startedAt)
   ];
   if (seedMislabelNonDelayAsDelay) {
-    const seededCase = cases.find((item) => item.expectedClassification === "graph-supported-runtime-unsupported");
+    const seededCase = cases.find((item) => item.id !== "delay-family-variant");
     if (seededCase) seededCase.expectedClassification = "delay-runtime-supported";
   }
   if (seedStaleDelayEvidence) {
@@ -415,6 +459,7 @@ async function main() {
       passingCaseCount: cases.filter((item) => item.status === PASS_STATUS).length,
       delayRuntimeSupportedCount: cases.filter((item) => item.expectedClassification === "delay-runtime-supported" && item.status === PASS_STATUS).length,
       reverbRuntimeSupportedCount: cases.filter((item) => item.expectedClassification === "reverb-runtime-supported" && item.status === PASS_STATUS).length,
+      synthRuntimeSupportedCount: cases.filter((item) => item.expectedClassification === "synth-runtime-supported" && item.status === PASS_STATUS).length,
       graphSupportedRuntimeUnsupportedCount: cases.filter((item) => item.expectedClassification === "graph-supported-runtime-unsupported" && item.status === PASS_STATUS).length,
       validationBlockedUnsupportedPromptCount: cases.filter((item) => item.expectedClassification === "validation-blocked-unsupported-prompt" && item.status === PASS_STATUS).length,
       blockedUnsupportedPromptCount: cases.filter((item) => item.expectedClassification === "blocked-unsupported-prompt" && item.status === PASS_STATUS).length
@@ -433,6 +478,7 @@ async function main() {
       seededStaleDelayEvidence: seedStaleDelayEvidence,
       delayFamilyRuntimeClaim: assertionFailures.length === 0,
       reverbLiteRuntimeClaim: assertionFailures.length === 0,
+      synthVoiceRuntimeClaim: assertionFailures.length === 0,
       nonDelayGraphBoundaryClaim: assertionFailures.length === 0,
       arbitraryPromptClaim: false,
       musicalQualityClaim: false,

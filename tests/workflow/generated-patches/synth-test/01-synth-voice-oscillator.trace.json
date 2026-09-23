@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "zoia.generated-patch-requirement-trace.v1",
+  "patchId": "generated-synth-voice-oscillator",
+  "requirements": [
+    {
+      "id": "req-synth-audio-route",
+      "sourceText": "self playing synth loop with sequencer movement and audio output",
+      "status": "satisfied",
+      "moduleIds": ["audio-in-1", "synth-voice-1", "audio-out-1"],
+      "connectionIds": ["conn-audio-in-synth", "conn-synth-output"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "Synth Voice routes generated audio to Audio Output; converter preserves the graph lineage while ignoring the redundant generated audio input for the oscillator-backed runtime fixture"
+      }
+    },
+    {
+      "id": "req-sequencer-pitch-route",
+      "sourceText": "sequencer movement",
+      "status": "satisfied",
+      "moduleIds": ["sequencer-1", "synth-voice-1"],
+      "connectionIds": ["conn-sequencer-synth-pitch"],
+      "verification": {
+        "method": "static-graph",
+        "expectedEvidence": "CV Sequencer routes to Synth Voice pitch CV"
+      }
+    }
+  ]
+}

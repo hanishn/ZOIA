@@ -83,6 +83,34 @@ const MODULE_CONTRACTS = {
     inputs: { audio: 0, decay_cv: 1, mix_cv: 2 },
     outputs: { audio: 3 }
   },
+  "Synth Voice": {
+    typeIdx: 14,
+    typeName: "Oscillator",
+    category: "Audio",
+    colorId: 4,
+    blocks: [{ n: "Frequency", t: "cv_in" }, { n: "Output", t: "audio_out" }],
+    params: [32768, 0],
+    options: [0, 0, 0, 0, 0, 0, 0, 0],
+    inputs: { pitch_cv: 0 },
+    ignoredInputs: new Set(["audio", "gate_cv"]),
+    outputs: { audio: 1 }
+  },
+  "CV Sequencer": {
+    typeIdx: 4,
+    typeName: "Sequencer",
+    category: "CV",
+    colorId: 1,
+    blocks: [
+      { n: "CV Out", t: "cv_out" },
+      { n: "Gate Out", t: "gate_out" },
+      { n: "Clock", t: "gate_in" },
+      { n: "Reset", t: "gate_in" }
+    ],
+    params: [0, 0, 32768, 0],
+    options: [0, 0, 0, 0, 0, 0, 0, 0],
+    inputs: {},
+    outputs: { cv: 0 }
+  },
   "LFO": {
     typeIdx: 5,
     typeName: "LFO",
@@ -231,6 +259,10 @@ function convertGraph(graph, graphPath) {
     const targetContract = targetModule ? MODULE_CONTRACTS[targetModule.type] : null;
     const sourceBlock = sourceContract?.outputs?.[connection.from?.port];
     const targetBlock = targetContract?.inputs?.[connection.to?.port];
+
+    if (targetContract?.ignoredInputs?.has(connection.to?.port)) {
+      continue;
+    }
 
     if (!Number.isInteger(sourceIndex) || !Number.isInteger(targetIndex) || !Number.isInteger(sourceBlock) || !Number.isInteger(targetBlock)) {
       blockers.push({

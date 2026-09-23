@@ -25,6 +25,10 @@ const REVERB_RUNTIME_EVIDENCE = Object.freeze({
   validation: "tests/workflow/evidence/generated-patch-reverb-validation/run-result.json",
   semantics: "tests/workflow/evidence/generated-patch-reverb-semantics/run-result.json"
 });
+const SYNTH_RUNTIME_EVIDENCE = Object.freeze({
+  validation: "tests/workflow/evidence/generated-patch-synth-validation/run-result.json",
+  semantics: "tests/workflow/evidence/generated-patch-synth-semantics/run-result.json"
+});
 
 const PROMPT_CLASSES = Object.freeze([
   {
@@ -44,12 +48,12 @@ const PROMPT_CLASSES = Object.freeze([
     evidenceKind: "existing-reverb-runtime"
   },
   {
-    id: "synth-runtime-unsupported",
+    id: "synth-voice-runtime-supported",
     promptClass: "synth",
     description: "synth drone with slow oscillator movement",
-    boundary: "graph-supported-runtime-unsupported",
-    inScopeForV040: false,
-    expectedUnsupportedModule: "Synth Voice"
+    boundary: "runtime-synth-voice-supported",
+    inScopeForV040: true,
+    evidenceKind: "existing-synth-runtime"
   },
   {
     id: "sequencer-validation-blocked",
@@ -199,6 +203,26 @@ async function existingReverbCase(caseDef) {
     },
     failures,
     claimBoundary: "Reverb is in scope only for one generated Reverb Lite conversion path with measured wet-tail evidence and a bypass negative control."
+  };
+}
+
+async function existingSynthCase(caseDef) {
+  const validation = await readJson(resolve(PROJECT_ROOT, SYNTH_RUNTIME_EVIDENCE.validation));
+  const semantics = await readJson(resolve(PROJECT_ROOT, SYNTH_RUNTIME_EVIDENCE.semantics));
+  const failures = [];
+  assertCondition(failures, validation.status === PASS_STATUS && validation.summary?.passingCandidateCount === 1, "synth-runtime", "synth generated graph validation is not passing", validation.summary);
+  assertCondition(failures, semantics.status === PASS_STATUS && semantics.summary?.synthSignalPresentCount === 1, "synth-runtime", "synth runtime signal evidence is not passing", semantics.summary);
+  assertCondition(failures, semantics.summary?.mutedSignalAbsentCount === 1, "synth-runtime", "synth muted-output negative control is not passing", semantics.summary);
+  return {
+    ...caseDef,
+    status: failures.length === 0 ? PASS_STATUS : FAIL_STATUS,
+    evidencePaths: SYNTH_RUNTIME_EVIDENCE,
+    summaries: {
+      validation: validation.summary,
+      semantics: semantics.summary
+    },
+    failures,
+    claimBoundary: "Synth is in scope only for one generated Synth Voice to oscillator conversion path with measured signal evidence, pitch-route wiring, and a muted-output negative control."
   };
 }
 
@@ -357,7 +381,7 @@ async function main() {
       filterLowpassRuntimeClaim: true,
       filterAudibleSweepSuccessClaim: false,
       reverbRuntimeClaim: true,
-      synthRuntimeClaim: false,
+      synthRuntimeClaim: true,
       sequencerRuntimeClaim: false,
       modulationOnlyRuntimeClaim: false,
       midiRuntimeClaim: false,
@@ -373,6 +397,8 @@ async function main() {
       cases.push(await existingFilterCase(caseDef));
     } else if (caseDef.evidenceKind === "existing-reverb-runtime") {
       cases.push(await existingReverbCase(caseDef));
+    } else if (caseDef.evidenceKind === "existing-synth-runtime") {
+      cases.push(await existingSynthCase(caseDef));
     } else if (caseDef.boundary === "graph-supported-runtime-unsupported") {
       cases.push(await graphRuntimeUnsupportedCase(caseDef, runRoot, startedAt));
     } else if (caseDef.boundary === "validation-blocked") {
