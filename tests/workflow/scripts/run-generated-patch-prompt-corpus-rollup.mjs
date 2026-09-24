@@ -21,18 +21,18 @@ const CORPUS = Object.freeze([
     expectedClassification: "delay-runtime-route-semantics-supported"
   },
   {
-    id: "filter-validation-blocked",
+    id: "filter-runtime-supported",
     promptClass: "filter",
     description: "resonant filter with slow cutoff modulation",
-    expectedBoundary: "deterministic-blocker",
-    expectedClassification: "filter-runtime-unsupported-validation-blocked"
+    expectedBoundary: "filter-runtime-supported",
+    expectedClassification: "filter-runtime-supported"
   },
   {
-    id: "modulation-only-validation-blocked",
+    id: "modulation-only-runtime-supported",
     promptClass: "modulation-only",
     description: "modulation only lfo control utility",
-    expectedBoundary: "deterministic-blocker",
-    expectedClassification: "modulation-only-runtime-unsupported-validation-blocked"
+    expectedBoundary: "cv-runtime-supported",
+    expectedClassification: "modulation-only-cv-runtime-supported"
   },
   {
     id: "unsupported-selection-blocked",
@@ -207,6 +207,102 @@ async function runValidationBlockedCorpusCase(caseDef, runRoot, startedAt, seeds
   };
 }
 
+async function runFilterCorpusCase(caseDef, runRoot, startedAt, seeds) {
+  const caseRoot = resolve(runRoot, caseDef.id);
+  const graphRoot = resolve(caseRoot, "generated-graphs");
+  const patchRoot = resolve(caseRoot, "emulator-patches");
+  const promptResultPath = resolve(caseRoot, "prompt-graph", "run-result.json");
+  const conversionResultPath = resolve(caseRoot, "convert-emulator", "run-result.json");
+  const semanticsResultPath = resolve(caseRoot, "filter-semantics", "run-result.json");
+  const promptCommand = runNode("tests/workflow/scripts/generate-patch-from-description.mjs", [
+    "--description", caseDef.description,
+    "--selection-limit", "8",
+    "--draft-limit", "1",
+    "--draft-root", graphRoot,
+    "--result-path", promptResultPath
+  ]);
+  const promptResult = existsSync(promptResultPath) ? await readJson(promptResultPath) : null;
+  const conversionCommand = runNode("tests/workflow/scripts/convert-generated-graph-to-emulator-patch.mjs", [
+    "--graph-root", graphRoot,
+    "--output-root", patchRoot,
+    "--result-path", conversionResultPath
+  ]);
+  const conversionResult = existsSync(conversionResultPath) ? await readJson(conversionResultPath) : null;
+  const semanticsCommand = runNode("tests/workflow/playwright/run-zoia-playwright-generated-patch-filter-semantics-evidence.mjs", [
+    "--patch-root", patchRoot,
+    "--result-path", semanticsResultPath
+  ]);
+  const semanticsResult = existsSync(semanticsResultPath) ? await readJson(semanticsResultPath) : null;
+  const failures = [];
+
+  assertCondition(failures, promptCommand.exitCode === 0, "prompt-graph", "filter corpus prompt graph command exited non-zero", promptCommand);
+  assertCondition(failures, promptResult?.status === PASS_STATUS && promptResult?.summary?.validatedDraftCount === 1, "prompt-graph", "filter corpus prompt did not produce one validated graph", promptResult?.summary || null);
+  assertCondition(failures, completedAfterStart(promptResult, startedAt), "freshness", "filter corpus prompt evidence is stale", { startedAt, completedAt: promptResult?.completedAt || null });
+  assertCondition(failures, conversionCommand.exitCode === 0, "conversion", "filter corpus conversion command exited non-zero", conversionCommand);
+  assertCondition(failures, conversionResult?.status === PASS_STATUS && conversionResult?.summary?.convertedPatchCount === 1, "conversion", "filter corpus conversion did not write one emulator patch", conversionResult?.summary || null);
+  assertCondition(failures, semanticsCommand.exitCode === 0, "audio-evidence", "filter corpus semantics command exited non-zero", semanticsCommand);
+  assertCondition(failures, semanticsResult?.status === PASS_STATUS && semanticsResult?.summary?.lowpassClassifiedCount === 1, "audio-evidence", "filter corpus semantics did not classify one low-pass patch", semanticsResult?.summary || null);
+  assertCondition(failures, semanticsResult?.summary?.bypassControlClassifiedCount === 1, "negative-control", "filter corpus bypass control did not classify", semanticsResult?.summary || null);
+  assertCondition(failures, semanticsResult?.summary?.highpassControlClassifiedCount === 1, "negative-control", "filter corpus high-pass wrong-output control did not classify", semanticsResult?.summary || null);
+  assertCondition(failures, !seeds.mislabelFilterAsDelay, "prompt-boundary", "seeded filter corpus prompt was mislabeled as delay-family runtime support", {
+    promptClass: caseDef.promptClass,
+    expectedClassification: caseDef.expectedClassification,
+    seededClassification: "delay-runtime-route-semantics-supported"
+  });
+
+  return {
+    ...caseDef,
+    status: failures.length === 0 ? PASS_STATUS : FAIL_STATUS,
+    command: { promptCommand, conversionCommand, semanticsCommand },
+    resultPath: semanticsResultPath,
+    summary: {
+      prompt: promptResult?.summary || null,
+      conversion: conversionResult?.summary || null,
+      semantics: semanticsResult?.summary || null
+    },
+    childEvidence: {
+      promptGraph: promptResultPath,
+      conversion: conversionResultPath,
+      filterSemantics: semanticsResultPath
+    },
+    failures,
+    claimBoundary: "This filter corpus case claims bounded generated low-pass runtime evidence with bypass and high-pass wrong-output controls only."
+  };
+}
+
+async function runModulationOnlyCorpusCase(caseDef, runRoot, startedAt, seeds) {
+  const resultPath = resolve(runRoot, caseDef.id, "run-result.json");
+  const command = runNode("tests/workflow/scripts/run-generated-patch-modulation-only-runtime.mjs", [
+    "--result-path", resultPath
+  ]);
+  const result = existsSync(resultPath) ? await readJson(resultPath) : null;
+  const failures = [];
+
+  assertCondition(failures, command.exitCode === 0, "command", "modulation-only corpus runtime command exited non-zero", command);
+  assertCondition(failures, result?.status === PASS_STATUS, "result", "modulation-only corpus runtime result did not pass", result?.summary || null);
+  assertCondition(failures, completedAfterStart(result, startedAt), "freshness", "modulation-only corpus runtime evidence is stale", { startedAt, completedAt: result?.completedAt || null });
+  assertCondition(failures, result?.summary?.validatedGraphCount === 1, "validation", "modulation-only corpus case did not validate one generated graph", result?.summary || null);
+  assertCondition(failures, result?.summary?.convertedPatchCount === 1, "conversion", "modulation-only corpus case did not convert one emulator patch", result?.summary || null);
+  assertCondition(failures, result?.summary?.loadedPatchCount === 1, "browser-load", "modulation-only corpus case did not load one converted patch", result?.summary || null);
+  assertCondition(failures, result?.summary?.seededMissingRouteDetectedCount === 1, "negative-control", "modulation-only corpus case did not detect the seeded missing-route control", result?.summary || null);
+  assertCondition(failures, !seeds.mislabelModulationOnlyAsDelay, "prompt-boundary", "seeded modulation-only corpus prompt was mislabeled as delay-family runtime support", {
+    promptClass: caseDef.promptClass,
+    expectedClassification: caseDef.expectedClassification,
+    seededClassification: "delay-runtime-route-semantics-supported"
+  });
+
+  return {
+    ...caseDef,
+    status: failures.length === 0 ? PASS_STATUS : FAIL_STATUS,
+    command,
+    resultPath,
+    summary: result?.summary || null,
+    childEvidence: result?.evidencePaths || null,
+    failures,
+    claimBoundary: "This modulation-only corpus case claims only bounded CV-only graph validation, emulator conversion, browser load, and missing-route negative-control evidence. It does not claim audio behavior."
+  };
+}
+
 async function runSelectionBlockedCorpusCase(caseDef, runRoot, startedAt, seeds) {
   const caseRoot = resolve(runRoot, caseDef.id);
   const draftRoot = resolve(caseRoot, "generated-graphs");
@@ -269,8 +365,8 @@ async function main() {
     })),
     claimBoundary: {
       delayRuntimeRouteSemanticsClaim: true,
-      filterRuntimeClaim: false,
-      modulationOnlyRuntimeClaim: false,
+      filterRuntimeClaim: true,
+      modulationOnlyRuntimeClaim: true,
       unsupportedPromptRuntimeClaim: false,
       arbitraryPromptClaim: false,
       hardwareBinaryExportClaim: false
@@ -282,6 +378,10 @@ async function main() {
   for (const caseDef of CORPUS) {
     if (caseDef.expectedClassification === "delay-runtime-route-semantics-supported") {
       cases.push(await runDelayCorpusCase(caseDef, runRoot, startedAt));
+    } else if (caseDef.expectedClassification === "filter-runtime-supported") {
+      cases.push(await runFilterCorpusCase(caseDef, runRoot, startedAt, seeds));
+    } else if (caseDef.expectedClassification === "modulation-only-cv-runtime-supported") {
+      cases.push(await runModulationOnlyCorpusCase(caseDef, runRoot, startedAt, seeds));
     } else if (caseDef.expectedClassification === "unsupported-selection-blocked") {
       cases.push(await runSelectionBlockedCorpusCase(caseDef, runRoot, startedAt, seeds));
     } else {
@@ -319,6 +419,8 @@ async function main() {
       caseCount: cases.length,
       passingCaseCount: cases.filter((item) => item.status === PASS_STATUS).length,
       delayRouteSemanticsSupportedCount: cases.filter((item) => item.expectedClassification === "delay-runtime-route-semantics-supported" && item.status === PASS_STATUS).length,
+      filterRuntimeSupportedCount: cases.filter((item) => item.expectedClassification === "filter-runtime-supported" && item.status === PASS_STATUS).length,
+      modulationOnlyRuntimeSupportedCount: cases.filter((item) => item.expectedClassification === "modulation-only-cv-runtime-supported" && item.status === PASS_STATUS).length,
       deterministicBlockerCount: cases.filter((item) => item.expectedBoundary === "deterministic-blocker" && item.status === PASS_STATUS).length,
       emulatorLoadOnlyCount: cases.filter((item) => item.expectedBoundary === "emulator-load-only" && item.status === PASS_STATUS).length,
       audioSignalPresentCount: cases.filter((item) => item.expectedBoundary === "audio-signal-present" && item.status === PASS_STATUS).length
@@ -334,8 +436,8 @@ async function main() {
     claimBoundaries: {
       promptCorpusBoundaryClaim: assertionFailures.length === 0,
       delayRuntimeRouteSemanticsClaim: assertionFailures.length === 0,
-      filterRuntimeClaim: false,
-      modulationOnlyRuntimeClaim: false,
+      filterRuntimeClaim: assertionFailures.length === 0,
+      modulationOnlyRuntimeClaim: assertionFailures.length === 0,
       arbitraryPromptClaim: false,
       musicalQualityClaim: false,
       fullDspAccuracyClaim: false,

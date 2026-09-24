@@ -255,6 +255,7 @@ const VALIDATION_COMMANDS = Object.freeze([
   "npm run zoia:generate:patch:prompt-smoke",
   "npm run zoia:generate:patch:from-description",
   "npm run zoia:generate:patch:from-description:negative-controls",
+  "npm run zoia:generate:patch:modulation-only-runtime",
   "npm run zoia:generate:patch:export-boundary:negative-controls",
   "npm run zoia:generate:patch:candidate-review",
   "npm run zoia:generate:patch:candidate-review:negative-controls",
@@ -284,6 +285,7 @@ const REQUIRED_REVIEWER_COMMANDS = Object.freeze([
     "npm run zoia:generate:patch:candidate-review:negative-controls",
     "npm run zoia:generate:patch:claim-boundary",
     "npm run zoia:generate:patch:readiness",
+    "npm run zoia:generate:patch:modulation-only-runtime",
     "npm run zoia:release:review-summary:negative-controls",
     "npm run zoia:release:review-summary:doc-evidence-negative-controls",
     "npm run zoia:release:review-summary:quality-negative-controls",
@@ -304,7 +306,7 @@ const REQUIRED_REVIEWER_COMMANDS = Object.freeze([
 
 const CLAIM_BOUNDARIES = Object.freeze([
   "Generated-patch work currently selects existing verified templates, emits intermediate graph and requirement-trace drafts, and validates those drafts before export.",
-  "The current generated-patch path has bounded runtime/audio evidence for delay-family, low-pass filter, Reverb Lite, and Synth Voice paths only; it does not claim binary .bin export or full novel patch synthesis.",
+  "The current generated-patch path has bounded runtime/audio evidence for delay-family, low-pass filter, Reverb Lite, Synth Voice, and modulation-only CV utility paths only; it does not claim binary .bin export or full novel patch synthesis.",
   "Human-facing release-review summaries must not imply release readiness, broad text-to-ZOIA support, broad audible cutoff sweep support, unsupported non-delay runtime support, hardware export, hardware parity, full DSP accuracy, arbitrary prompt support, or complete patch semantics.",
   "Human-facing package-boundary summaries must not imply npm publication readiness, GitHub readiness, copied evidence bundle publication, release readiness, package artifact publication, or broader publication readiness.",
   "Release-review and v0.4 workflows must not invoke Git, GitHub, tag, release, or npm publication commands without exact human-only passcode evidence.",
@@ -333,6 +335,7 @@ const CAPABILITY_RULES = Object.freeze([
       /^tests\/workflow\/scripts\/validate-generated-patch-candidates\.mjs$/,
       /^tests\/workflow\/scripts\/convert-generated-graph-to-emulator-patch\.mjs$/,
       /^tests\/workflow\/scripts\/run-generated-patch-emulator-conversion-negative-controls\.mjs$/,
+      /^tests\/workflow\/scripts\/run-generated-patch-modulation-only-runtime\.mjs$/,
       /^tests\/workflow\/schemas\/generated-patch-/,
       /^tests\/workflow\/generated-patches\/from-/,
       /^tests\/workflow\/generated-patches\/manual-test\//,
