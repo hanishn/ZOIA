@@ -33,6 +33,7 @@ const SUPPORTED_MODULES = Object.freeze({
   "Reverb Lite": { domain: "audio", inputs: ["audio", "mix_cv", "decay_cv"], outputs: ["audio"], params: ["decay", "tone", "mix"] },
   "Synth Voice": { domain: "audio", inputs: ["audio", "pitch_cv", "gate_cv"], outputs: ["audio"], params: ["waveform", "envelope", "mix"] },
   "CV Sequencer": { domain: "cv", inputs: [], outputs: ["cv"], params: ["steps", "movement"] },
+  "CV Output": { domain: "cv", inputs: ["cv"], outputs: [], params: ["depth", "offset"] },
   "Verified Template Core": { domain: "audio", inputs: ["audio", "feedback_cv", "time_cv"], outputs: ["audio"], params: ["character", "variation"] }
 });
 const TRACE_MODALITY_KEYWORDS = Object.freeze({

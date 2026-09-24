@@ -130,6 +130,16 @@ const MODULE_CONTRACTS = {
     params: [],
     options: [0, 0, 0, 0, 0, 0, 0, 0],
     outputs: { cv: 0 }
+  },
+  "CV Output": {
+    typeIdx: 99,
+    typeName: "Euroburo CV Output",
+    category: "Interface",
+    colorId: 5,
+    blocks: [{ n: "Input", t: "cv_in" }],
+    paramOrder: ["cv"],
+    options: [0, 0, 0, 0, 0, 0, 0, 0],
+    inputs: { cv: 0 }
   }
 };
 

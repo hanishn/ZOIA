@@ -29,6 +29,7 @@ const SYNTH_RUNTIME_EVIDENCE = Object.freeze({
   validation: "tests/workflow/evidence/generated-patch-synth-validation/run-result.json",
   semantics: "tests/workflow/evidence/generated-patch-synth-semantics/run-result.json"
 });
+const MODULATION_ONLY_RUNTIME_EVIDENCE = "tests/workflow/evidence/generated-patch-modulation-only-runtime/run-result.json";
 
 const PROMPT_CLASSES = Object.freeze([
   {
@@ -63,11 +64,12 @@ const PROMPT_CLASSES = Object.freeze([
     inScopeForV040: false,
   },
   {
-    id: "modulation-only-validation-blocked",
+    id: "modulation-only-runtime-supported",
     promptClass: "modulation-only",
     description: "modulation only lfo control utility",
-    boundary: "validation-blocked",
-    inScopeForV040: false
+    boundary: "runtime-modulation-only-supported",
+    inScopeForV040: true,
+    evidenceKind: "existing-modulation-only-runtime"
   },
   {
     id: "midi-validation-blocked",
@@ -223,6 +225,23 @@ async function existingSynthCase(caseDef) {
     },
     failures,
     claimBoundary: "Synth is in scope only for one generated Synth Voice to oscillator conversion path with measured signal evidence, pitch-route wiring, and a muted-output negative control."
+  };
+}
+
+async function existingModulationOnlyCase(caseDef) {
+  const runtime = await readJson(resolve(PROJECT_ROOT, MODULATION_ONLY_RUNTIME_EVIDENCE));
+  const failures = [];
+  assertCondition(failures, runtime.status === PASS_STATUS && runtime.summary?.validatedGraphCount === 1, "modulation-only-runtime", "modulation-only generated graph validation is not passing", runtime.summary);
+  assertCondition(failures, runtime.summary?.convertedPatchCount === 1, "modulation-only-runtime", "modulation-only generated graph conversion is not passing", runtime.summary);
+  assertCondition(failures, runtime.summary?.loadedPatchCount === 1, "modulation-only-runtime", "modulation-only browser load evidence is not passing", runtime.summary);
+  assertCondition(failures, runtime.summary?.seededMissingRouteDetectedCount === 1, "modulation-only-runtime", "modulation-only missing-route negative control is not passing", runtime.summary);
+  return {
+    ...caseDef,
+    status: failures.length === 0 ? PASS_STATUS : FAIL_STATUS,
+    evidencePaths: { runtime: MODULATION_ONLY_RUNTIME_EVIDENCE },
+    summaries: { runtime: runtime.summary },
+    failures,
+    claimBoundary: "Modulation-only is in scope only for one generated CV-only LFO/control-to-CV-output graph that validates, converts, loads in the browser, and detects a missing-route negative control."
   };
 }
 
@@ -383,7 +402,7 @@ async function main() {
       reverbRuntimeClaim: true,
       synthRuntimeClaim: true,
       sequencerRuntimeClaim: false,
-      modulationOnlyRuntimeClaim: false,
+      modulationOnlyRuntimeClaim: true,
       midiRuntimeClaim: false,
       samplerRuntimeClaim: false,
       arbitraryPromptClaim: false
@@ -399,6 +418,8 @@ async function main() {
       cases.push(await existingReverbCase(caseDef));
     } else if (caseDef.evidenceKind === "existing-synth-runtime") {
       cases.push(await existingSynthCase(caseDef));
+    } else if (caseDef.evidenceKind === "existing-modulation-only-runtime") {
+      cases.push(await existingModulationOnlyCase(caseDef));
     } else if (caseDef.boundary === "graph-supported-runtime-unsupported") {
       cases.push(await graphRuntimeUnsupportedCase(caseDef, runRoot, startedAt));
     } else if (caseDef.boundary === "validation-blocked") {

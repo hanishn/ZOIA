@@ -78,6 +78,7 @@
     "zoia:generate:patch:prompt-breadth-rollup:negative-controls": "node tests/workflow/scripts/run-generated-patch-prompt-breadth-rollup-negative-controls.mjs",
     "zoia:generate:patch:prompt-corpus-rollup": "node tests/workflow/scripts/run-generated-patch-prompt-corpus-rollup.mjs",
     "zoia:generate:patch:prompt-corpus-rollup:negative-controls": "node tests/workflow/scripts/run-generated-patch-prompt-corpus-rollup-negative-controls.mjs",
+    "zoia:generate:patch:modulation-only-runtime": "node tests/workflow/scripts/run-generated-patch-modulation-only-runtime.mjs",
     "zoia:generate:patch:prompt-repeatability-rollup": "node tests/workflow/scripts/run-generated-patch-prompt-repeatability-rollup.mjs",
     "zoia:generate:patch:prompt-repeatability-rollup:negative-controls": "node tests/workflow/scripts/run-generated-patch-prompt-repeatability-rollup-negative-controls.mjs",
     "zoia:generate:patch:non-delay-boundary-controls": "node tests/workflow/scripts/run-generated-patch-non-delay-boundary-controls.mjs",

@@ -155,10 +155,11 @@ function coreModuleForCandidate(candidate, intent) {
         offset: 0.5
       },
       inputs: ["cv"],
-      outputs: ["cv"],
+      outputs: [],
       modulationPort: "cv",
       controlPort: "cv",
-      traceLabel: "modulation utility"
+      traceLabel: "CV output",
+      cvOnly: true
     };
   }
   if (intentHaystack.includes("delay") || (!intentHaystack.includes("reverb") && !intentHaystack.includes("synth") && !intentHaystack.includes("sequencer") && haystack.includes("delay"))) {
@@ -236,7 +237,18 @@ function graphForCandidate(candidate, intent, index) {
   const hasSequencer = candidate.matchedModalities?.includes("sequencer") || intent.requestedModalities?.includes("sequencer");
   const coreModule = coreModuleForCandidate(candidate, intent);
   let nextGrid = 2;
-  const modules = [
+  const modules = coreModule.cvOnly ? [
+    {
+      id: coreModule.id,
+      type: coreModule.type,
+      domain: coreModule.domain,
+      page: 0,
+      grid: 1,
+      params: coreModule.params,
+      inputs: coreModule.inputs,
+      outputs: coreModule.outputs
+    }
+  ] : [
     {
       id: "audio-in-1",
       type: "Audio Input",
@@ -268,7 +280,7 @@ function graphForCandidate(candidate, intent, index) {
       outputs: []
     }
   ];
-  const connections = [
+  const connections = coreModule.cvOnly ? [] : [
     {
       id: "conn-audio-in-template",
       from: { moduleId: "audio-in-1", port: "audio" },
@@ -344,7 +356,7 @@ function graphForCandidate(candidate, intent, index) {
       gain: 0.45
     });
   }
-  const expectedModalities = new Set(["audio", ...(candidate.matchedModalities || []), ...(intent.requestedModalities || [])]);
+  const expectedModalities = new Set([...(coreModule.cvOnly ? [] : ["audio"]), ...(candidate.matchedModalities || []), ...(intent.requestedModalities || [])]);
   if (hasCv || hasSequencer || hasControl) expectedModalities.add("cv");
   if (hasControl) expectedModalities.add("control");
 
@@ -414,12 +426,14 @@ function traceForCandidate(candidate, graph, intent) {
     ["State Variable Filter", "filter"],
     ["Reverb Lite", "reverb"],
     ["Synth Voice", "synth voice"],
+    ["CV Output", "CV output"],
     ["Verified Template Core", "template core"]
   ]);
   const core = (graph.modules || []).find((module) => module.id === "delay-1") ||
     (graph.modules || []).find((module) => module.id === "filter-1") ||
     (graph.modules || []).find((module) => module.id === "reverb-1") ||
     (graph.modules || []).find((module) => module.id === "synth-voice-1") ||
+    (graph.modules || []).find((module) => module.id === "modulation-utility-1") ||
     (graph.modules || []).find((module) => module.id === "template-core-1");
   const coreModule = core?.id || "template-core-1";
   const coreLabel = coreLabels.get(core?.type) || "template core";
@@ -429,13 +443,15 @@ function traceForCandidate(candidate, graph, intent) {
       sourceText: `verified template ${candidate.pairId}`,
       status: "satisfied",
       moduleIds: [coreModule],
-      connectionIds: ["conn-audio-in-template", "conn-template-out"],
+      connectionIds: core?.domain === "cv" ? [] : ["conn-audio-in-template", "conn-template-out"],
       verification: {
         method: "static-graph",
         expectedEvidence: `candidate references measured template evidence at ${candidate.evidence?.q106EvidencePath || candidate.evidence?.rollupEvidencePath}`
       }
-    },
-    {
+    }
+  ];
+  if (core?.domain !== "cv") {
+    requirements.push({
       id: "req-audio-route",
       sourceText: "audio candidate must have input to output route",
       status: "satisfied",
@@ -445,8 +461,8 @@ function traceForCandidate(candidate, graph, intent) {
         method: "static-graph",
         expectedEvidence: `audio route from Audio Input through ${coreLabel} to Audio Output`
       }
-    }
-  ];
+    });
+  }
   if (graph.modules.some((mod) => mod.id === "mod-source-1")) {
     requirements.push({
       id: "req-modulation",

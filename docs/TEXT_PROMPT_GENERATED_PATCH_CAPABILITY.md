@@ -937,8 +937,8 @@ Acceptance criteria:
 
 - A single prompt-corpus rollup command writes a corpus manifest before running cases.
 - The delay class runs through fresh graph generation, emulator conversion, browser load, audio signal, delay semantics, unmodified timing, and corrupted-route negative controls.
-- The filter class uses the text-prompt path to draft a graph and must block at validation until a supported filter runtime contract exists.
-- The modulation-only class uses the text-prompt path to draft a graph and must block at validation until a supported CV-only runtime contract exists.
+- The filter class uses the text-prompt path to draft a graph and must reach bounded low-pass runtime evidence.
+- The modulation-only class uses the text-prompt path to draft a CV-only graph and must reach bounded browser-load runtime evidence.
 - The intentionally unsupported class must block at selection and leave no graph draft files.
 - Unsupported classes cannot satisfy emulator-load, audio signal-present, route-semantics, or delay-family runtime claims.
 
@@ -949,8 +949,8 @@ tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-result.json
 tests\workflow\evidence\generated-patch-prompt-corpus-rollup\corpus-manifest.json
 tests\workflow\evidence\generated-patch-prompt-corpus-rollup\classification-log.json
 tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-07-23T02-41-21-670Z\delay-runtime-semantics\run-result.json
-tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-07-23T02-41-21-670Z\filter-validation-blocked\run-result.json
-tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-07-23T02-41-21-670Z\modulation-only-validation-blocked\run-result.json
+tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-09-23T23-59-30-838Z\filter-runtime-supported\filter-semantics\run-result.json
+tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-09-23T23-59-30-838Z\modulation-only-runtime-supported\run-result.json
 tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-07-23T02-41-21-670Z\unsupported-selection-blocked\run-result.json
 ```
 
@@ -962,25 +962,27 @@ blockerCount: 0
 caseCount: 4
 passingCaseCount: 4
 delayRouteSemanticsSupportedCount: 1
-deterministicBlockerCount: 3
+deterministicBlockerCount: 1
+filterRuntimeSupportedCount: 1
+modulationOnlyRuntimeSupportedCount: 1
 emulatorLoadOnlyCount: 0
 audioSignalPresentCount: 0
-runRoot: tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-07-23T02-41-21-670Z
+runRoot: tests\workflow\evidence\generated-patch-prompt-corpus-rollup\run-2026-09-23T23-59-30-838Z
 ```
 
 Current classifications:
 
 ```text
 delay-runtime-semantics: delay-runtime-route-semantics-supported; child stepCount 10; passedStepCount 10; includes audio-signal, delay-semantics, unmodified-timing, and corrupted-route child evidence
-filter-validation-blocked: filter-runtime-unsupported-validation-blocked; draftCount 1; validatedDraftCount 0; validation rejectedCandidateCount 1
-modulation-only-validation-blocked: modulation-only-runtime-unsupported-validation-blocked; draftCount 1; validatedDraftCount 0; validation rejectedCandidateCount 1
+filter-runtime-supported: filter-runtime-supported; lowpassClassifiedCount 1; bypassControlClassifiedCount 1; highpassControlClassifiedCount 1
+modulation-only-runtime-supported: modulation-only-cv-runtime-supported; validatedGraphCount 1; convertedPatchCount 1; loadedPatchCount 1; seededMissingRouteDetectedCount 1
 unsupported-selection-blocked: unsupported-selection-blocked; selectedCandidateCount 0; draftFileCount 0
 ```
 
 Current claim boundary:
 
 ```text
-This proves a representative four-class prompt corpus is bounded by explicit runtime or blocker claims. Only the delay class has runtime/audio/route-semantics evidence. Filter and modulation-only classes are deterministic validation blockers, and the intentionally unsupported prompt is a selection blocker. It does not prove filter runtime semantics, modulation-only runtime semantics, arbitrary prompt coverage, musical quality, full DSP accuracy, hardware parity, complete patch semantics, or hardware binary export.
+This proves a representative four-class prompt corpus is bounded by explicit runtime or blocker claims. Delay has runtime/audio/route-semantics evidence, filter has bounded low-pass runtime evidence, modulation-only has bounded CV-only browser-load evidence, and the intentionally unsupported prompt is a selection blocker. It does not prove arbitrary prompt coverage, broad filter semantics, broad CV utility semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, or hardware binary export.
 ```
 
 ### Claim 15: Delay Prompt Repeatability Has Fresh Runtime Evidence Across Variants
@@ -1314,8 +1316,8 @@ non-delay prompt class inventory for filter, reverb, synth, sequencer, modulatio
 Acceptance criteria:
 
 - The rollup must write a prompt manifest before running cases.
-- Filter, Reverb Lite, and Synth Voice must remain the only in-scope non-delay runtime classes and must reference consumed browser/audio/control evidence.
-- Sequencer, modulation-only, MIDI, and sampler must block at validation before conversion or runtime evidence.
+- Filter, Reverb Lite, Synth Voice, and modulation-only CV utility must remain the only in-scope non-delay runtime classes and must reference consumed browser/audio/control evidence.
+- Sequencer, MIDI, and sampler must block at validation before conversion or runtime evidence.
 - Unmatched unsupported prompt must block at selection and produce no graph drafts.
 - Every out-of-scope class must have seeded mislabel controls proving it cannot be counted as delay-family runtime support or filter runtime support.
 
@@ -1329,6 +1331,7 @@ tests\workflow\evidence\generated-patch-reverb-validation\run-result.json
 tests\workflow\evidence\generated-patch-reverb-semantics\run-result.json
 tests\workflow\evidence\generated-patch-synth-validation\run-result.json
 tests\workflow\evidence\generated-patch-synth-semantics\run-result.json
+tests\workflow\evidence\generated-patch-modulation-only-runtime\run-result.json
 ```
 
 Current result:
@@ -1338,13 +1341,13 @@ status: pass
 blockerCount: 0
 classCount: 8
 passingClassCount: 8
-inScopeRuntimeClassCount: 3
+inScopeRuntimeClassCount: 4
 graphSupportedRuntimeUnsupportedCount: 0
-validationBlockedCount: 4
+validationBlockedCount: 3
 selectionBlockedCount: 1
-seededMislabelControlCount: 10
-seededMislabelFailureDetectedCount: 10
-runRoot: tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-08-30T01-45-14-411Z
+seededMislabelControlCount: 8
+seededMislabelFailureDetectedCount: 8
+runRoot: tests\workflow\evidence\generated-patch-non-delay-boundary-controls\run-2026-09-23T23-51-54-675Z
 ```
 
 Current classifications:
@@ -1354,7 +1357,7 @@ filter-lowpass-runtime-supported: runtime-lowpass-supported; inScopeForV040 true
 reverb-lite-runtime-supported: runtime-reverb-lite-supported; inScopeForV040 true
 synth-voice-runtime-supported: runtime-synth-voice-supported; inScopeForV040 true
 sequencer-validation-blocked: validation-blocked
-modulation-only-validation-blocked: validation-blocked
+modulation-only-runtime-supported: runtime-modulation-only-supported; validatedGraphCount 1; convertedPatchCount 1; loadedPatchCount 1; seededMissingRouteDetectedCount 1
 midi-validation-blocked: validation-blocked
 sampler-validation-blocked: validation-blocked
 unsupported-selection-blocked: selection-blocked
@@ -1363,7 +1366,7 @@ unsupported-selection-blocked: selection-blocked
 Current claim boundary:
 
 ```text
-This proves reachable non-delay prompt classes are inventoried and mapped to explicit runtime or blocker boundaries. Filter, Reverb Lite, and Synth Voice are the in-scope non-delay runtime classes, within the documented low-pass, route/trace, bounded audible-sweep, wet-tail, and oscillator-backed signal boundaries. Sequencer, modulation-only, MIDI, and sampler remain validation blockers. Unsupported unmatched prompts remain selection blockers. This does not prove arbitrary prompt coverage, broad reverb semantics, broad synth semantics, sequencer timing semantics, modulation-only runtime semantics, MIDI or sampler behavior, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves reachable non-delay prompt classes are inventoried and mapped to explicit runtime or blocker boundaries. Filter, Reverb Lite, Synth Voice, and modulation-only CV utility are the in-scope non-delay runtime classes, within the documented low-pass, route/trace, bounded audible-sweep, wet-tail, oscillator-backed signal, and CV-only browser-load boundaries. Sequencer, MIDI, and sampler remain validation blockers. Unsupported unmatched prompts remain selection blockers. This does not prove arbitrary prompt coverage, broad reverb semantics, broad synth semantics, broad CV utility semantics, sequencer timing semantics, MIDI or sampler behavior, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 22: Filter Low-Pass Runtime Support Repeats Across Prompt Variants
@@ -1427,7 +1430,7 @@ filter-dark-resonant-sweep: filter-lowpass-runtime-supported; validatedDraftCoun
 Current claim boundary:
 
 ```text
-This proves the low-pass filter runtime path repeats across four fresh generated filter prompt variants with browser load, WAV capture, spectral low-pass assertions, LFO/cutoff trace evidence, and local bypass/high-pass/disconnected/wrong-target controls. It does not prove broad audible cutoff sweep support, resonance semantics, all SV Filter output modes, arbitrary filter prompts, broad reverb semantics, broad synth semantics, modulation-only runtime support, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
+This proves the low-pass filter runtime path repeats across four fresh generated filter prompt variants with browser load, WAV capture, spectral low-pass assertions, LFO/cutoff trace evidence, and local bypass/high-pass/disconnected/wrong-target controls. It does not prove broad audible cutoff sweep support, resonance semantics, all SV Filter output modes, arbitrary filter prompts, broad reverb semantics, broad synth semantics, broad CV utility semantics, musical quality, full DSP accuracy, hardware parity, complete patch semantics, hardware binary export, or release readiness.
 ```
 
 ### Claim 23: Filter Repeatability Gate Fails On Seeded Trace Evidence Controls
@@ -2368,7 +2371,7 @@ This proves the current local 0.4.0 generated-patch evidence inventory maps acce
 - Prompt breadth can be overstated if graph-supported non-delay prompts are counted as delay runtime/audio evidence.
 - The accepted local evidence does not prove broad text-to-ZOIA support.
 - Delay-family repeatability is still bounded to two tested prompt variants even with seeded controls for stale evidence, missing runtime evidence, and unsupported-prompt mislabeling.
-- Modulation-only, MIDI, sampler, and uncontracted non-delay prompt classes remain deterministic blockers, not runtime/audio-supported classes.
+- MIDI, sampler, and uncontracted non-delay prompt classes remain deterministic blockers, not runtime/audio-supported classes.
 - Filter runtime support is limited to one generated filter prompt, low-pass spectral classification, and bounded audible cutoff-sweep evidence.
 - Filter modulation route support proves generated LFO trace and target wiring for the bounded cutoff sweep.
 - Non-delay class inventory is bounded to currently recognized prompt families and must be updated if generator recognition changes.
